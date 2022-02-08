@@ -15,9 +15,9 @@ use BeSimple\SoapBundle\ServiceBinding\ServiceBinder;
 use BeSimple\SoapCommon\Converter\TypeConverterCollection;
 use BeSimple\SoapWsdl\Dumper\Dumper;
 use BeSimple\SoapServer\SoapServerBuilder;
+use Laminas\Serializer\Serializer;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Zend\Serializer\Serializer;
 
 /**
  * WebServiceContext.

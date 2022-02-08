@@ -11,8 +11,8 @@
 namespace BeSimple\SoapBundle\Soap;
 
 use BeSimple\SoapBundle\Util\Collection;
+use Laminas\Mime\Message;
 use Symfony\Component\HttpFoundation\Request;
-use Zend\Mime\Message;
 
 /**
  * SoapRequest.

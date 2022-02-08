@@ -53,10 +53,10 @@ class CurlTest extends AbstractWebserverTest
         ));
 
         $curl->exec(sprintf('http://localhost:%d/curl.txt', WEBSERVER_PORT));
-        $this->assertEquals(132 + self::$websererPortLength, strlen($curl->getRequestHeaders()));
+        $this->assertCorrectRequestHeaders($curl->getRequestHeaders(), '/curl.txt');
 
         $curl->exec(sprintf('http://localhost:%s/404.txt', WEBSERVER_PORT));
-        $this->assertEquals(131 + self::$websererPortLength, strlen($curl->getRequestHeaders()));
+        $this->assertCorrectRequestHeaders($curl->getRequestHeaders(), '/404.txt');
     }
 
     public function testGetResponse()
@@ -67,10 +67,11 @@ class CurlTest extends AbstractWebserverTest
 
         $curl->exec(sprintf('http://localhost:%d/curl.txt', WEBSERVER_PORT));
         $this->assertSame('OK', $curl->getResponseStatusMessage());
-        // Adjust for PHP >= 7.2 sending a Date header
+
         $response = $curl->getResponse();
-        $response = preg_replace('/^Date:.*?\r\n/m', '', $response);
-        $this->assertEquals(145 + self::$websererPortLength, strlen($response));
+        [$headers, $body] = explode("\r\n\r\n", $response, 2);
+        $this->assertCorrectResponseHeaders($headers, '200 OK', 'text/plain', strlen($body));
+        $this->assertSame('This is a testfile for cURL.', $body);
 
         $curl->exec(sprintf('http://localhost:%d/404.txt', WEBSERVER_PORT));
         $this->assertSame('Not Found', $curl->getResponseStatusMessage());
@@ -106,16 +107,12 @@ class CurlTest extends AbstractWebserverTest
         ));
 
         $curl->exec(sprintf('http://localhost:%d/curl.txt', WEBSERVER_PORT));
-        // Adjust for PHP >= 7.2 sending a Date header
         $headers = $curl->getResponseHeaders();
-        $headers = preg_replace('/^Date:.*?\r\n/m', '', $headers);
-        $this->assertEquals(117 + self::$websererPortLength, strlen($headers));
+        $this->assertCorrectResponseHeaders($headers, '200 OK', 'text/plain');
 
         $curl->exec(sprintf('http://localhost:%d/404.txt', WEBSERVER_PORT));
-        // Adjust for PHP >= 7.2 sending a Date header
         $headers = $curl->getResponseHeaders();
-        $headers = preg_replace('/^Date:.*?\r\n/m', '', $headers);
-        $this->assertEquals(124 + self::$websererPortLength, strlen($headers));
+        $this->assertCorrectResponseHeaders($headers, '404 Not Found', 'text/html');
     }
 
     public function testGetResponseStatusCode()
@@ -129,5 +126,23 @@ class CurlTest extends AbstractWebserverTest
 
         $curl->exec(sprintf('http://localhost:%d/404.txt', WEBSERVER_PORT));
         $this->assertEquals(404, $curl->getResponseStatusCode());
+    }
+
+    protected function assertCorrectRequestHeaders($headerStr, $requestPath)
+    {
+        $headers = explode("\r\n", $headerStr);
+        $this->assertContains("GET $requestPath HTTP/1.1", $headers);
+        $this->assertContains('User-Agent: PHP-SOAP/\BeSimple\SoapClient', $headers);
+        $this->assertContains('Accept: */*', $headers);
+    }
+
+    protected function assertCorrectResponseHeaders($headerStr, $status, $contentType, $contentLen = null)
+    {
+        $headers = explode("\r\n", $headerStr);
+        $this->assertContains("HTTP/1.1 $status", $headers);
+        $this->assertContains("Content-Type: $contentType; charset=UTF-8", $headers);
+        if (null !== $contentLen) {
+            $this->assertContains("Content-Length: $contentLen", $headers);
+        }
     }
 }

@@ -25,10 +25,6 @@ use org\bovigo\vfs\vfsStreamWrapper;
  */
 class WsdlDownloaderTest extends AbstractWebserverTest
 {
-    // when using the SetUpTearDownTrait, methods like doSetup() can
-    // be defined with and without the 'void' return type, as you wish
-    use \Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
-
     protected static $filesystem;
 
     protected static $fixturesPath;
@@ -333,7 +329,7 @@ class WsdlDownloaderTest extends AbstractWebserverTest
         $this->assertRegExp('/.*wsdl_[a-f0-9]{32}\.cache/', $result);
     }
 
-    public static function doSetUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
@@ -349,7 +345,7 @@ class WsdlDownloaderTest extends AbstractWebserverTest
         }
     }
 
-    public static function doTearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
 

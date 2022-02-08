@@ -18,10 +18,6 @@ use org\bovigo\vfs\vfsStreamWrapper;
 
 class SoapRequestTest extends \PHPUnit\Framework\TestCase
 {
-    // when using the SetUpTearDownTrait, methods like doSetup() can
-    // be defined with and without the 'void' return type, as you wish
-    use \Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
-
     public function testSetEnabled()
     {
         Cache::setEnabled(Cache::ENABLED);
@@ -87,7 +83,7 @@ class SoapRequestTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, Cache::getLimit());
     }
 
-    public function doSetUp()
+    public function setUp(): void
     {
         ini_restore('soap.wsdl_cache_enabled');
         ini_restore('soap.wsdl_cache');
