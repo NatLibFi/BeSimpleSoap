@@ -27,8 +27,7 @@
         "symfony/framework-bundle": "~2.6 || ~3.4",
         "symfony/twig-bundle": "~2.6 || ~3.4",
         "laminas/laminas-mime": "2.*",
-        "laminas/laminas-serializer": "^2.12",
-        "laminas/laminas-servicemanager": "^3.10.0"
+        "laminas/laminas-serializer": "^2.12"
     },
     "replace": {
         "besimple/soap-bundle": "self.version",
