@@ -26,7 +26,7 @@ class MultiPartTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('multipart/related', $mp->getHeader('Content-Type'));
         $this->assertEquals('text/xml', $mp->getHeader('Content-Type', 'type'));
         $this->assertEquals('utf-8', $mp->getHeader('Content-Type', 'charset'));
-        $this->assertRegExp('~urn:uuid:.*~', $mp->getHeader('Content-Type', 'boundary'));
+        $this->assertMatchesRegularExpression('~urn:uuid:.*~', $mp->getHeader('Content-Type', 'boundary'));
     }
 
     public function testGetMimeMessage()

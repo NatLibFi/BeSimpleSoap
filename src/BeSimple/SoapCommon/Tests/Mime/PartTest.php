@@ -36,7 +36,7 @@ class PartTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('application/octet-stream', $p->getHeader('Content-Type'));
         $this->assertEquals('utf-8', $p->getHeader('Content-Type', 'charset'));
         $this->assertEquals(Part::ENCODING_BINARY, $p->getHeader('Content-Transfer-Encoding'));
-        $this->assertRegExp('~<urn:uuid:.*>~', $p->getHeader('Content-ID'));
+        $this->assertMatchesRegularExpression('~<urn:uuid:.*>~', $p->getHeader('Content-ID'));
     }
 
     public function testSetContent()

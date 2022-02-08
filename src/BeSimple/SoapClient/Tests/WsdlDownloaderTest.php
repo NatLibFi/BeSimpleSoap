@@ -53,7 +53,7 @@ class WsdlDownloaderTest extends AbstractWebserverTest
 
         //Test that the Cache filename is valid
         $regexp = '#'.sprintf($regexp, $cacheDirForRegExp).'#';
-        $this->assertRegExp($regexp, $cacheFileName);
+        $this->assertMatchesRegularExpression($regexp, $cacheFileName);
 
     }
 
@@ -133,7 +133,7 @@ class WsdlDownloaderTest extends AbstractWebserverTest
         $m->invoke($wsdlDownloader, file_get_contents($source), $cacheFile, $remoteParentUrl);
         $this->assertCount($nbDownloads, $wsdlCacheDir->getChildren());
 
-        $this->assertRegExp('#'.sprintf($regexp, $cacheDirForRegExp).'#', file_get_contents($cacheFile));
+        $this->assertMatchesRegularExpression('#'.sprintf($regexp, $cacheDirForRegExp).'#', file_get_contents($cacheFile));
     }
 
     public function provideResolveWsdlIncludes()
@@ -200,7 +200,7 @@ class WsdlDownloaderTest extends AbstractWebserverTest
         $m->invoke($wsdlDownloader, file_get_contents($source), $cacheFile, $remoteParentUrl);
         $this->assertCount($nbDownloads, $wsdlCacheDir->getChildren());
 
-        $this->assertRegExp('#'.sprintf($regexp, $cacheDirForRegExp).'#', file_get_contents($cacheFile));
+        $this->assertMatchesRegularExpression('#'.sprintf($regexp, $cacheDirForRegExp).'#', file_get_contents($cacheFile));
     }
 
     public function provideResolveXsdIncludes()
@@ -326,7 +326,7 @@ class WsdlDownloaderTest extends AbstractWebserverTest
 
         $result = $wsdlDownloader->download('http://somefake.url/wsdl');
 
-        $this->assertRegExp('/.*wsdl_[a-f0-9]{32}\.cache/', $result);
+        $this->assertMatchesRegularExpression('/.*wsdl_[a-f0-9]{32}\.cache/', $result);
     }
 
     public static function setUpBeforeClass(): void

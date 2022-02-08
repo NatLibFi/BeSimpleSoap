@@ -50,7 +50,7 @@ class SoapClientTest extends \PHPUnit\Framework\TestCase
         }
 
         $this->assertInstanceOf('SoapFault', $soapFault, 'Invalid type of exception');
-        $this->assertRegExp('/SOAP-ERROR: Parsing WSDL: .*/', $soapFault->getMessage(), 'Invalid or incorrect exception message');
+        $this->assertMatchesRegularExpression('/SOAP-ERROR: Parsing WSDL: .*/', $soapFault->getMessage(), 'Invalid or incorrect exception message');
         $this->assertStringContainsString('WSDL', $soapFault->faultcode, 'Invalid type of faultcode');
     }
 
