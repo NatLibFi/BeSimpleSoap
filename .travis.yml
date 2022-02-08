@@ -1,22 +1,17 @@
 language: php
+os:
+  - linux
+dist: bionic
 
 php:
-  - 5.6
-  - 7.0
-  - 7.1
-  - 7.2
-  - 7.3
   - 7.4
+  - 8.0
+  - 8.1.0
 
 env:
   - SYMFONY_VERSION=2.7.*
   - SYMFONY_VERSION=2.8.*
   - SYMFONY_VERSION=3.4.*
-
-matrix:
-  allow_failures:
-    - php: 5.6
-    - php: 7.1
 
 before_script:
   - phpenv config-add myphp.ini
@@ -27,7 +22,7 @@ before_script:
   - ./src/BeSimple/SoapClient/Tests/bin/axis.sh
 
 script:
-  - bin/simple-phpunit --coverage-text --debug
+  - SYMFONY_DEPRECATIONS_HELPER="max[indirect]=6" bin/simple-phpunit --coverage-text
 
 notifications:
   email:
