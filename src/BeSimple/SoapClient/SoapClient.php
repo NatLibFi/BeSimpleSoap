@@ -238,7 +238,7 @@ class SoapClient extends \SoapClient
      *
      * @return string
      */
-    public function __doRequest($request, $location, $action, $version, $oneWay = 0)
+    public function __doRequest($request, $location, $action, $version, $oneWay = 0): ?string
     {
         // wrap request data in SoapRequest object
         $soapRequest = SoapRequest::create($request, $location, $action, $version);
@@ -307,7 +307,7 @@ class SoapClient extends \SoapClient
      *
      * @return string
      */
-    public function __getLastRequestHeaders()
+    public function __getLastRequestHeaders(): ?string
     {
         return $this->lastRequestHeaders;
     }
@@ -327,7 +327,7 @@ class SoapClient extends \SoapClient
      *
      * @return string
      */
-    public function __getLastRequest()
+    public function __getLastRequest(): ?string
     {
         return $this->lastRequest;
     }
@@ -347,7 +347,7 @@ class SoapClient extends \SoapClient
      *
      * @return string
      */
-    public function __getLastResponseHeaders()
+    public function __getLastResponseHeaders(): ?string
     {
         return $this->lastResponseHeaders;
     }
@@ -357,7 +357,7 @@ class SoapClient extends \SoapClient
      *
      * @return string
      */
-    public function __getLastResponse()
+    public function __getLastResponse(): ?string
     {
         return $this->lastResponse;
     }

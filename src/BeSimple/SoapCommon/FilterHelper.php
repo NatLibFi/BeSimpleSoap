@@ -134,7 +134,7 @@ class FilterHelper
      *
      * @return \DOMElement
      */
-    public function createElement($namespaceURI, $name, $value = null)
+    public function createElement($namespaceURI, $name, $value = '')
     {
         $prefix = $this->namespaces[$namespaceURI];
 
