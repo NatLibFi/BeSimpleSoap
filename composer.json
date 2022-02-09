@@ -24,8 +24,9 @@
         "ext-soap": "*",
         "ext-curl": "*",
         "ass/xmlsecurity": "~1.0",
-        "symfony/framework-bundle": "~2.6 || ~3.4",
-        "symfony/twig-bundle": "~2.6 || ~3.4",
+        "symfony/error-handler": "^5.4.3 || ^6.0.3",
+        "symfony/framework-bundle": "^5.4.4 || ^6.0.4",
+        "laminas/laminas-mail": "2.*",
         "laminas/laminas-mime": "2.*",
         "laminas/laminas-serializer": "^2.12"
     },
@@ -38,8 +39,8 @@
     },
     "require-dev": {
         "mikey179/vfsstream": "~1.0",
-        "symfony/filesystem": "~2.3",
-        "symfony/process": "~2.3",
+        "symfony/filesystem": "^5.4.3 || ^6.0.3",
+        "symfony/process": "^5.4.3 || ^6.0.3",
         "symfony/phpunit-bridge": "*"
     },
     "autoload": {
