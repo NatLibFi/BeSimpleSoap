@@ -1,0 +1,55 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  run-tests:
+    name: Tests with PHP ${{ matrix.php-version }}
+    runs-on: ubuntu-latest
+    env:
+      VUFIND_HOME: $GITHUB_WORKSPACE
+      VUFIND_LOCAL_DIR: $GITHUB_WORKSPACE/local
+    strategy:
+      matrix:
+        php-version: ['7.4', '8.0', '8.1']
+        symfony-version: ['5.4.*', '6.0.*']
+        exclude:
+          - php-version: 7.4
+            symfony-version: "6.0.*"
+
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: intl, xsl
+          tools: composer:2.1.6
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Configure Symfony version
+        run: composer require symfony/framework-bundle:${{ matrix.symfony-version }} --no-update
+
+      - name: Install composer dependencies
+        run: composer install --prefer-dist --no-interaction
+
+      - name: Start PHP web server
+        run: ./src/BeSimple/SoapClient/Tests/bin/phpwebserver.sh
+
+      - name: Start Axis server
+        run: ./src/BeSimple/SoapClient/Tests/bin/axis.sh
+
+      - name: Run tests
+        run: SYMFONY_DEPRECATIONS_HELPER="max[indirect]=6" bin/simple-phpunit --coverage-text

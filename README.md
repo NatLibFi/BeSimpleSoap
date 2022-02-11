@@ -6,7 +6,7 @@ Build SOAP and WSDL based web services
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/natlibfi/besimple-soap.svg?style=flat-square)](https://packagist.org/packages/natlibfi/besimple-soap)
 [![Minimum PHP Version](https://img.shields.io/badge/php-~%207.4-8892BF.svg?style=flat-square)](https://php.net/)
-[![Build Status](https://travis-ci.org/smartboxgroup/BeSimpleSoap.svg?branch=master)](https://travis-ci.org/smartboxgroup/BeSimpleSoap)
+[![CI](https://github.com/NatLibFi/BeSimpleSoap/actions/workflows/ci.yaml/badge.svg)](https://github.com/NatLibFi/BeSimpleSoap/actions/workflows/ci.yaml)
 
 # Components
 
