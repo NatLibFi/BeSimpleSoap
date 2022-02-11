@@ -30,7 +30,7 @@ class SoapRequest extends CommonSoapRequest
      * @param string $action   SOAP action
      * @param string $version  SOAP version
      *
-     * @return BeSimple\SoapClient\SoapRequest
+     * @return SoapRequest
      */
     public static function create($content, $location, $action, $version)
     {
