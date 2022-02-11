@@ -124,7 +124,7 @@ class SoapClient extends \SoapClient
             $this->soapVersion = $options['soap_version'];
         }
 
-        $this->curl = new Curl($options);
+        $this->curl = $this->createCurlClient($options);
 
         if (isset($options['extra_options'])) {
             unset($options['extra_options']);
@@ -152,6 +152,18 @@ class SoapClient extends \SoapClient
 
             throw $soapFault;
         }
+    }
+
+    /**
+     * Create the Curl client
+     *
+     * @param array $options Client options
+     *
+     * @return Curl
+     */
+    protected function createCurlClient(array $options = [])
+    {
+        return new Curl($options);
     }
 
     /**
