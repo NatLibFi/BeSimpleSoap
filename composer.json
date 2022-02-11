@@ -1,9 +1,9 @@
 {
-    "name": "smartbox/besimple-soap",
+    "name": "natlibfi/besimple-soap",
     "type": "library",
     "description": "Build and consume SOAP and WSDL based web services",
     "keywords": ["soap"],
-    "homepage": "http://besim.pl",
+    "homepage": "https://github.com/NatLibFi/BeSimpleSoap",
     "license": "MIT",
     "authors": [
         {
@@ -17,6 +17,10 @@
         {
             "name": "Andreas Schamberger",
             "email": "mail@andreass.net"
+        },
+        {
+            "name": "Ere Maijala",
+            "email": "ere.maijala@helsinki.fi"
         }
     ],
     "require": {
@@ -48,7 +52,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.3-dev"
+            "dev-main": "dev"
         }
     },
     "config": {
