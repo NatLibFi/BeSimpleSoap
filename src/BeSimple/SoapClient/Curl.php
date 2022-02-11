@@ -86,6 +86,9 @@ class Curl
         if (isset($options['connection_timeout'])) {
             curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT, $options['connection_timeout']);
         }
+        if (isset($options['timeout'])) {
+            curl_setopt($this->ch, CURLOPT_TIMEOUT, $options['timeout']);
+        }
 
         if (isset($options['proxy_host'])) {
             if (false !== $options['proxy_host']) {
