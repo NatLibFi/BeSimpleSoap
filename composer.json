@@ -50,11 +50,6 @@
     "autoload": {
         "psr-0": { "BeSimple\\": "src"}
     },
-    "extra": {
-        "branch-alias": {
-            "dev-main": "dev"
-        }
-    },
     "config": {
         "bin-dir": "bin"
     }
