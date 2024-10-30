@@ -40,7 +40,7 @@ echo "Waiting until Axis is ready on port 8080"
 while [[ -z `curl -s 'http://localhost:8080/axis2/services/' ` ]]
 do
     echo -n "."
-    sleep 2s
+    sleep 1
 done
 
 echo "Axis is up"

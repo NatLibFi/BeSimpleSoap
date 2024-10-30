@@ -9,7 +9,7 @@ echo "Waiting until PHP webserver is ready on port 8081"
 while [[ -z `curl -s 'http://localhost:8081/' ` ]]
 do
     echo -n "."
-    sleep 1s
+    sleep 1
 done
 
 echo "PHP webserver is up"
