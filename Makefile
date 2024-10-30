@@ -13,7 +13,7 @@ kill:
 	$(DOCKER_COMPOSE) kill
 	$(DOCKER_COMPOSE) down --volumes --remove-orphans
 
-start: up test ## Start the project
+start: up server-tests ## Start the project
 
 up: ## Up the project
 	$(DOCKER_COMPOSE) up -d --build --remove-orphans
@@ -24,8 +24,11 @@ stop: ## Stop the project
 composer-install: ## Execute composer instalation
 	$(COMPOSER) install --prefer-dist
 
-test: composer-install ## Execute composer instalation
+test: composer-install ## Run tests
 	$(RUN) bin/simple-phpunit
+
+server-tests: composer-install ## Run tests that need servers
+	$(RUN) ./server-tests.sh
 
 composer-update: ## Execute package update
 	$(COMPOSER) update $(BUNDLE)
