@@ -5,6 +5,7 @@
  *
  * (c) Christian Kerl <christian-kerl@web.de>
  * (c) Francis Besset <francis.besset@gmail.com>
+ * Copyright (C) University Of Helsinki (The National Library of Finland) 2024.
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -19,6 +20,7 @@ use BeSimple\SoapCommon\SoapMessage;
  * SoapResponse class for SoapClient. Provides factory function for response object.
  *
  * @author Andreas Schamberger <mail@andreass.net>
+ * @author Ere Maijala <ere.maijala@helsinki.fi>
  */
 class SoapResponse extends CommonSoapResponse
 {
@@ -30,9 +32,9 @@ class SoapResponse extends CommonSoapResponse
      * @param string $action   SOAP action
      * @param string $version  SOAP version
      *
-     * @return BeSimple\SoapClient\SoapResponse
+     * @return static
      */
-    public static function create($content, $location, $action, $version)
+    public static function create($content, $location, $action, $version): static
     {
         $response = new SoapResponse();
         $response->setContent($content);

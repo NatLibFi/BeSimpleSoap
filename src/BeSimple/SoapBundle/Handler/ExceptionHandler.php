@@ -5,6 +5,7 @@
  *
  * (c) Christian Kerl <christian-kerl@web.de>
  * (c) Francis Besset <francis.besset@gmail.com>
+ * Copyright (C) University Of Helsinki (The National Library of Finland) 2024.
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -14,10 +15,11 @@ namespace BeSimple\SoapBundle\Handler;
 
 use BeSimple\SoapServer\Exception\ReceiverSoapFault;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\FlattenException;
+use Symfony\Component\ErrorHandler\Exception\FlattenException;
 
 /**
  * @author Francis Besset <francis.besset@gmail.com>
+ * @author Ere Maijala <ere.maijala@helsinki.fi>
  */
 class ExceptionHandler
 {

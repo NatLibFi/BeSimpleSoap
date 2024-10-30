@@ -5,6 +5,7 @@
  *
  * (c) Christian Kerl <christian-kerl@web.de>
  * (c) Francis Besset <francis.besset@gmail.com>
+ * Copyright (C) University Of Helsinki (The National Library of Finland) 2024.
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -19,6 +20,7 @@ use BeSimple\SoapCommon\SoapMessage;
  * SoapRequest class for SoapClient. Provides factory function for request object.
  *
  * @author Andreas Schamberger <mail@andreass.net>
+ * @author Ere Maijala <ere.maijala@helsinki.fi>
  */
 class SoapRequest extends CommonSoapRequest
 {
@@ -28,7 +30,7 @@ class SoapRequest extends CommonSoapRequest
      * @param string $content Content
      * @param string $version SOAP version
      *
-     * @return BeSimple\SoapClient\SoapRequest
+     * @return SoapRequest
      */
     public static function create($content, $version)
     {

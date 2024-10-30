@@ -5,6 +5,7 @@
  *
  * (c) Christian Kerl <christian-kerl@web.de>
  * (c) Francis Besset <francis.besset@gmail.com>
+ * Copyright (C) University Of Helsinki (The National Library of Finland) 2024.
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -18,16 +19,35 @@ use BeSimple\SoapCommon\Converter\TypeConverterInterface;
 /**
  * @author Christian Kerl <christian-kerl@web.de>
  * @author Francis Besset <francis.besset@gmail.com>
+ * @author Ere Maijala <ere.maijala@helsinki.fi>
  */
 abstract class AbstractSoapBuilder
 {
+    /**
+     * WSDL
+     *
+     * @var string
+     */
     protected $wsdl;
+
+    /**
+     * SOAP options
+     *
+     * @var array
+     */
     protected $soapOptions = array();
 
     /**
-     * @return AbstractSoapBuilder
+     * Other options
+     *
+     * @var array
      */
-    static public function createWithDefaults()
+    protected array $options = [];
+
+    /**
+     * @return static
+     */
+    static public function createWithDefaults(): static
     {
         $builder = new static();
 
@@ -61,9 +81,9 @@ abstract class AbstractSoapBuilder
     }
 
     /**
-     * @return AbstractSoapBuilder
+     * @return static
      */
-    public function withWsdl($wsdl)
+    public function withWsdl($wsdl): static
     {
         $this->wsdl = $wsdl;
 
@@ -71,9 +91,9 @@ abstract class AbstractSoapBuilder
     }
 
     /**
-     * @return AbstractSoapBuilder
+     * @return static
      */
-    public function withSoapVersion11()
+    public function withSoapVersion11(): static
     {
         $this->soapOptions['soap_version'] = \SOAP_1_1;
 
@@ -81,23 +101,23 @@ abstract class AbstractSoapBuilder
     }
 
     /**
-     * @return AbstractSoapBuilder
+     * @return static
      */
-    public function withSoapVersion12()
+    public function withSoapVersion12(): static
     {
         $this->soapOptions['soap_version'] = \SOAP_1_2;
 
         return $this;
     }
 
-    public function withEncoding($encoding)
+    public function withEncoding($encoding): static
     {
         $this->soapOptions['encoding'] = $encoding;
 
         return $this;
     }
 
-    public function withWsdlCache($cache)
+    public function withWsdlCache($cache): static
     {
         if (!in_array($cache, Cache::getTypes(), true)) {
             throw new \InvalidArgumentException();
@@ -109,9 +129,9 @@ abstract class AbstractSoapBuilder
     }
 
     /**
-     * @return AbstractSoapBuilder
+     * @return static
      */
-    public function withWsdlCacheNone()
+    public function withWsdlCacheNone(): static
     {
         $this->soapOptions['cache_wsdl'] = Cache::TYPE_NONE;
 
@@ -119,9 +139,9 @@ abstract class AbstractSoapBuilder
     }
 
     /**
-     * @return AbstractSoapBuilder
+     * @return static
      */
-    public function withWsdlCacheDisk()
+    public function withWsdlCacheDisk(): static
     {
         $this->soapOptions['cache_wsdl'] = Cache::TYPE_DISK;
 
@@ -129,9 +149,9 @@ abstract class AbstractSoapBuilder
     }
 
     /**
-     * @return AbstractSoapBuilder
+     * @return static
      */
-    public function withWsdlCacheMemory()
+    public function withWsdlCacheMemory(): static
     {
         $this->soapOptions['cache_wsdl'] = Cache::TYPE_MEMORY;
 
@@ -139,9 +159,9 @@ abstract class AbstractSoapBuilder
     }
 
     /**
-     * @return AbstractSoapBuilder
+     * @return static
      */
-    public function withWsdlCacheDiskAndMemory()
+    public function withWsdlCacheDiskAndMemory(): static
     {
         $this->soapOptions['cache_wsdl'] = Cache::TYPE_DISK_MEMORY;
 
@@ -152,9 +172,9 @@ abstract class AbstractSoapBuilder
      * Enables the SOAP_SINGLE_ELEMENT_ARRAYS feature.
      * If enabled arrays containing only one element will be passed as arrays otherwise the single element is extracted and directly passed.
      *
-     * @return AbstractSoapBuilder
+     * @return static
      */
-    public function withSingleElementArrays()
+    public function withSingleElementArrays(): static
     {
         $this->soapOptions['features'] |= \SOAP_SINGLE_ELEMENT_ARRAYS;
 
@@ -164,9 +184,9 @@ abstract class AbstractSoapBuilder
     /**
      * Enables the SOAP_WAIT_ONE_WAY_CALLS feature.
      *
-     * @return AbstractSoapBuilder
+     * @return static
      */
-    public function withWaitOneWayCalls()
+    public function withWaitOneWayCalls(): static
     {
         $this->soapOptions['features'] |= \SOAP_WAIT_ONE_WAY_CALLS;
 
@@ -176,23 +196,23 @@ abstract class AbstractSoapBuilder
     /**
      * Enables the SOAP_USE_XSI_ARRAY_TYPE feature.
      *
-     * @return AbstractSoapBuilder
+     * @return static
      */
-    public function withUseXsiArrayType()
+    public function withUseXsiArrayType(): static
     {
         $this->soapOptions['features'] |= \SOAP_USE_XSI_ARRAY_TYPE;
 
         return $this;
     }
 
-    public function withTypeConverter(TypeConverterInterface $converter)
+    public function withTypeConverter(TypeConverterInterface $converter): static
     {
         $this->soapOptions['typemap']->add($converter);
 
         return $this;
     }
 
-    public function withTypeConverters(TypeConverterCollection $converters, $merge = true)
+    public function withTypeConverters(TypeConverterCollection $converters, $merge = true): static
     {
         if ($merge) {
             $this->soapOptions['typemap']->addCollection($converters);
@@ -209,9 +229,9 @@ abstract class AbstractSoapBuilder
      * @param string $xmlType
      * @param string $phpType
      *
-     * @return AbstractSoapBuilder
+     * @return static
      */
-    public function withClassMapping($xmlType, $phpType)
+    public function withClassMapping($xmlType, $phpType): static
     {
         $this->soapOptions['classmap']->add($xmlType, $phpType);
 
@@ -221,12 +241,12 @@ abstract class AbstractSoapBuilder
     /**
      * Sets the classmap.
      *
-     * @param array   $classmap The classmap.
-     * @param boolean $merge    If true the given classmap is merged into the existing one, otherwise the existing one is overwritten.
+     * @param Classmap $classmap The classmap.
+     * @param boolean  $merge    If true the given classmap is merged into the existing one, otherwise the existing one is overwritten.
      *
-     * @return AbstractSoapBuilder
+     * @return static
      */
-    public function withClassmap(Classmap $classmap, $merge = true)
+    public function withClassmap(Classmap $classmap, $merge = true): static
     {
         if ($merge) {
             $this->soapOptions['classmap']->addClassmap($classmap);

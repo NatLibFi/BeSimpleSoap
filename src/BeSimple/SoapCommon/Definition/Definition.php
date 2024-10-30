@@ -5,6 +5,7 @@
  *
  * (c) Christian Kerl <christian-kerl@web.de>
  * (c) Francis Besset <francis.besset@gmail.com>
+ * Copyright (C) University Of Helsinki (The National Library of Finland) 2024.
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -16,6 +17,7 @@ use BeSimple\SoapCommon\Definition\Type\TypeRepository;
 
 /**
  * @author Francis Besset <francis.besset@gmail.com>
+ * @author Ere Maijala <ere.maijala@helsinki.fi>
  */
 class Definition
 {
@@ -26,6 +28,13 @@ class Definition
 
     protected $options;
     protected $methods;
+
+    /**
+     * Type mappings from PHP to XML
+     *
+     * @var array
+     */
+    protected $types = [];
 
     public function __construct($name, $namespace, TypeRepository $typeRepository, array $options = array())
     {
@@ -100,7 +109,7 @@ class Definition
 
     public function addType($phpType, $xmlType)
     {
-        if (isset($$this->types[$phpType])) {
+        if (isset($this->types[$phpType])) {
             throw new \Exception();
         }
 

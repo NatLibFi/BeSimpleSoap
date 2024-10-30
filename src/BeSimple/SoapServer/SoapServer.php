@@ -5,6 +5,7 @@
  *
  * (c) Christian Kerl <christian-kerl@web.de>
  * (c) Francis Besset <francis.besset@gmail.com>
+ * Copyright (C) University Of Helsinki (The National Library of Finland) 2024.
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -21,6 +22,7 @@ use BeSimple\SoapCommon\Converter\SwaTypeConverter;
  *
  * @author Andreas Schamberger <mail@andreass.net>
  * @author Christian Kerl <christian-kerl@web.de>
+ * @author Ere Maijala <ere.maijala@helsinki.fi>
  */
 class SoapServer extends \SoapServer
 {
@@ -37,6 +39,13 @@ class SoapServer extends \SoapServer
      * @var \BeSimple\SoapServer\SoapKernel
      */
     protected $soapKernel = null;
+
+    /**
+     * Last SOAP response
+     *
+     * @var ?SoapResponse
+     */
+    protected $soapResponse = null;
 
     /**
      * Constructor.

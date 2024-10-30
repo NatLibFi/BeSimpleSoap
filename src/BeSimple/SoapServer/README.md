@@ -31,3 +31,7 @@ Now you are ready to install the library:
 ```sh
 php /usr/local/bin/composer.phar install
 ```
+
+# Usage
+
+See [PHP documentation](https://www.php.net/manual/en/class.soapserver.php) for more information on how to use the library.

@@ -4,6 +4,7 @@
  *
  * (c) Christian Kerl <christian-kerl@web.de>
  * (c) Francis Besset <francis.besset@gmail.com>
+ * Copyright (C) University Of Helsinki (The National Library of Finland) 2024.
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -15,7 +16,6 @@ use BeSimple\SoapBundle\ServiceBinding\ServiceBinder;
 use BeSimple\SoapCommon\Converter\TypeConverterCollection;
 use BeSimple\SoapWsdl\Dumper\Dumper;
 use BeSimple\SoapServer\SoapServerBuilder;
-use Laminas\Serializer\Serializer;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -24,17 +24,26 @@ use Symfony\Component\Config\Loader\LoaderInterface;
  *
  * @author Christian Kerl <christian-kerl@web.de>
  * @author Francis Besset <francis.besset@gmail.com>
+ * @author Ere Maijala <ere.maijala@helsinki.fi>
  */
 class WebServiceContext
 {
-    private $options;
-
     private $serviceDefinition;
     private $serviceBinder;
     private $serverBuilder;
 
-    public function __construct(LoaderInterface $loader, TypeConverterCollection $converters, array $options)
-    {
+    /**
+     * Constructor
+     *
+     * @param LoaderInterface         $loader     Loader
+     * @param TypeConverterCollection $converters Converter collection
+     * @param array                   $options    Options
+     */
+    public function __construct(
+        protected LoaderInterface $loader,
+        protected TypeConverterCollection $converters,
+        protected array $options
+    ) {
         $this->loader = $loader;
         $this->converters = $converters;
         $this->options = $options;
@@ -45,19 +54,19 @@ class WebServiceContext
         if (null === $this->serviceDefinition) {
             $cache = new ConfigCache(sprintf('%s/%s.definition.srz', $this->options['cache_dir'], $this->options['name']), $this->options['debug']);
             if ($cache->isFresh()) {
-                $this->serviceDefinition = Serializer::unserialize(file_get_contents($cache->getPath()));
-            } else {
-                if (!$this->loader->supports($this->options['resource'], $this->options['resource_type'])) {
-                    throw new \LogicException(sprintf('Cannot load "%s" (%s)', $this->options['resource'], $this->options['resource_type']));
-                }
-
-                $this->serviceDefinition = $this->loader->load($this->options['resource'], $this->options['resource_type']);
-                $this->serviceDefinition->setName($this->options['name']);
-                $this->serviceDefinition->setNamespace($this->options['namespace']);
-
-                $definition = Serializer::serialize($this->serviceDefinition);
-                $cache->write($definition);
+                $this->serviceDefinition = unserialize(file_get_contents($cache->getPath())) ?: null;
             }
+        }
+        if (null === $this->serviceDefinition) {
+            if (!$this->loader->supports($this->options['resource'], $this->options['resource_type'])) {
+                throw new \LogicException(sprintf('Cannot load "%s" (%s)', $this->options['resource'], $this->options['resource_type']));
+            }
+
+            $this->serviceDefinition = $this->loader->load($this->options['resource'], $this->options['resource_type']);
+            $this->serviceDefinition->setName($this->options['name']);
+            $this->serviceDefinition->setNamespace($this->options['namespace']);
+
+            $cache->write(serialize($this->serviceDefinition));
         }
 
         return $this->serviceDefinition;
@@ -80,7 +89,7 @@ class WebServiceContext
                 $definition->setOption('location', $endpoint);
             }
 
-            $dumper = new Dumper($definition, array('stylesheet' => $this->options['wsdl_stylesheet']));
+            $dumper = new Dumper($definition, ['stylesheet' => $this->options['wsdl_stylesheet']]);
             $cache->write($dumper->dump());
         }
 
@@ -101,7 +110,7 @@ class WebServiceContext
         return $this->serviceBinder;
     }
 
-    public function getServerBuilder()
+    public function getServerBuilder(): SoapServerBuilder
     {
         if (null === $this->serverBuilder) {
             $this->serverBuilder = SoapServerBuilder::createWithDefaults()

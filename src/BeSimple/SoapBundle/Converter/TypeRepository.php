@@ -3,6 +3,7 @@
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
+ * Copyright (C) University Of Helsinki (The National Library of Finland) 2024.
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -10,18 +11,18 @@
 
 namespace BeSimple\SoapBundle\Converter;
 
-use BeSimple\SoapBundle\ServiceDefinition\ServiceDefinition;
 use BeSimple\SoapBundle\Util\Assert;
 
 /**
  * @author Christian Kerl <christian-kerl@web.de>
+ * @author Ere Maijala <ere.maijala@helsinki.fi>
  */
 class TypeRepository
 {
     const ARRAY_SUFFIX = '[]';
 
-    private $xmlNamespaces  = array();
-    private $defaultTypeMap = array();
+    private $xmlNamespaces  = [];
+    private $defaultTypeMap = [];
 
     public function addXmlNamespace($prefix, $url)
     {
@@ -44,23 +45,5 @@ class TypeRepository
     public function getXmlTypeMapping($phpType)
     {
         return isset($this->defaultTypeMap[$phpType]) ? $this->defaultTypeMap[$phpType] : null;
-    }
-
-    public function fixTypeInformation(ServiceDefinition $definition)
-    {
-        foreach($definition->getAllTypes() as $type) {
-            $phpType = $type->getPhpType();
-            $xmlType = $type->getXmlType();
-
-            if (null === $phpType) {
-                throw new \InvalidArgumentException();
-            }
-
-            if (null === $xmlType) {
-                $xmlType = $this->getXmlTypeMapping($phpType);
-            }
-
-            $type->setXmlType($xmlType);
-        }
     }
 }

@@ -5,6 +5,7 @@
  *
  * (c) Christian Kerl <christian-kerl@web.de>
  * (c) Francis Besset <francis.besset@gmail.com>
+ * Copyright (C) University Of Helsinki (The National Library of Finland) 2024.
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -19,6 +20,7 @@ use BeSimple\SoapCommon\Helper;
  * SoapServerBuilder provides a fluent interface to configure and create a SoapServer instance.
  *
  * @author Christian Kerl <christian-kerl@web.de>
+ * @author Ere Maijala <ere.maijala@helsinki.fi>
  */
 class SoapServerBuilder extends AbstractSoapBuilder
 {
@@ -31,9 +33,9 @@ class SoapServerBuilder extends AbstractSoapBuilder
     /**
      * Create new instance with default options.
      *
-     * @return \BeSimple\SoapServer\SoapServerBuilder
+     * @return static
      */
-    static public function createWithDefaults()
+    static public function createWithDefaults(): static
     {
         return parent::createWithDefaults()
             ->withErrorReporting(false);

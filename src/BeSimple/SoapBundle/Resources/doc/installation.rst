@@ -1,14 +1,13 @@
 Installation with Composer
 ==========================
 
-Add `besimple/soap-bundle <https://packagist.org/packages/besimple/soap-bundle>`_ (with vendors) in your composer.json:
+Add `natlibfi/besimple-soap <https://packagist.org/packages/natlibfi/besimple-soap>`_ (with vendors) in your composer.json:
 
 .. code-block:: json
 
     {
         "require": {
-            "besimple/soap":   "0.1.*@dev,
-            "ass/xmlsecurity": "dev-master"
+            "natlibfi/besimple-soap":   "^3.0.0"
         }
     }
 
