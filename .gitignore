@@ -7,9 +7,19 @@ phpunit.xml
 
 # IDE files
 /.idea
+/.vscode
 
 # MacOS
 .DS_Store
 
-# PHP CS Fixer
+# Caches
 .php_cs.cache
+.phpunit.result.cache
+
+# Other files
+*.bak
+src/BeSimple/SoapClient/Tests/bin/axis2-*
+src/BeSimple/SoapClient/Tests/bin/rampart-dist-*
+src/BeSimple/SoapClient/Tests/bin/image.jpg
+src/BeSimple/SoapClient/Tests/bin/test123.txt
+src/BeSimple/SoapClient/Tests/bin/upload.txt
