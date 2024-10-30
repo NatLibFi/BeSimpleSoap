@@ -28,8 +28,8 @@
     },
     "require-dev": {
         "mikey179/vfsStream": "^1.6.12",
-        "symfony/filesystem": "^5.4.45 || ^6.2.13 || ^7.1",
-        "symfony/process": "^5.4.45 || ^6.2.13 || ^7.1"
+        "symfony/filesystem": "^5.4.45 || ^6.2.13",
+        "symfony/process": "^5.4.45 || ^6.2.13"
     },
     "autoload": {
         "psr-0": { "BeSimple\\SoapClient": "" }

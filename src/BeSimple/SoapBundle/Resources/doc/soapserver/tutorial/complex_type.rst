@@ -138,7 +138,7 @@ You can expose only the properties (public, protected or private) of a complex t
 
         public function setNewsletter($newsletter)
         {
-            $this->newletter = (Boolean) $newsletter;
+            $this->newsletter = (BooleanType) $newsletter;
         }
 
         public function getCreatedAt()

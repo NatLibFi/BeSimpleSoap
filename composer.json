@@ -28,8 +28,8 @@
         "ext-soap": "*",
         "ext-curl": "*",
         "ass/xmlsecurity": "^1.1.1",
-        "symfony/error-handler": "^5.4.45 || ^6.2.13 || ^7.1",
-        "symfony/framework-bundle": "^5.4.45 || ^6.2.13 || ^7.1",
+        "symfony/error-handler": "^5.4.45 || ^6.2.13",
+        "symfony/framework-bundle": "^5.4.45 || ^6.2.13",
         "zbateson/mail-mime-parser": "^3.0.3"
     },
     "replace": {
@@ -41,8 +41,8 @@
     },
     "require-dev": {
         "mikey179/vfsstream": "~1.0",
-        "symfony/filesystem": "^5.4.45 || ^6.2.13 || ^7.1",
-        "symfony/process": "^5.4.45 || ^6.2.13 || ^7.1",
+        "symfony/filesystem": "^5.4.45 || ^6.2.13",
+        "symfony/process": "^5.4.45 || ^6.2.13",
         "symfony/phpunit-bridge": "*"
     },
     "autoload": {

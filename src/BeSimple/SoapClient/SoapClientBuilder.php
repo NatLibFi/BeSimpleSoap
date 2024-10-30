@@ -68,7 +68,7 @@ class SoapClientBuilder extends AbstractSoapBuilder
     /**
      * Configure option 'trace'.
      *
-     * @param boolean $trace Enable/Disable
+     * @param bool $trace Enable/Disable
      *
      * @return \BeSimple\SoapClient\SoapClientBuilder
      */
@@ -82,7 +82,7 @@ class SoapClientBuilder extends AbstractSoapBuilder
     /**
      * Configure option 'exceptions'.
      *
-     * @param boolean $exceptions Enable/Disable
+     * @param bool $exceptions Enable/Disable
      *
      * @return \BeSimple\SoapClient\SoapClientBuilder
      */
