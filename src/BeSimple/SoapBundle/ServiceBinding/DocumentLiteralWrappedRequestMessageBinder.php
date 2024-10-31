@@ -12,6 +12,7 @@
 namespace BeSimple\SoapBundle\ServiceBinding;
 
 use BeSimple\SoapBundle\ServiceDefinition\Method;
+use BeSimple\SoapCommon\Definition\Type\TypeRepository;
 
 use function count;
 
@@ -22,7 +23,7 @@ use function count;
  */
 class DocumentLiteralWrappedRequestMessageBinder implements MessageBinderInterface
 {
-    public function processMessage(Method $messageDefinition, $message)
+    public function processMessage(Method $messageDefinition, $message, TypeRepository $typeRepository)
     {
         if (count($message) > 1) {
             throw new \InvalidArgumentException();

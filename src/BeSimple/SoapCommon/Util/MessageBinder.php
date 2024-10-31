@@ -49,6 +49,7 @@ class MessageBinder
 
     public function readProperty($property)
     {
+        $value = null;
         if ($this->reflectionClass->hasMethod($getter = 'get' . $property)) {
             if (!$this->reflectionClass->getMethod($getter)->isPublic()) {
                 throw new \RuntimeException(

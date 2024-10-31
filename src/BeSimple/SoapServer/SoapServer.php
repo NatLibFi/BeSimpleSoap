@@ -81,13 +81,12 @@ class SoapServer extends \SoapServer
         // handle actual SOAP request
         try {
             $soapResponse = $this->handle2($soapRequest);
+            // send SOAP response to client
+            $soapResponse->send();
         } catch (\SoapFault $fault) {
             // issue an error to the client
             $this->fault($fault->faultcode, $fault->faultstring);
         }
-
-        // send SOAP response to client
-        $soapResponse->send();
     }
 
     /**
@@ -120,7 +119,7 @@ class SoapServer extends \SoapServer
 
             $getNodeContent = function ($tagName) use ($doc) {
                 $node = $doc->getElementsByTagName($tagName);
-                if (!empty($node) && $node->length > 0) {
+                if ($node->length > 0) {
                     return $node->item(0)->textContent;
                 }
                 return null;
@@ -183,10 +182,12 @@ class SoapServer extends \SoapServer
                 $converter = new SwaTypeConverter();
                 $converter->setKernel($this->soapKernel);
             } elseif (Helper::ATTACHMENTS_TYPE_MTOM === $options['attachment_type']) {
-                $xmlMimeFilter = new XmlMimeFilter($options['attachment_type']);
+                $xmlMimeFilter = new XmlMimeFilter();
                 $this->soapKernel->registerFilter($xmlMimeFilter);
                 $converter = new MtomTypeConverter();
                 $converter->setKernel($this->soapKernel);
+            } else {
+                throw new \LogicException('Invalid attachment_type: ' . var_export($options['attachment_type'], true));
             }
             // configure typemap
             if (!isset($options['typemap'])) {

@@ -39,9 +39,14 @@
         "besimple/soap-server": "self.version",
         "besimple/soap-wsdl":   "self.version"
     },
+    "suggest": {
+        "doctrine/annotations": "Required for service definition loader"
+    },
     "require-dev": {
+        "doctrine/annotations": "^2.0",
         "friendsofphp/php-cs-fixer": "3.64.0",
         "mikey179/vfsstream": "~1.0",
+        "phpstan/phpstan": "1.12.7",
         "squizlabs/php_codesniffer": "3.10.3",
         "symfony/filesystem": "^5.4.45 || ^6.2.13",
         "symfony/process": "^5.4.45 || ^6.2.13",

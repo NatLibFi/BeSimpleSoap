@@ -60,7 +60,7 @@ class SoapRequest extends Request
      */
     public static function createFromHttpRequest(Request $request)
     {
-        return new static(
+        return new self(
             $request->query->all(),
             $request->request->all(),
             $request->attributes->all(),
