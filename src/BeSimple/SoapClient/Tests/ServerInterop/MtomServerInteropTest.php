@@ -26,7 +26,7 @@ class MtomServerInteropTest extends TestCase
     {
         $sc = new BeSimpleSoapClient(__DIR__ . '/Fixtures/MTOM.wsdl', $this->options);
 
-        $b64 = new base64Binary();
+        $b64 = new Base64Binary();
         $b64->_ = 'This is a test. :)';
         $b64->contentType = 'text/plain';
 
