@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -88,7 +88,7 @@ class Parser
                             $content = substr($content, 0, -2);
                             self::decodeContent($currentPart, $content);
                             // check if there is a start parameter given, if not set first part
-                            $isMain = (is_null($start) || $start == $currentPart->getHeader('Content-ID')) ? true : false;
+                            $isMain = (is_null($start) || $start == $currentPart->getHeader('Content-ID'));
                             if ($isMain === true) {
                                 $start = $currentPart->getHeader('Content-ID');
                             }
@@ -102,7 +102,7 @@ class Parser
                         $content = substr($content, 0, -2);
                         self::decodeContent($currentPart, $content);
                         // check if there is a start parameter given, if not set first part
-                        $isMain = (is_null($start) || $start == $currentPart->getHeader('Content-ID')) ? true : false;
+                        $isMain = (is_null($start) || $start == $currentPart->getHeader('Content-ID'));
                         if ($isMain === true) {
                             $start = $currentPart->getHeader('Content-ID');
                         }
@@ -149,7 +149,7 @@ class Parser
             }
             $name = $matches[1];
             $delimiter = $matches[2];
-            $remainder = substr($remainder, strlen($name)+1);
+            $remainder = substr($remainder, strlen($name) + 1);
             if (!preg_match('/([^;]+)(;)?(\s|$)?/', $remainder, $matches)) {
                 break;
             }

@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -14,12 +15,14 @@ namespace BeSimple\SoapBundle\Converter;
 use BeSimple\SoapBundle\Util\Assert;
 
 /**
+ * Type repository
+ *
  * @author Christian Kerl <christian-kerl@web.de>
  * @author Ere Maijala <ere.maijala@helsinki.fi>
  */
 class TypeRepository
 {
-    const ARRAY_SUFFIX = '[]';
+    public const ARRAY_SUFFIX = '[]';
 
     private $xmlNamespaces  = [];
     private $defaultTypeMap = [];

@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -12,7 +13,6 @@ namespace BeSimple\SoapBundle;
 
 use BeSimple\SoapBundle\DependencyInjection\Compiler\WebServiceResolverPass;
 use BeSimple\SoapBundle\DependencyInjection\Compiler\TypeConverterPass;
-
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

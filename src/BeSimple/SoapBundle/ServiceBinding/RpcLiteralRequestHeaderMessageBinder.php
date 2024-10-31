@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -14,6 +15,8 @@ use BeSimple\SoapBundle\ServiceDefinition\Method;
 use BeSimple\SoapCommon\Definition\Type\TypeRepository;
 
 /**
+ * RPC literal request header message binder
+ *
  * @author Francis Besset <francis.besset@gmail.com>
  */
 class RpcLiteralRequestHeaderMessageBinder extends RpcLiteralRequestMessageBinder

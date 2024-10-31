@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapClient.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -38,12 +38,12 @@ class WsSecurityFilter extends WsSecurityFilterClientServer implements SoapReque
     /**
      * (UT 3.1) Password type: plain text.
      */
-    const PASSWORD_TYPE_TEXT = 0;
+    public const PASSWORD_TYPE_TEXT = 0;
 
     /**
      * (UT 3.1) Password type: digest.
      */
-    const PASSWORD_TYPE_DIGEST = 1;
+    public const PASSWORD_TYPE_DIGEST = 1;
 
     /**
      * (UT 3.1) Password.
@@ -148,10 +148,11 @@ class WsSecurityFilter extends WsSecurityFilterClientServer implements SoapReque
             $username = $filterHelper->createElement(Helper::NS_WSS, 'Username', $this->username);
             $usernameToken->appendChild($username);
 
-            if (null !== $this->password
+            if (
+                null !== $this->password
                 && (null === $this->userSecurityKey
-                    || (null !== $this->userSecurityKey && !$this->userSecurityKey->hasPrivateKey()))) {
-
+                    || (null !== $this->userSecurityKey && !$this->userSecurityKey->hasPrivateKey()))
+            ) {
                 if (self::PASSWORD_TYPE_DIGEST === $this->passwordType) {
                     $nonce = mt_rand();
                     $password = base64_encode(sha1($nonce . $createdTimestamp . $this->password, true));
@@ -178,22 +179,45 @@ class WsSecurityFilter extends WsSecurityFilterClientServer implements SoapReque
             // add token references
             $keyInfo = null;
             if (null !== $this->tokenReferenceSignature) {
-                $keyInfo = $this->createKeyInfo($filterHelper, $this->tokenReferenceSignature, $guid, $this->userSecurityKey->getPublicKey());
+                $keyInfo = $this->createKeyInfo(
+                    $filterHelper,
+                    $this->tokenReferenceSignature,
+                    $guid,
+                    $this->userSecurityKey->getPublicKey()
+                );
             }
             $nodes = $this->createNodeListForSigning($dom, $security);
-            $signature = XmlSecurityDSig::createSignature($this->userSecurityKey->getPrivateKey(), XmlSecurityDSig::EXC_C14N, $security, null, $keyInfo);
+            $signature = XmlSecurityDSig::createSignature(
+                $this->userSecurityKey->getPrivateKey(),
+                XmlSecurityDSig::EXC_C14N,
+                $security,
+                null,
+                $keyInfo
+            );
             $options = array(
                 'id_ns_prefix' => Helper::PFX_WSU,
                 'id_prefix_ns' => Helper::NS_WSU,
             );
             foreach ($nodes as $node) {
-                XmlSecurityDSig::addNodeToSignature($signature, $node, XmlSecurityDSig::SHA1, XmlSecurityDSig::EXC_C14N, $options);
+                XmlSecurityDSig::addNodeToSignature(
+                    $signature,
+                    $node,
+                    XmlSecurityDSig::SHA1,
+                    XmlSecurityDSig::EXC_C14N,
+                    $options
+                );
             }
-            XmlSecurityDSig::signDocument($signature, $this->userSecurityKey->getPrivateKey(), XmlSecurityDSig::EXC_C14N);
+            XmlSecurityDSig::signDocument(
+                $signature,
+                $this->userSecurityKey->getPrivateKey(),
+                XmlSecurityDSig::EXC_C14N
+            );
 
             $publicCertificate = $this->userSecurityKey->getPublicKey()->getX509Certificate(true);
-            $binarySecurityToken = $filterHelper->createElement(Helper::NS_WSS, 'BinarySecurityToken', $publicCertificate);
-            $filterHelper->setAttribute($binarySecurityToken, null, 'EncodingType', Helper::NAME_WSS_SMS . '#Base64Binary');
+            $binarySecurityToken
+                = $filterHelper->createElement(Helper::NS_WSS, 'BinarySecurityToken', $publicCertificate);
+            $filterHelper
+                ->setAttribute($binarySecurityToken, null, 'EncodingType', Helper::NAME_WSS_SMS . '#Base64Binary');
             $filterHelper->setAttribute($binarySecurityToken, null, 'ValueType', Helper::NAME_WSS_X509 . '#X509v3');
             $filterHelper->setAttribute($binarySecurityToken, Helper::NS_WSU, 'Id', $guid);
             $security->insertBefore($binarySecurityToken, $signature);
@@ -204,9 +228,21 @@ class WsSecurityFilter extends WsSecurityFilterClientServer implements SoapReque
                 // add token references
                 $keyInfo = null;
                 if (null !== $this->tokenReferenceEncryption) {
-                    $keyInfo = $this->createKeyInfo($filterHelper, $this->tokenReferenceEncryption, $guid, $this->serviceSecurityKey->getPublicKey());
+                    $keyInfo = $this->createKeyInfo(
+                        $filterHelper,
+                        $this->tokenReferenceEncryption,
+                        $guid,
+                        $this->serviceSecurityKey->getPublicKey()
+                    );
                 }
-                $encryptedKey = XmlSecurityEnc::createEncryptedKey($guid, $this->serviceSecurityKey->getPrivateKey(), $this->serviceSecurityKey->getPublicKey(), $security, $signature, $keyInfo);
+                $encryptedKey = XmlSecurityEnc::createEncryptedKey(
+                    $guid,
+                    $this->serviceSecurityKey->getPrivateKey(),
+                    $this->serviceSecurityKey->getPublicKey(),
+                    $security,
+                    $signature,
+                    $keyInfo
+                );
                 $referenceList = XmlSecurityEnc::createReferenceList($encryptedKey);
                 // token reference to encrypted key
                 $keyInfo = $this->createKeyInfo($filterHelper, self::TOKEN_REFERENCE_SECURITY_TOKEN, $guid);
@@ -216,7 +252,13 @@ class WsSecurityFilter extends WsSecurityFilterClientServer implements SoapReque
                     if ($node->localName == 'Body') {
                         $type = XmlSecurityEnc::CONTENT;
                     }
-                    XmlSecurityEnc::encryptNode($node, $type, $this->serviceSecurityKey->getPrivateKey(), $referenceList, $keyInfo);
+                    XmlSecurityEnc::encryptNode(
+                        $node,
+                        $type,
+                        $this->serviceSecurityKey->getPrivateKey(),
+                        $referenceList,
+                        $keyInfo
+                    );
                 }
             }
         }

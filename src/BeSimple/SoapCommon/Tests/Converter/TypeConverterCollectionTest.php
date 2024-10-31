@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -70,7 +70,7 @@ class TypeConverterCollectionTest extends \PHPUnit\Framework\TestCase
         $dateTimeTypeConverter = new DateTimeTypeConverter();
         $converters->add($dateTimeTypeConverter);
 
-        $converter = array(new DateTypeConverter);
+        $converter = array(new DateTypeConverter());
         $converters->set($converter);
 
         $this->assertSame($converter, $converters->all());

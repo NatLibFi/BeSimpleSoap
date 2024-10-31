@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapServer.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -35,7 +35,7 @@ class SoapServerBuilder extends AbstractSoapBuilder
      *
      * @return static
      */
-    static public function createWithDefaults(): static
+    public static function createWithDefaults(): static
     {
         return parent::createWithDefaults()
             ->withErrorReporting(false);

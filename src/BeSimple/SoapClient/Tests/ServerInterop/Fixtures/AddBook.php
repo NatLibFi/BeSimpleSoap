@@ -1,8 +1,8 @@
 <?php
 
-namespace BeSimple\SoapClient\Tests\AxisInterop\Fixtures;
+namespace BeSimple\SoapClient\Tests\ServerInterop\Fixtures;
 
-class addBook
+class AddBook
 {
     public $type;
     public $isbn;

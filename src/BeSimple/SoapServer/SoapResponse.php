@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapClient.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -53,7 +53,7 @@ class SoapResponse extends CommonSoapResponse
     public function send()
     {
         // set Content-Type header
-        header('Content-Type: '.$this->getContentType());
+        header('Content-Type: ' . $this->getContentType());
 
         // send content to client
         echo $this->getContent();

@@ -2,7 +2,7 @@
 
 namespace BeSimple\SoapClient\Tests\AxisInterop\Fixtures;
 
-class getBookResponse
+class GetBookResponse
 {
     public $getBookReturn;
 }

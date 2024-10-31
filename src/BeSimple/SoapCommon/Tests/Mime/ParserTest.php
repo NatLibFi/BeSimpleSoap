@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -21,7 +21,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
 {
     public function testParserRequestWsi()
     {
-        $filename = dirname(__DIR__).DIRECTORY_SEPARATOR.'Fixtures/WS-I-MTOM-request.txt';
+        $filename = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Fixtures/WS-I-MTOM-request.txt';
         $mimeMessage = file_get_contents($filename);
 
         $mp = Parser::parseMimeMessage($mimeMessage);
@@ -30,7 +30,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
 
     public function testParserResponseAmazon()
     {
-        $filename = dirname(__DIR__).DIRECTORY_SEPARATOR.'Fixtures/SwA-response-amazon.txt';
+        $filename = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Fixtures/SwA-response-amazon.txt';
         $mimeMessage = file_get_contents($filename);
 
         $mp = Parser::parseMimeMessage($mimeMessage);
@@ -42,7 +42,10 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('multipart/related', $mp->getHeader('Content-Type'));
         $this->assertEquals('text/xml', $mp->getHeader('Content-Type', 'type'));
         $this->assertEquals('utf-8', $mp->getHeader('Content-Type', 'charset'));
-        $this->assertEquals('xxx-MIME-Boundary-xxx-0xa36cb38-0a36cb38-xxx-END-xxx', $mp->getHeader('Content-Type', 'boundary'));
+        $this->assertEquals(
+            'xxx-MIME-Boundary-xxx-0xa36cb38-0a36cb38-xxx-END-xxx',
+            $mp->getHeader('Content-Type', 'boundary')
+        );
 
         $p1 = $mp->getPart();
         $this->assertInstanceOf('BeSimple\SoapCommon\Mime\Part', $p1);
@@ -59,7 +62,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
 
     public function testParserResponseAxis()
     {
-        $filename = dirname(__DIR__).DIRECTORY_SEPARATOR.'Fixtures/SwA-response-axis.txt';
+        $filename = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Fixtures/SwA-response-axis.txt';
         $mimeMessage = file_get_contents($filename);
 
         $mp = Parser::parseMimeMessage($mimeMessage);
@@ -70,9 +73,15 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('multipart/related', $mp->getHeader('Content-Type'));
         $this->assertEquals('application/soap+xml', $mp->getHeader('Content-Type', 'type'));
         $this->assertEquals('utf-8', $mp->getHeader('Content-Type', 'charset'));
-        $this->assertEquals('<0.urn:uuid:2DB7ABF3DC5BED7FA51284209577583@apache.org>', $mp->getHeader('Content-Type', 'start'));
+        $this->assertEquals(
+            '<0.urn:uuid:2DB7ABF3DC5BED7FA51284209577583@apache.org>',
+            $mp->getHeader('Content-Type', 'start')
+        );
         $this->assertEquals('urn:getVersionResponse', $mp->getHeader('Content-Type', 'action'));
-        $this->assertEquals('MIMEBoundaryurn_uuid_2DB7ABF3DC5BED7FA51284209577582', $mp->getHeader('Content-Type', 'boundary'));
+        $this->assertEquals(
+            'MIMEBoundaryurn_uuid_2DB7ABF3DC5BED7FA51284209577582',
+            $mp->getHeader('Content-Type', 'boundary')
+        );
 
         $p1 = $mp->getPart('0.urn:uuid:2DB7ABF3DC5BED7FA51284209577583@apache.org');
         $this->assertInstanceOf('BeSimple\SoapCommon\Mime\Part', $p1);
@@ -84,7 +93,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
 
     public function testParserResponseWsi()
     {
-        $filename = dirname(__DIR__).DIRECTORY_SEPARATOR.'Fixtures/WS-I-MTOM-response.txt';
+        $filename = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Fixtures/WS-I-MTOM-response.txt';
         $mimeMessage = file_get_contents($filename);
 
         $mp = Parser::parseMimeMessage($mimeMessage);
@@ -98,7 +107,10 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('utf-8', $mp->getHeader('Content-Type', 'charset'));
         $this->assertEquals('<http://tempuri.org/0>', $mp->getHeader('Content-Type', 'start'));
         $this->assertEquals('application/soap+xml', $mp->getHeader('Content-Type', 'start-info'));
-        $this->assertEquals('uuid:b71dc628-ec8f-4422-8a4a-992f041cb94c+id=46', $mp->getHeader('Content-Type', 'boundary'));
+        $this->assertEquals(
+            'uuid:b71dc628-ec8f-4422-8a4a-992f041cb94c+id=46',
+            $mp->getHeader('Content-Type', 'boundary')
+        );
 
         $p1 = $mp->getPart('http://tempuri.org/0');
         $this->assertInstanceOf('BeSimple\SoapCommon\Mime\Part', $p1);
@@ -111,11 +123,12 @@ class ParserTest extends \PHPUnit\Framework\TestCase
 
     public function testParserWithHeaderArray()
     {
-        $filename = dirname(__DIR__).DIRECTORY_SEPARATOR.'Fixtures/WS-I-MTOM-request_noheader.txt';
+        $filename = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Fixtures/WS-I-MTOM-request_noheader.txt';
         $mimeMessage = file_get_contents($filename);
 
         $headers = array(
-            'Content-Type' => 'multipart/related; type="application/xop+xml";start="<http://tempuri.org/0>";boundary="uuid:0ca0e16e-feb1-426c-97d8-c4508ada5e82+id=7";start-info="application/soap+xml"',
+            'Content-Type' => 'multipart/related; type="application/xop+xml";start="<http://tempuri.org/0>";'
+                . 'boundary="uuid:0ca0e16e-feb1-426c-97d8-c4508ada5e82+id=7";start-info="application/soap+xml"',
             'Content-Length' => 1941,
             'Host' => '131.107.72.15',
             'Expect' => '100-continue',
@@ -137,7 +150,10 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('utf-8', $mp->getHeader('Content-Type', 'charset'));
         $this->assertEquals('<http://tempuri.org/0>', $mp->getHeader('Content-Type', 'start'));
         $this->assertEquals('application/soap+xml', $mp->getHeader('Content-Type', 'start-info'));
-        $this->assertEquals('uuid:0ca0e16e-feb1-426c-97d8-c4508ada5e82+id=7', $mp->getHeader('Content-Type', 'boundary'));
+        $this->assertEquals(
+            'uuid:0ca0e16e-feb1-426c-97d8-c4508ada5e82+id=7',
+            $mp->getHeader('Content-Type', 'boundary')
+        );
         $this->assertEquals('1941', $mp->getHeader('Content-Length'));
         $this->assertEquals('131.107.72.15', $mp->getHeader('Host'));
         $this->assertEquals('100-continue', $mp->getHeader('Expect'));

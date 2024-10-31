@@ -10,8 +10,12 @@ class SoapClientBuilder extends BaseSoapClientBuilder
 {
     protected $soapClient;
 
-    public function __construct($wsdl, array $options, Classmap $classmap = null, TypeConverterCollection $converters = null)
-    {
+    public function __construct(
+        $wsdl,
+        array $options,
+        Classmap $classmap = null,
+        TypeConverterCollection $converters = null
+    ) {
         parent::__construct();
 
         $this->checkOptions($options);

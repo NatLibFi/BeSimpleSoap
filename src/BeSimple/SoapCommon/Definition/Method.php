@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoap.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -13,6 +13,8 @@
 namespace BeSimple\SoapCommon\Definition;
 
 /**
+ * Method
+ *
  * @author Francis Besset <francis.besset@gmail.com>
  */
 class Method
@@ -28,10 +30,10 @@ class Method
     {
         $this->name = $name;
 
-        $this->headers = new Message($name.'Header');
-        $this->input = new Message($name.'Request');
-        $this->output = new Message($name.'Response');
-        $this->fault = new Message($name.'Fault');
+        $this->headers = new Message($name . 'Header');
+        $this->input = new Message($name . 'Request');
+        $this->output = new Message($name . 'Response');
+        $this->fault = new Message($name . 'Fault');
     }
 
     public function getName()

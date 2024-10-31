@@ -39,6 +39,14 @@ php-cs-fixer: ## apply php-cs-fixer fixes
 enter: ## enter docker container
 	$(EXEC) bash
 
+qa: ## Quality Assurance
+	-bin/phpcs --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml -s
+
+fix: ## Apply automatic fixes
+	-bin/phpcs --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml
+    bin/phpcbf --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml
+
+
 .PHONY: up start stop enter
 
 .DEFAULT_GOAL := help

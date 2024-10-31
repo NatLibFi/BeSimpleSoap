@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapClient.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -13,7 +13,7 @@
 namespace BeSimple\SoapClient;
 
 /**
- * cURL wrapper class for doing HTTP requests that uses the soap class options.
+ * Wrapper for cURL for doing HTTP requests that uses the soap class options.
  *
  * @author Andreas Schamberger <mail@andreass.net>
  */
@@ -24,11 +24,11 @@ class Curl
      *
      * @var string
      */
-    const USER_AGENT = 'PHP-SOAP/\BeSimple\SoapClient';
+    public const USER_AGENT = 'PHP-SOAP/\BeSimple\SoapClient';
 
-    const AUTH_TYPE_BASIC = 'basic';
-    const AUTH_TYPE_NTLM = 'ntlm';
-    const AUTH_TYPE_NONE = 'none';
+    public const AUTH_TYPE_BASIC = 'basic';
+    public const AUTH_TYPE_NTLM = 'ntlm';
+    public const AUTH_TYPE_NONE = 'none';
 
     /**
      * Curl resource.
@@ -92,7 +92,7 @@ class Curl
 
         if (isset($options['proxy_host'])) {
             if (false !== $options['proxy_host']) {
-                $proxyHost = $options['proxy_host'].(isset($options['proxy_port']) ? $options['proxy_port'] : 8080);
+                $proxyHost = $options['proxy_host'] . (isset($options['proxy_port']) ? $options['proxy_port'] : 8080);
             } else {
                 $proxyHost = false;
             }
@@ -100,7 +100,11 @@ class Curl
             curl_setopt($this->ch, CURLOPT_PROXY, $proxyHost);
 
             if (false !== $proxyHost && isset($options['proxy_login'])) {
-                curl_setopt($this->ch, CURLOPT_PROXYUSERPWD, $options['proxy_login'].':'.$options['proxy_password']);
+                curl_setopt(
+                    $this->ch,
+                    CURLOPT_PROXYUSERPWD,
+                    $options['proxy_login'] . ':' . $options['proxy_password']
+                );
 
                 if (isset($options['proxy_auth'])) {
                     curl_setopt($this->ch, CURLOPT_PROXYAUTH, $options['proxy_auth']);
@@ -109,17 +113,16 @@ class Curl
         }
         $authType = isset($options['auth_type']) ? $options['auth_type'] : Curl::AUTH_TYPE_NONE;
         if (isset($options['login']) && Curl::AUTH_TYPE_NONE !== $authType) {
-            $curlUserPwd = $options['login'].':'.$options['password'];
+            $curlUserPwd = $options['login'] . ':' . $options['password'];
 
                 // use preemptive authentication
                 $curlAuthType = CURLAUTH_ANY;
-                if (self::AUTH_TYPE_BASIC === $authType) {
-                    $headers[] = sprintf('Authorization: Basic %s', base64_encode($curlUserPwd));
-                    $curlAuthType = CURLAUTH_BASIC;
-                }
+            if (self::AUTH_TYPE_BASIC === $authType) {
+                $headers[] = sprintf('Authorization: Basic %s', base64_encode($curlUserPwd));
+                $curlAuthType = CURLAUTH_BASIC;
+            }
                 curl_setopt($this->ch, CURLOPT_HTTPAUTH, $curlAuthType);
                 curl_setopt($this->ch, CURLOPT_USERPWD, $curlUserPwd);
-
         }
         if (isset($options['local_cert'])) {
             curl_setopt($this->ch, CURLOPT_SSLCERT, $options['local_cert']);
@@ -219,7 +222,8 @@ class Curl
                 if (!isset($url['path'])) {
                     $url['path'] = $lastUrl['path'];
                 }
-                $newUrl = $url['scheme'].'://'.$url['host'].$url['path'].($url['query'] ? '?'.$url['query'] : '');
+                $newUrl = $url['scheme'] . '://' . $url['host'] . $url['path']
+                    . ($url['query'] ? '?' . $url['query'] : '');
                 curl_setopt($this->ch, CURLOPT_URL, $newUrl);
 
                 return $this->execManualRedirect($redirects++);
@@ -233,7 +237,7 @@ class Curl
      * Error code mapping from cURL error codes to PHP ext/soap error messages
      * (where applicable).
      *
-     * http://curl.haxx.se/libcurl/c/libcurl-errors.html
+     * @see http://curl.haxx.se/libcurl/c/libcurl-errors.html
      *
      * @return array(int=>string)
      */
@@ -263,7 +267,8 @@ class Curl
             66 => 'SSL support is not available in this build', //CURLE_SSL_ENGINE_INITFAILED
             67 => 'Could not connect to host', //CURLE_LOGIN_DENIED
             77 => 'Could not connect to host', //CURLE_SSL_CACERT_BADFILE
-            80 => 'Error Fetching http body, No Content-Length, connection closed or chunked data', //CURLE_SSL_SHUTDOWN_FAILED
+            80 => 'Error Fetching http body, No Content-Length, connection closed or chunked data',
+            //CURLE_SSL_SHUTDOWN_FAILED
         );
     }
 
@@ -277,7 +282,7 @@ class Curl
         $errorCodeMapping = $this->getErrorCodeMapping();
         $errorNumber = curl_errno($this->ch);
         if (isset($errorCodeMapping[$errorNumber])) {
-            return $errorCodeMapping[$errorNumber].': '.curl_error($this->ch);
+            return $errorCodeMapping[$errorNumber] . ': ' . curl_error($this->ch);
         }
 
         return curl_error($this->ch);

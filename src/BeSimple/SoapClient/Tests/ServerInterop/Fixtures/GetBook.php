@@ -2,8 +2,7 @@
 
 namespace BeSimple\SoapClient\Tests\ServerInterop\Fixtures;
 
-class base64Binary
+class GetBook
 {
-    public $_;
-    public $contentType;
+    public $isbn;
 }

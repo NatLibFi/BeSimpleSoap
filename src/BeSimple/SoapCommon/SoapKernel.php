@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -29,10 +29,10 @@ use BeSimple\SoapCommon\SoapResponseFilter;
 class SoapKernel
 {
     /**
-    * Mime attachments.
-    *
-    * @var array(\BeSimple\SoapCommon\Mime\Part)
-    */
+     * Mime attachments.
+     *
+     * @var array(\BeSimple\SoapCommon\Mime\Part)
+     */
     protected $attachments = array();
 
     /**
@@ -50,12 +50,12 @@ class SoapKernel
     private $responseFilters = array();
 
     /**
-    * Add attachment.
-    *
-    * @param \BeSimple\SoapCommon\Mime\Part $attachment New attachment
-    *
-    * @return void
-    */
+     * Add attachment.
+     *
+     * @param \BeSimple\SoapCommon\Mime\Part $attachment New attachment
+     *
+     * @return void
+     */
     public function addAttachment(MimePart $attachment)
     {
         $contentId = trim($attachment->getHeader('Content-ID'), '<>');

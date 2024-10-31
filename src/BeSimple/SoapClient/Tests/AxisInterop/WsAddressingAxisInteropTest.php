@@ -22,9 +22,10 @@
  *
  */
 
+namespace BeSimple\SoapClient\Tests\AxisInterop;
+
 use BeSimple\SoapClient\SoapClient as BeSimpleSoapClient;
 use BeSimple\SoapClient\WsAddressingFilter as BeSimpleWsAddressingFilter;
-
 use BeSimple\SoapClient\Tests\AxisInterop\TestCase;
 
 class WsAddressingAxisInteropTest extends TestCase
@@ -56,7 +57,12 @@ class WsAddressingAxisInteropTest extends TestCase
 
         $soapSessionId1 = $wsaFilter->getReferenceParameter('http://ws.apache.org/namespaces/axis2', 'ServiceGroupId');
 
-        $wsaFilter->addReferenceParameter('http://ws.apache.org/namespaces/axis2', 'axis2', 'ServiceGroupId', $soapSessionId1);
+        $wsaFilter->addReferenceParameter(
+            'http://ws.apache.org/namespaces/axis2',
+            'axis2',
+            'ServiceGroupId',
+            $soapSessionId1
+        );
 
         $version = $sc->getVersion();
         $this->assertMatchesRegularExpression('/Hi - the Axis2 version is \d+\.\d+\.\d+/', $version->return);

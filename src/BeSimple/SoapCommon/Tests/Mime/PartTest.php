@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -54,7 +54,7 @@ class PartTest extends \PHPUnit\Framework\TestCase
         $messagePart = "Content-Type: text/xml; charset=utf-8\r\n" .
         "Content-Transfer-Encoding: binary\r\n" .
         "Content-ID: <urn:myuniqueresource>\r\n" .
-        "\r\n".
+        "\r\n" .
         "<xml1/>";
 
         $this->assertEquals($messagePart, $p->getMessagePart());

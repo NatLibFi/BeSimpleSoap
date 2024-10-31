@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -61,7 +61,8 @@ class MultiPartTest extends \PHPUnit\Framework\TestCase
 
         /*
         string(189) "MIME-Version: 1.0
-        Content-Type: multipart/related; type="text/xml"; charset=utf-8; boundary="urn:uuid:231833e2-a23b-410a-862e-250524fc38f6"
+        Content-Type: multipart/related; type="text/xml"; charset=utf-8;
+          boundary="urn:uuid:231833e2-a23b-410a-862e-250524fc38f6"
 
         --urn:uuid:231833e2-a23b-410a-862e-250524fc38f6--"
         */
@@ -72,7 +73,9 @@ class MultiPartTest extends \PHPUnit\Framework\TestCase
 
         /*
         string(452) "MIME-Version: 1.0
-        Content-Type: multipart/related; type="text/xml"; charset=utf-8; boundary="urn:uuid:231833e2-a23b-410a-862e-250524fc38f6"; start="<urn:uuid:9389c081-56f7-4f57-b66e-c81892c3d4db>"
+        Content-Type: multipart/related; type="text/xml"; charset=utf-8;
+          boundary="urn:uuid:231833e2-a23b-410a-862e-250524fc38f6";
+          start="<urn:uuid:9389c081-56f7-4f57-b66e-c81892c3d4db>"
 
         --urn:uuid:231833e2-a23b-410a-862e-250524fc38f6
         Content-Type: application/octet-stream; charset=utf-8
@@ -90,12 +93,14 @@ class MultiPartTest extends \PHPUnit\Framework\TestCase
         $mp = new MultiPart();
 
         $result = array(
-            'Content-Type: multipart/related; type="text/xml"; charset=utf-8; boundary="' . $mp->getHeader('Content-Type', 'boundary') . '"',
+            'Content-Type: multipart/related; type="text/xml"; charset=utf-8; boundary="'
+            . $mp->getHeader('Content-Type', 'boundary') . '"',
         );
         $this->assertEquals($result, $mp->getHeadersForHttp());
 
         $result = array(
-            'Content-Type: multipart/related; type="text/xml"; charset=utf-8; boundary="' . $mp->getHeader('Content-Type', 'boundary') . '"',
+            'Content-Type: multipart/related; type="text/xml"; charset=utf-8; boundary="'
+            . $mp->getHeader('Content-Type', 'boundary') . '"',
             'Content-Description: test',
         );
         $mp->setHeader('Content-Description', 'test');
@@ -131,13 +136,13 @@ class MultiPartTest extends \PHPUnit\Framework\TestCase
         $mp->addPart($p2);
 
         $withoutMain = array(
-            trim($p2->getHeader('Content-ID'),'<>') => $p2,
+            trim($p2->getHeader('Content-ID'), '<>') => $p2,
         );
         $this->assertEquals($withoutMain, $mp->getParts());
 
         $withMain = array(
-            trim($p1->getHeader('Content-ID'),'<>') => $p1,
-            trim($p2->getHeader('Content-ID'),'<>') => $p2,
+            trim($p1->getHeader('Content-ID'), '<>') => $p1,
+            trim($p2->getHeader('Content-ID'), '<>') => $p2,
         );
         $this->assertEquals($withMain, $mp->getParts(true));
     }

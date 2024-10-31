@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -19,6 +19,8 @@ use BeSimple\SoapCommon\Definition\Type\TypeRepository;
 use BeSimple\SoapCommon\Util\MessageBinder;
 
 /**
+ * RPC literal request message binder
+ *
  * @author Christian Kerl <christian-kerl@web.de>
  * @author Francis Besset <francis.besset@gmail.com>
  */
@@ -114,7 +116,10 @@ class RpcLiteralRequestMessageBinder implements MessageBinderInterface
                 $messageBinder->writeProperty($property, $value);
             } elseif (!$type->isNillable()) {
                 // @TODO use xmlType instead of phpType
-                throw new \SoapFault('SOAP_ERROR_COMPLEX_TYPE', sprintf('"%s:%s" cannot be null.', ucfirst($phpType), $type->getName()));
+                throw new \SoapFault(
+                    'SOAP_ERROR_COMPLEX_TYPE',
+                    sprintf('"%s:%s" cannot be null.', ucfirst($phpType), $type->getName())
+                );
             }
         }
 

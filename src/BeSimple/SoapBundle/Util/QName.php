@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -11,6 +12,8 @@
 namespace BeSimple\SoapBundle\Util;
 
 /**
+ * QName
+ *
  * @author Christian Kerl <christian-kerl@web.de>
  */
 class QName

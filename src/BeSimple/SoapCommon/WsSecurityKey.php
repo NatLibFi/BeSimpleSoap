@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -47,7 +47,8 @@ class WsSecurityKey
      */
     public function addPrivateKey($encryptionType, $key = null, $keyIsFile = true, $passphrase = null)
     {
-        $this->privateKey = XmlSecurityKey::factory($encryptionType, $key, $keyIsFile, XmlSecurityKey::TYPE_PRIVATE, $passphrase);
+        $this->privateKey
+            = XmlSecurityKey::factory($encryptionType, $key, $keyIsFile, XmlSecurityKey::TYPE_PRIVATE, $passphrase);
     }
 
     /**

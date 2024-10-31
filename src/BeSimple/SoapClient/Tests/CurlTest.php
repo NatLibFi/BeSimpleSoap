@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapClient.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -15,6 +15,8 @@ namespace BeSimple\SoapClient\Tests;
 use BeSimple\SoapClient\Curl;
 
 /**
+ * Curl tests
+ *
  * @author Andreas Schamberger <mail@andreass.net>
  */
 class CurlTest extends AbstractWebserverTest
@@ -40,7 +42,10 @@ class CurlTest extends AbstractWebserverTest
         $this->assertMatchesRegularExpression('/^Could not connect to host.*$/', $curl->getErrorMessage());
 
         $curl->exec(sprintf('xyz://localhost:%d/@404.txt', WEBSERVER_PORT));
-        $this->assertMatchesRegularExpression('/^Unknown protocol. Only http and https are allowed.*$/', $curl->getErrorMessage());
+        $this->assertMatchesRegularExpression(
+            '/^Unknown protocol. Only http and https are allowed.*$/',
+            $curl->getErrorMessage()
+        );
 
         $curl->exec('');
         $this->assertMatchesRegularExpression('/^Unable to parse URL.*$/', $curl->getErrorMessage());

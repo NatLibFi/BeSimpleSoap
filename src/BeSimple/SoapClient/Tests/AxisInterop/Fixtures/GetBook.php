@@ -2,7 +2,7 @@
 
 namespace BeSimple\SoapClient\Tests\AxisInterop\Fixtures;
 
-class getBooksByType
+class GetBook
 {
-    public $type;
+    public $isbn;
 }

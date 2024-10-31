@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -22,5 +22,4 @@ use BeSimple\SoapCommon\SoapMessage;
  */
 class SoapRequest extends SoapMessage
 {
-
 }

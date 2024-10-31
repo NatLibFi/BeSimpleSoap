@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<ruleset name="Coding Standards" namespace="VuFind\PHPCS">
+  <description>Coding standards for BeSimpleSoap.</description>
+  <file>../src</file>
+  <exclude-pattern>Base64Binary.php</exclude-pattern>
+  <exclude-pattern>MtomAxisInteropTest.php</exclude-pattern>
+  <exclude-pattern>MTOMServer.php</exclude-pattern>
+  <exclude-pattern>SwAServer.php</exclude-pattern>
+  <exclude-pattern>WsSecuritySigEncServer.php</exclude-pattern>
+  <exclude-pattern>WsSecurityUserPassServer.php</exclude-pattern>
+  <arg name="extensions" value="php"/>
+  <rule ref="PSR12"></rule>
+  <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+  <rule ref="Generic.Commenting.DocComment"/>
+  <rule ref="Squiz.Commenting.DocCommentAlignment"/>
+  <!-- Lines can be 120 chars long, but never show errors -->
+  <rule ref="Generic.Files.LineLength">
+    <properties>
+      <property name="lineLimit" value="120"/>
+      <property name="absoluteLineLimit" value="0"/>
+    </properties>
+  </rule>
+  <rule ref="PSR12" />
+</ruleset>

@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -13,6 +14,8 @@ namespace BeSimple\SoapBundle\ServiceBinding;
 use BeSimple\SoapBundle\ServiceDefinition\Method;
 
 /**
+ * Document literal wrapped response message binder
+ *
  * @author Christian Kerl <christian-kerl@web.de>
  */
 class DocumentLiteralWrappedResponseMessageBinder implements MessageBinderInterface
@@ -20,7 +23,7 @@ class DocumentLiteralWrappedResponseMessageBinder implements MessageBinderInterf
     public function processMessage(Method $messageDefinition, $message)
     {
         $result = new \stdClass();
-        $result->{$messageDefinition->getName().'Result'} = $message;
+        $result->{$messageDefinition->getName() . 'Result'} = $message;
 
         return $result;
     }

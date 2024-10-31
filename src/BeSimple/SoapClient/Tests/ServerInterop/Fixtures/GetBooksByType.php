@@ -2,7 +2,7 @@
 
 namespace BeSimple\SoapClient\Tests\ServerInterop\Fixtures;
 
-class downloadFile
+class GetBooksByType
 {
-    public $name;
+    public $type;
 }

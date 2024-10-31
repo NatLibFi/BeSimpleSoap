@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -61,7 +61,9 @@ class Configuration
                                 ->defaultValue('disk')
                                 ->validate()
                                     ->ifNotInArray($this->cacheTypes)
-                                    ->thenInvalid(sprintf('The cache type has to be either %s', implode(', ', $this->cacheTypes)))
+                                    ->thenInvalid(
+                                        sprintf('The cache type has to be either %s', implode(', ', $this->cacheTypes))
+                                    )
                                 ->end()
                             ->end()
                             ->scalarNode('lifetime')->defaultNull()->end()
@@ -86,7 +88,12 @@ class Configuration
                                 ->scalarNode('cache_type')
                                     ->validate()
                                         ->ifNotInArray($this->cacheTypes)
-                                        ->thenInvalid(sprintf('The cache type has to be either: %s', implode(', ', $this->cacheTypes)))
+                                        ->thenInvalid(
+                                            sprintf(
+                                                'The cache type has to be either: %s',
+                                                implode(', ', $this->cacheTypes)
+                                            )
+                                        )
                                     ->end()
                                 ->end()
                                 ->arrayNode('classmap')
@@ -96,8 +103,12 @@ class Configuration
                                     ->info('proxy configuration')
                                     ->addDefaultsIfNotSet()
                                     ->beforeNormalization()
-                                        ->ifTrue(function ($v) { return !is_array($v); })
-                                        ->then(function ($v) { return array('host' => null === $v ? false : $v); })
+                                        ->ifTrue(function ($v) {
+                                            return !is_array($v);
+                                        })
+                                        ->then(function ($v) {
+                                            return array('host' => null === $v ? false : $v);
+                                        })
                                     ->end()
                                     ->children()
                                         ->scalarNode('host')->defaultFalse()->end()
@@ -108,7 +119,12 @@ class Configuration
                                             ->defaultNull()
                                             ->validate()
                                                 ->ifNotInArray($this->proxyAuth)
-                                                ->thenInvalid(sprintf('The proxy auth has to be either: %s', implode(', ', $this->proxyAuth)))
+                                                ->thenInvalid(
+                                                    sprintf(
+                                                        'The proxy auth has to be either: %s',
+                                                        implode(', ', $this->proxyAuth)
+                                                    )
+                                                )
                                             ->end()
                                         ->end()
                                     ->end()
@@ -136,13 +152,20 @@ class Configuration
                                 ->defaultValue('document-wrapped')
                                 ->validate()
                                     ->ifNotInArray(array('rpc-literal', 'document-wrapped'))
-                                    ->thenInvalid("Service binding style has to be either 'rpc-literal' or 'document-wrapped'")
+                                    ->thenInvalid(
+                                        "Service binding style has to be either 'rpc-literal' or 'document-wrapped'"
+                                    )
                                 ->end()
                             ->end()
                             ->scalarNode('cache_type')
                                 ->validate()
                                     ->ifNotInArray($this->cacheTypes)
-                                    ->thenInvalid(sprintf('The cache type has to be either %s', implode(', ', $this->cacheTypes)))
+                                    ->thenInvalid(
+                                        sprintf(
+                                            'The cache type has to be either %s',
+                                            implode(', ', $this->cacheTypes)
+                                        )
+                                    )
                                 ->end()
                             ->end()
                         ->end()

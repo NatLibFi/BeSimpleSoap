@@ -5,31 +5,26 @@ require '../../../../../vendor/autoload.php';
 use BeSimple\SoapCommon\Helper as BeSimpleSoapHelper;
 use BeSimple\SoapClient\SoapClient as BeSimpleSoapClient;
 
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\uploadFile;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\uploadFileResponse;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\downloadFile;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\downloadFileResponse;
-
-use BeSimple\SoapClient\Tests\ServerInterop\TestCase;
+use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\UploadFile;
+use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\DownloadFile;
 
 $options = array(
     'soap_version'    => SOAP_1_1,
     'features'        => SOAP_SINGLE_ELEMENT_ARRAYS, // make sure that result is array for size=1
     'attachment_type' => BeSimpleSoapHelper::ATTACHMENTS_TYPE_SWA,
     'cache_wsdl'      => WSDL_CACHE_NONE,
-    'trace'           => true, // enables use of the methods  SoapClient->__getLastRequest,  SoapClient->__getLastRequestHeaders,  SoapClient->__getLastResponse and  SoapClient->__getLastResponseHeaders
+    'trace'           => true, // enables use of the SoapClient->__getLast* methods
     'classmap'        => array(
-        'downloadFile'         => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\downloadFile',
-        'downloadFileResponse' => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\downloadFileResponse',
-        'uploadFile'           => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\uploadFile',
-        'uploadFileResponse'   => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\uploadFileResponse',
+        'downloadFile'         => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\DownloadFile',
+        'downloadFileResponse' => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\DownloadFileResponse',
+        'uploadFile'           => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\UploadFile',
+        'uploadFileResponse'   => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\UploadFileResponse',
     ),
 );
 
-$sc = new BeSimpleSoapClient(__DIR__.'/Fixtures/SwA.wsdl', $options);
+$sc = new BeSimpleSoapClient(__DIR__ . '/Fixtures/SwA.wsdl', $options);
 
 try {
-
     $upload = new uploadFile();
     $upload->name = 'upload.txt';
     $upload->data = 'This is a test. :)';

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -19,6 +19,9 @@ use BeSimple\SoapCommon\Converter\DateTypeConverter;
 use BeSimple\SoapCommon\Converter\TypeConverterCollection;
 use BeSimple\SoapCommon\Tests\Fixtures\SoapBuilder;
 
+/**
+ * AbstractSoapBuilder test class
+ */
 class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
 {
     private $defaultOptions = array(
@@ -72,7 +75,10 @@ class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->getSoapBuilder();
 
         $builder->withWsdlCache(Cache::TYPE_DISK_MEMORY);
-        $this->assertEquals($this->mergeOptions(array('cache_wsdl' => Cache::TYPE_DISK_MEMORY)), $builder->getSoapOptions());
+        $this->assertEquals(
+            $this->mergeOptions(array('cache_wsdl' => Cache::TYPE_DISK_MEMORY)),
+            $builder->getSoapOptions()
+        );
 
         $builder->withWsdlCacheNone();
         $this->assertEquals($this->mergeOptions(array('cache_wsdl' => Cache::TYPE_NONE)), $builder->getSoapOptions());
@@ -84,7 +90,10 @@ class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($this->mergeOptions(array('cache_wsdl' => Cache::TYPE_MEMORY)), $builder->getSoapOptions());
 
         $builder->withWsdlCacheDiskAndMemory();
-        $this->assertEquals($this->mergeOptions(array('cache_wsdl' => Cache::TYPE_DISK_MEMORY)), $builder->getSoapOptions());
+        $this->assertEquals(
+            $this->mergeOptions(array('cache_wsdl' => Cache::TYPE_DISK_MEMORY)),
+            $builder->getSoapOptions()
+        );
     }
 
     public function testWithWsdlCacheBadValue()
@@ -197,7 +206,16 @@ class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
 
         $this->assertInstanceOf('BeSimple\SoapCommon\Tests\Fixtures\SoapBuilder', $builder);
 
-        $this->assertEquals($this->mergeOptions(array('soap_version' => SOAP_1_2, 'encoding' => 'UTF-8', 'features' => SOAP_SINGLE_ELEMENT_ARRAYS)), $builder->getSoapOptions());
+        $this->assertEquals(
+            $this->mergeOptions(
+                array(
+                    'soap_version' => SOAP_1_2,
+                    'encoding' => 'UTF-8',
+                    'features' => SOAP_SINGLE_ELEMENT_ARRAYS
+                )
+            ),
+            $builder->getSoapOptions()
+        );
     }
 
     private function getSoapBuilder()

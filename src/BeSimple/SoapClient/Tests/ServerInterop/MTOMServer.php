@@ -24,12 +24,12 @@ class Mtom
     {
         $b64 = $attachment->binaryData;
 
-        file_put_contents(__DIR__.'/'.$attachment->fileName, $b64->_);
+        file_put_contents(__DIR__ . '/' . $attachment->fileName, $b64->_);
 
         return 'File saved succesfully.';
     }
 }
 
-$ss = new BeSimpleSoapServer(__DIR__.'/Fixtures/MTOM.wsdl', $options);
+$ss = new BeSimpleSoapServer(__DIR__ . '/Fixtures/MTOM.wsdl', $options);
 $ss->setClass('Mtom');
 $ss->handle();

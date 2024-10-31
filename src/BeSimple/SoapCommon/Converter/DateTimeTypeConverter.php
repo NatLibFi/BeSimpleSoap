@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -13,6 +13,8 @@
 namespace BeSimple\SoapCommon\Converter;
 
 /**
+ * DateTime type converter
+ *
  * @author Christian Kerl <christian-kerl@web.de>
  */
 class DateTimeTypeConverter implements TypeConverterInterface
@@ -44,4 +46,3 @@ class DateTimeTypeConverter implements TypeConverterInterface
         return sprintf('<%1$s>%2$s</%1$s>', $this->getTypeName(), $data->format('Y-m-d\TH:i:sP'));
     }
 }
-

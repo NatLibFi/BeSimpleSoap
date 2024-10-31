@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -24,6 +24,8 @@ use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 class SoapResponseListener
 {
     /**
+     * SOAP response
+     *
      * @var SoapResponse
      */
     protected $response;

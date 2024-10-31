@@ -1,12 +1,11 @@
 <?php
 
+namespace BeSimple\SoapClient\Tests\ServerInterop;
+
 use BeSimple\SoapCommon\Helper as BeSimpleSoapHelper;
 use BeSimple\SoapClient\SoapClient as BeSimpleSoapClient;
-
 use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AttachmentRequest;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AttachmentType;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\base64Binary;
-
+use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\Base64Binary;
 use BeSimple\SoapClient\Tests\ServerInterop\TestCase;
 
 class MtomServerInteropTest extends TestCase
@@ -17,7 +16,7 @@ class MtomServerInteropTest extends TestCase
         'attachment_type' => BeSimpleSoapHelper::ATTACHMENTS_TYPE_MTOM,
         'cache_wsdl'      => WSDL_CACHE_NONE,
         'classmap'        => array(
-            'base64Binary'      => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\base64Binary',
+            'base64Binary'      => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\Base64Binary',
             'AttachmentRequest' => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AttachmentRequest',
         ),
         'proxy_host' => false,
@@ -25,7 +24,7 @@ class MtomServerInteropTest extends TestCase
 
     public function testAttachment()
     {
-        $sc = new BeSimpleSoapClient(__DIR__.'/Fixtures/MTOM.wsdl', $this->options);
+        $sc = new BeSimpleSoapClient(__DIR__ . '/Fixtures/MTOM.wsdl', $this->options);
 
         $b64 = new base64Binary();
         $b64->_ = 'This is a test. :)';
@@ -37,7 +36,7 @@ class MtomServerInteropTest extends TestCase
 
         $this->assertEquals('File saved succesfully.', $sc->attachment($attachment));
 
-        $fileCreatedByServer = __DIR__.'/'.$attachment->fileName;
+        $fileCreatedByServer = __DIR__ . '/' . $attachment->fileName;
         $this->assertEquals($b64->_, file_get_contents($fileCreatedByServer));
         unlink($fileCreatedByServer);
     }

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -13,17 +13,23 @@
 namespace BeSimple\SoapCommon;
 
 /**
+ * Class map
+ *
  * @author Francis Besset <francis.besset@gmail.com>
  */
 class Classmap
 {
     /**
+     * Class map
+     *
      * @var array
      */
     protected $classmap = array();
 
 
     /**
+     * Get all items
+     *
      * @return array
      */
     public function all()
@@ -32,6 +38,8 @@ class Classmap
     }
 
     /**
+     * Get a single item
+     *
      * @param string $type
      *
      * @return string
@@ -48,6 +56,8 @@ class Classmap
     }
 
     /**
+     * Add an item
+     *
      * @param string $type
      * @param string $classname
      *
@@ -63,6 +73,8 @@ class Classmap
     }
 
     /**
+     * Set class map (overrides any existing one)
+     *
      * @param array $classmap
      */
     public function set(array $classmap)
@@ -75,6 +87,8 @@ class Classmap
     }
 
     /**
+     * Check if item exists
+     *
      * @param string $type
      *
      * @return boolean
@@ -84,6 +98,11 @@ class Classmap
         return isset($this->classmap[$type]);
     }
 
+    /**
+     * Append a class map
+     *
+     * @param Classmap $classmap
+     */
     public function addClassmap(Classmap $classmap)
     {
         foreach ($classmap->all() as $type => $classname) {

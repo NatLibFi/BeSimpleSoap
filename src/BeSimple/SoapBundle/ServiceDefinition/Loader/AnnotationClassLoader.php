@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoap.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -18,7 +18,6 @@ use BeSimple\SoapCommon\Definition\Type\ComplexType;
 use BeSimple\SoapCommon\Definition\Type\TypeRepository;
 use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\Config\Loader\Loader;
-use Symfony\Component\Config\Loader\LoaderResolverInterface;
 
 /**
  * AnnotationClassLoader loads ServiceDefinition from a PHP class and its methods.
@@ -127,14 +126,16 @@ class AnnotationClassLoader extends Loader
     }
 
     /**
-     * @param \ReflectionMethod $method
+     * Get controller
+     *
+     * @param \ReflectionMethod                                        $method
      * @param \BeSimple\SoapBundle\ServiceDefinition\Annotation\Method $annotation
      *
      * @return string
      */
     private function getController(\ReflectionClass $class, \ReflectionMethod $method, Annotation\Method $annotation)
     {
-        if(null !== $annotation->getService()) {
+        if (null !== $annotation->getService()) {
             return $annotation->getService() . ':' . $method->name;
         } else {
             return $class->name . '::' . $method->name;
@@ -175,6 +176,8 @@ class AnnotationClassLoader extends Loader
      */
     public function supports($resource, $type = null): bool
     {
-        return is_string($resource) && preg_match('/^(?:\\\\?[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)+$/', $resource) && (!$type || 'annotation' === $type);
+        return is_string($resource)
+            && preg_match('/^(?:\\\\?[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)+$/', $resource)
+            && (!$type || 'annotation' === $type);
     }
 }

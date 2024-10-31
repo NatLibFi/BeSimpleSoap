@@ -2,7 +2,8 @@
 
 namespace BeSimple\SoapClient\Tests\AxisInterop\Fixtures;
 
-class addBookResponse
+class UploadFile
 {
-    public $addBookReturn;
+    public $data;
+    public $name;
 }

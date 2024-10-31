@@ -2,7 +2,7 @@
 
 namespace BeSimple\SoapClient\Tests\ServerInterop\Fixtures;
 
-class getBookResponse
+class UploadFileResponse
 {
-    public $getBookReturn;
+    public $return;
 }

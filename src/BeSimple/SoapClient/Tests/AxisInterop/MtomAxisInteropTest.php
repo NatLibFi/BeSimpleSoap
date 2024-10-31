@@ -10,11 +10,9 @@
 
 use BeSimple\SoapCommon\Helper as BeSimpleSoapHelper;
 use BeSimple\SoapClient\SoapClient as BeSimpleSoapClient;
-
 use BeSimple\SoapClient\Tests\AxisInterop\Fixtures\AttachmentRequest;
 use BeSimple\SoapClient\Tests\AxisInterop\Fixtures\AttachmentType;
-use BeSimple\SoapClient\Tests\AxisInterop\Fixtures\base64Binary;
-
+use BeSimple\SoapClient\Tests\AxisInterop\Fixtures\Base64Binary;
 use BeSimple\SoapClient\Tests\AxisInterop\TestCase;
 
 class MtomAxisInteropTest extends TestCase
@@ -25,7 +23,7 @@ class MtomAxisInteropTest extends TestCase
         'attachment_type' => BeSimpleSoapHelper::ATTACHMENTS_TYPE_MTOM,
         'cache_wsdl'      => WSDL_CACHE_NONE,
         'classmap'        => array(
-            'base64Binary'      => 'BeSimple\SoapClient\Tests\AxisInterop\Fixtures\base64Binary',
+            'base64Binary'      => 'BeSimple\SoapClient\Tests\AxisInterop\Fixtures\Base64Binary',
             'AttachmentRequest' => 'BeSimple\SoapClient\Tests\AxisInterop\Fixtures\AttachmentRequest',
         ),
         'proxy_host' => false,
@@ -33,9 +31,9 @@ class MtomAxisInteropTest extends TestCase
 
     public function testAttachment()
     {
-        $sc = new BeSimpleSoapClient(__DIR__.'/Fixtures/MTOM.wsdl', $this->options);
+        $sc = new BeSimpleSoapClient(__DIR__ . '/Fixtures/MTOM.wsdl', $this->options);
 
-        $b64 = new base64Binary();
+        $b64 = new Base64Binary();
         $b64->_ = 'This is a test. :)';
         $b64->contentType = 'text/plain';
 

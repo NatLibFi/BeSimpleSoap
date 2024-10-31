@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapClient.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -110,15 +110,14 @@ class MimeFilter implements SoapRequestFilter, SoapResponseFilter
             $multipart = new MimeMultiPart();
             $soapPart = new MimePart($response->getContent(), 'text/xml', 'utf-8', MimePart::ENCODING_EIGHT_BIT);
             $soapVersion = $response->getVersion();
-            // change content type headers for MTOM with SOAP 1.1
             if ($soapVersion == SOAP_1_1 && $this->attachmentType & Helper::ATTACHMENTS_TYPE_MTOM) {
+                // change content type headers for MTOM with SOAP 1.1
                 $multipart->setHeader('Content-Type', 'type', 'application/xop+xml');
                 $multipart->setHeader('Content-Type', 'start-info', 'text/xml');
                 $soapPart->setHeader('Content-Type', 'application/xop+xml');
                 $soapPart->setHeader('Content-Type', 'type', 'text/xml');
-            }
-            // change content type headers for SOAP 1.2
-            elseif ($soapVersion == SOAP_1_2) {
+            } elseif ($soapVersion == SOAP_1_2) {
+                // change content type headers for SOAP 1.2
                 $multipart->setHeader('Content-Type', 'type', 'application/soap+xml');
                 $soapPart->setHeader('Content-Type', 'application/soap+xml');
             }

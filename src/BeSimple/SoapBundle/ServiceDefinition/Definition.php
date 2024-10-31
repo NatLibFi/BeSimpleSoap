@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoap.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -16,6 +16,8 @@ use BeSimple\SoapCommon\Definition\Definition as BaseDefinition;
 use BeSimple\SoapCommon\Definition\Type\TypeRepository;
 
 /**
+ * Definition
+ *
  * @author Christian Kerl <christian-kerl@web.de>
  * @author Francis Besset <francis.besset@gmail.com>
  */

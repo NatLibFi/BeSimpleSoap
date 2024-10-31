@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -22,5 +23,5 @@ interface ConfigurationInterface
      *
      * @return string
      */
-    function getAliasName();
+    public function getAliasName();
 }

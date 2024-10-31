@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -13,6 +13,8 @@
 namespace BeSimple\SoapBundle\ServiceDefinition\Annotation;
 
 /**
+ * Alias
+ *
  * @Annotation
  */
 class Alias extends Configuration

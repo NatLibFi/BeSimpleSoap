@@ -1,17 +1,26 @@
 <?php
 
+/**
+ * This file is part of the BeSimpleSoapClient.
+ *
+ * (c) Christian Kerl <christian-kerl@web.de>
+ * (c) Francis Besset <francis.besset@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
+namespace BeSimple\SoapClient\Tests;
+
 require '../../../../../vendor/autoload.php';
 
-use BeSimple\SoapCommon\Helper as BeSimpleSoapHelper;
 use BeSimple\SoapServer\SoapServer as BeSimpleSoapServer;
 use BeSimple\SoapServer\WsSecurityFilter as BeSimpleWsSecurityFilter;
 
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBook;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBookResponse;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBooksByType;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBooksByTypeResponse;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\addBook;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\addBookResponse;
+use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBook;
+use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBookResponse;
+use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AddBook;
+use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AddBookResponse;
 use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\BookInformation;
 
 $options = array(
@@ -19,12 +28,12 @@ $options = array(
     'features'        => SOAP_SINGLE_ELEMENT_ARRAYS, // make sure that result is array for size=1
     'cache_wsdl'      => WSDL_CACHE_NONE,
     'classmap'        => array(
-        'getBook'                => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBook',
-        'getBookResponse'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBookResponse',
-        'getBooksByType'         => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBooksByType',
-        'getBooksByTypeResponse' => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBooksByTypeResponse',
-        'addBook'                => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\addBook',
-        'addBookResponse'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\addBookResponse',
+        'getBook'                => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBook',
+        'getBookResponse'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBookResponse',
+        'getBooksByType'         => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBooksByType',
+        'getBooksByTypeResponse' => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBooksByTypeResponse',
+        'addBook'                => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AddBook',
+        'addBookResponse'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AddBookResponse',
         'BookInformation'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\BookInformation',
     ),
 );
@@ -43,7 +52,7 @@ class Auth
 
 class WsSecurityUserPassServer
 {
-    public function getBook(getBook $gb)
+    public function getBook(GetBook $gb)
     {
         $bi = new BookInformation();
         $bi->isbn = $gb->isbn;
@@ -51,7 +60,7 @@ class WsSecurityUserPassServer
         $bi->author = 'author';
         $bi->type = 'scifi';
 
-        $br = new getBookResponse();
+        $br = new GetBookResponse();
         $br->getBookReturn = $bi;
 
         return $br;
@@ -66,13 +75,13 @@ class WsSecurityUserPassServer
     }
 }
 
-$ss = new BeSimpleSoapServer(__DIR__.'/Fixtures/WsSecurityUserPass.wsdl', $options);
+$ss = new BeSimpleSoapServer(__DIR__ . '/Fixtures/WsSecurityUserPass.wsdl', $options);
 
 $wssFilter = new BeSimpleWsSecurityFilter();
-$wssFilter->setUsernamePasswordCallback(array('Auth', 'usernamePasswordCallback'));
+$wssFilter->setUsernamePasswordCallback(array(Auth::class, 'usernamePasswordCallback'));
 
 $soapKernel = $ss->getSoapKernel();
 $soapKernel->registerFilter($wssFilter);
 
-$ss->setClass('WsSecurityUserPassServer');
+$ss->setClass(WsSecurityUserPassServer::class);
 $ss->handle();

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoap.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -15,6 +15,8 @@ namespace BeSimple\SoapCommon\Definition;
 use BeSimple\SoapCommon\Definition\Type\TypeInterface;
 
 /**
+ * Message
+ *
  * @author Francis Besset <francis.besset@gmail.com>
  */
 class Message

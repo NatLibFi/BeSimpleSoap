@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -14,15 +15,19 @@ use BeSimple\SoapBundle\ServiceDefinition\Method;
 use BeSimple\SoapCommon\Definition\Type\TypeRepository;
 
 /**
+ * Message binder interface
+ *
  * @author Christian Kerl <christian-kerl@web.de>
  */
 interface MessageBinderInterface
 {
     /**
+     * Process message
+     *
      * @param Method $messageDefinition
-     * @param mixed $message
+     * @param mixed  $message
      *
      * @return mixed
      */
-    function processMessage(Method $messageDefinition, $message, TypeRepository $typeRepository);
+    public function processMessage(Method $messageDefinition, $message, TypeRepository $typeRepository);
 }

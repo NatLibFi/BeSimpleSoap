@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -11,7 +12,6 @@
 namespace BeSimple\SoapBundle\Soap;
 
 use BeSimple\SoapBundle\Util\Collection;
-
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -22,11 +22,15 @@ use Symfony\Component\HttpFoundation\Response;
 class SoapResponse extends Response
 {
     /**
+     * SOAP headers
+     *
      * @var \BeSimple\SoapBundle\Util\Collection
      */
     protected $soapHeaders;
 
     /**
+     * SOAP return value
+     *
      * @var mixed
      */
     protected $soapReturnValue;
@@ -40,6 +44,8 @@ class SoapResponse extends Response
     }
 
     /**
+     * Add a SOAP header
+     *
      * @param SoapHeader $soapHeader
      */
     public function addSoapHeader(SoapHeader $soapHeader)
@@ -48,6 +54,8 @@ class SoapResponse extends Response
     }
 
     /**
+     * Get SOAP headers
+     *
      * @return \BeSimple\SoapBundle\Util\Collection
      */
     public function getSoapHeaders()

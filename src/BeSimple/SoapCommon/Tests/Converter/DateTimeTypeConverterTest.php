@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -51,4 +51,3 @@ class DateTimeTypeConverterTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($date);
     }
 }
-

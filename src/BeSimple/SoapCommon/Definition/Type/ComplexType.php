@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoap.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -15,6 +15,8 @@ namespace BeSimple\SoapCommon\Definition\Type;
 use BeSimple\SoapCommon\Definition\Message;
 
 /**
+ * ComplexType
+ *
  * @author Francis Besset <francis.besset@gmail.com>
  */
 class ComplexType extends Message implements TypeInterface

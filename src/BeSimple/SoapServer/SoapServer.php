@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapServer.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -114,19 +114,19 @@ class SoapServer extends \SoapServer
          * Previously, the SoapFault was'nt catch but directly written in the buffer.
          * We need to catch it to be able to manage and return the error properly
          */
-        if(strstr($response, "SOAP_ERROR_COMPLEX_TYPE")){
+        if (strstr($response, "SOAP_ERROR_COMPLEX_TYPE")) {
             $doc = new \DOMDocument();
             $doc->loadXML($response);
 
             $getNodeContent = function ($tagName) use ($doc) {
                 $node = $doc->getElementsByTagName($tagName);
-                if(!empty($node) && $node->length > 0){
+                if (!empty($node) && $node->length > 0) {
                     return $node->item(0)->textContent;
                 }
                 return null;
             };
 
-            if(!empty($doc->getElementsByTagName("SOAP-ENV:Fault")) ){
+            if (!empty($doc->getElementsByTagName("SOAP-ENV:Fault"))) {
                 $faultCode = $getNodeContent("faultcode");
                 $faultString =  $getNodeContent("faultstring");
                 $faultActor = $getNodeContent("faultactor");
@@ -195,10 +195,10 @@ class SoapServer extends \SoapServer
             $options['typemap'][] = array(
                 'type_name' => $converter->getTypeName(),
                 'type_ns'   => $converter->getTypeNamespace(),
-                'from_xml'  => function($input) use ($converter) {
+                'from_xml'  => function ($input) use ($converter) {
                     return $converter->convertXmlToPhp($input);
                 },
-                'to_xml'    => function($input) use ($converter) {
+                'to_xml'    => function ($input) use ($converter) {
                     return $converter->convertPhpToXml($input);
                 },
             );

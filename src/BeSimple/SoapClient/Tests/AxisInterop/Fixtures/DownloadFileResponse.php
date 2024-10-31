@@ -2,7 +2,7 @@
 
 namespace BeSimple\SoapClient\Tests\AxisInterop\Fixtures;
 
-class getBook
+class DownloadFileResponse
 {
-    public $isbn;
+    public $data;
 }

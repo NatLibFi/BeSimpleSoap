@@ -2,8 +2,8 @@
 
 namespace BeSimple\SoapClient\Tests\AxisInterop\Fixtures;
 
-class uploadFile
+class Base64Binary
 {
-    public $data;
-    public $name;
+    public $_;
+    public $contentType;
 }

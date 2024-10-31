@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -19,6 +19,8 @@ use BeSimple\SoapCommon\Definition\Type\TypeRepository;
 use BeSimple\SoapCommon\Util\MessageBinder;
 
 /**
+ * RPC literal response header message binder
+ *
  * @author Christian Kerl <christian-kerl@web.de>
  * @author Francis Besset <francis.besset@gmail.com>
  */
@@ -53,7 +55,10 @@ class RpcLiteralResponseMessageBinder implements MessageBinderInterface
                 $array = array();
 
                 // See https://github.com/BeSimple/BeSimpleSoapBundle/issues/29
-                if (is_array($message) && in_array('BeSimple\SoapCommon\Type\AbstractKeyValue', class_parents($phpType))) {
+                if (
+                    is_array($message)
+                    && in_array('BeSimple\SoapCommon\Type\AbstractKeyValue', class_parents($phpType))
+                ) {
                     $keyValue = array();
                     foreach ($message as $key => $value) {
                         $keyValue[] = new $phpType($key, $value);
@@ -85,7 +90,9 @@ class RpcLiteralResponseMessageBinder implements MessageBinderInterface
         $this->messageRefs[$hash] = $message;
 
         if (!$message instanceof $phpType) {
-            throw new \InvalidArgumentException(sprintf('The instance class must be "%s", "%s" given.', $phpType, get_class($message)));
+            throw new \InvalidArgumentException(
+                sprintf('The instance class must be "%s", "%s" given.', $phpType, get_class($message))
+            );
         }
 
         $messageBinder = new MessageBinder($message);

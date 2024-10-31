@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -14,7 +14,6 @@
 namespace BeSimple\SoapBundle\DependencyInjection;
 
 use BeSimple\SoapCommon\Cache;
-
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ChildDefinition;
@@ -40,7 +39,7 @@ class BeSimpleSoapExtension extends Extension
 
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $loader->load('request.xml');
 
@@ -59,9 +58,12 @@ class BeSimpleSoapExtension extends Extension
             $this->registerClientConfiguration($config['clients'], $container, $loader);
         }
 
-        $container->setParameter('besimple.soap.definition.dumper.options.stylesheet', $config['wsdl_dumper']['stylesheet']);
+        $container->setParameter(
+            'besimple.soap.definition.dumper.options.stylesheet',
+            $config['wsdl_dumper']['stylesheet']
+        );
 
-        foreach($config['services'] as $name => $serviceConfig) {
+        foreach ($config['services'] as $name => $serviceConfig) {
             $serviceConfig['name'] = $name;
             $this->createWebServiceContext($serviceConfig, $container);
         }
@@ -76,7 +78,7 @@ class BeSimpleSoapExtension extends Extension
         $config['type'] = $this->getCacheType($config['type']);
 
         foreach (['type', 'lifetime', 'limit'] as $key) {
-            $container->setParameter('besimple.soap.cache.'.$key, $config[$key]);
+            $container->setParameter('besimple.soap.cache.' . $key, $config[$key]);
         }
     }
 
@@ -160,8 +162,8 @@ class BeSimpleSoapExtension extends Extension
         $bindingSuffix = $this->bindingConfigToServiceSuffixMap[$config['binding']];
         unset($config['binding']);
 
-        $contextId  = 'besimple.soap.context.'.$config['name'];
-        $definition = new ChildDefinition('besimple.soap.context.'.$bindingSuffix);
+        $contextId  = 'besimple.soap.context.' . $config['name'];
+        $definition = new ChildDefinition('besimple.soap.context.' . $bindingSuffix);
         $container->setDefinition($contextId, $definition);
 
         if (isset($config['cache_type'])) {
@@ -169,7 +171,7 @@ class BeSimpleSoapExtension extends Extension
         }
 
         $options = $container
-            ->getDefinition('besimple.soap.context.'.$bindingSuffix)
+            ->getDefinition('besimple.soap.context.' . $bindingSuffix)
             ->getArgument(2);
 
         $definition->replaceArgument(2, array_merge($options, $config));
