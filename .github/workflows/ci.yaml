@@ -36,6 +36,12 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
+      - name: Cache downloads
+        uses: actions/cache@v4
+        with:
+          path: src/BeSimple/SoapClient/Tests/bin/*.zip
+          key: ${{ runner.os }}-tests-zip
+
       - name: Configure Symfony version
         run: composer require symfony/framework-bundle:${{ matrix.symfony-version }} --no-update
 
