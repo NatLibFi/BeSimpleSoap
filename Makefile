@@ -44,7 +44,7 @@ qa: ## Quality Assurance
 
 fix: ## Apply automatic fixes
 	-bin/phpcs --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml
-    bin/phpcbf --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml
+	bin/phpcbf --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml
 
 
 .PHONY: up start stop enter
