@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoap.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -13,6 +13,8 @@
 namespace BeSimple\SoapCommon\Definition;
 
 /**
+ * Part
+ *
  * @author Francis Besset <francis.besset@gmail.com>
  */
 class Part
@@ -50,6 +52,6 @@ class Part
 
     public function setNillable($nillable)
     {
-        $this->nillable = (boolean) $nillable;
+        $this->nillable = (bool) $nillable;
     }
 }

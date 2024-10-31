@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapClient.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -16,16 +16,31 @@ use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 /**
+ * Abstract base class for web server tests
+ *
  * @author francis.besset@gmail.com <francis.besset@gmail.com>
  */
 abstract class AbstractWebServerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var ProcessBuilder
+     * Web server
+     *
+     * @var Process
      */
-    static protected $webserver;
-    static protected $webserverPortLength;
+    protected static $webserver;
 
+    /**
+     * Web server port length in characters
+     *
+     * @var int
+     */
+    protected static $webserverPortLength;
+
+    /**
+     * Setup method
+     *
+     * @return void
+     */
     public static function setUpBeforeClass(): void
     {
         $phpFinder = new PhpExecutableFinder();
@@ -34,7 +49,7 @@ abstract class AbstractWebServerTest extends \PHPUnit\Framework\TestCase
             '-S',
             sprintf('localhost:%d', WEBSERVER_PORT),
             '-t',
-            __DIR__.DIRECTORY_SEPARATOR.'Fixtures',
+            __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures',
         ));
 
         self::$webserver->start();

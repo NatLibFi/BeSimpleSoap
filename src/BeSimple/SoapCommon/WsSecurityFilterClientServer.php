@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -30,22 +30,22 @@ abstract class WsSecurityFilterClientServer
     /**
      * The date format to be used with {@link \DateTime}
      */
-    const DATETIME_FORMAT = 'Y-m-d\TH:i:s.000\Z';
+    public const DATETIME_FORMAT = 'Y-m-d\TH:i:s.000\Z';
 
     /**
      * (X509 3.2.1) Reference to a Subject Key Identifier
      */
-    const TOKEN_REFERENCE_SUBJECT_KEY_IDENTIFIER = 0;
+    public const TOKEN_REFERENCE_SUBJECT_KEY_IDENTIFIER = 0;
 
     /**
      * (X509 3.2.1) Reference to a Security Token
      */
-    const TOKEN_REFERENCE_SECURITY_TOKEN = 1;
+    public const TOKEN_REFERENCE_SECURITY_TOKEN = 1;
 
     /**
      * (SMS_1.1 7.3) Key Identifiers
      */
-    const TOKEN_REFERENCE_THUMBPRINT_SHA1 = 2;
+    public const TOKEN_REFERENCE_THUMBPRINT_SHA1 = 2;
 
     /**
      * Actor.
@@ -167,7 +167,8 @@ abstract class WsSecurityFilterClientServer
     /**
      * Set security options.
      *
-     * @param int     $tokenReference   self::TOKEN_REFERENCE_SUBJECT_KEY_IDENTIFIER | self::TOKEN_REFERENCE_SECURITY_TOKEN | self::TOKEN_REFERENCE_THUMBPRINT_SHA1
+     * @param int     $tokenReference   self::TOKEN_REFERENCE_SUBJECT_KEY_IDENTIFIER
+     * | self::TOKEN_REFERENCE_SECURITY_TOKEN | self::TOKEN_REFERENCE_THUMBPRINT_SHA1
      * @param boolean $encryptSignature Encrypt signature
      *
      * @return void
@@ -181,7 +182,8 @@ abstract class WsSecurityFilterClientServer
     /**
      * Set security options.
      *
-     * @param int     $tokenReference self::TOKEN_REFERENCE_SUBJECT_KEY_IDENTIFIER | self::TOKEN_REFERENCE_SECURITY_TOKEN | self::TOKEN_REFERENCE_THUMBPRINT_SHA1
+     * @param int     $tokenReference self::TOKEN_REFERENCE_SUBJECT_KEY_IDENTIFIER
+     * | self::TOKEN_REFERENCE_SECURITY_TOKEN | self::TOKEN_REFERENCE_THUMBPRINT_SHA1
      * @param boolean $signAllHeaders Sign all headers?
      *
      * @return void
@@ -202,8 +204,12 @@ abstract class WsSecurityFilterClientServer
      *
      * @return \DOMElement
      */
-    protected function createKeyInfo(FilterHelper $filterHelper, $tokenReference, $guid, XmlSecurityKey $xmlSecurityKey = null)
-    {
+    protected function createKeyInfo(
+        FilterHelper $filterHelper,
+        $tokenReference,
+        $guid,
+        XmlSecurityKey $xmlSecurityKey = null
+    ) {
         $keyInfo = $filterHelper->createElement(XmlSecurityDSig::NS_XMLDSIG, 'KeyInfo');
         $securityTokenReference = $filterHelper->createElement(Helper::NS_WSS, 'SecurityTokenReference');
         $keyInfo->appendChild($securityTokenReference);
@@ -219,7 +225,12 @@ abstract class WsSecurityFilterClientServer
         } elseif (self::TOKEN_REFERENCE_SUBJECT_KEY_IDENTIFIER === $tokenReference && null !== $xmlSecurityKey) {
             $keyIdentifier = $filterHelper->createElement(Helper::NS_WSS, 'KeyIdentifier');
             $filterHelper->setAttribute($keyIdentifier, null, 'EncodingType', Helper::NAME_WSS_SMS . '#Base64Binary');
-            $filterHelper->setAttribute($keyIdentifier, null, 'ValueType', Helper::NAME_WSS_X509 . '#509SubjectKeyIdentifier');
+            $filterHelper->setAttribute(
+                $keyIdentifier,
+                null,
+                'ValueType',
+                Helper::NAME_WSS_X509 . '#509SubjectKeyIdentifier'
+            );
             $securityTokenReference->appendChild($keyIdentifier);
             $certificate = $xmlSecurityKey->getX509SubjectKeyIdentifier();
             $dataNode = new \DOMText($certificate);
@@ -228,7 +239,12 @@ abstract class WsSecurityFilterClientServer
         } elseif (self::TOKEN_REFERENCE_THUMBPRINT_SHA1 === $tokenReference && null !== $xmlSecurityKey) {
             $keyIdentifier = $filterHelper->createElement(Helper::NS_WSS, 'KeyIdentifier');
             $filterHelper->setAttribute($keyIdentifier, null, 'EncodingType', Helper::NAME_WSS_SMS . '#Base64Binary');
-            $filterHelper->setAttribute($keyIdentifier, null, 'ValueType', Helper::NAME_WSS_SMS_1_1 . '#ThumbprintSHA1');
+            $filterHelper->setAttribute(
+                $keyIdentifier,
+                null,
+                'ValueType',
+                Helper::NAME_WSS_SMS_1_1 . '#ThumbprintSHA1'
+            );
             $securityTokenReference->appendChild($keyIdentifier);
             $thumbprintSha1 = base64_encode(sha1(base64_decode($xmlSecurityKey->getX509Certificate(true)), true));
             $dataNode = new \DOMText($thumbprintSha1);
@@ -241,7 +257,7 @@ abstract class WsSecurityFilterClientServer
     /**
      * Create a list of \DOMNodes that should be encrypted.
      *
-     * @param \DOMDocument $dom      DOMDocument to query
+     * @param \DOMDocument $dom DOMDocument to query
      *
      * @return \DOMNodeList
      */
@@ -281,8 +297,10 @@ abstract class WsSecurityFilterClientServer
         }
         if ($this->signAllHeaders) {
             foreach ($security->parentNode->childNodes as $node) {
-                if (XML_ELEMENT_NODE === $node->nodeType &&
-                    Helper::NS_WSS !== $node->namespaceURI) {
+                if (
+                    XML_ELEMENT_NODE === $node->nodeType &&
+                    Helper::NS_WSS !== $node->namespaceURI
+                ) {
                     $nodes[] = $node;
                 }
             }
@@ -303,7 +321,7 @@ abstract class WsSecurityFilterClientServer
     {
         $url = parse_url($uri);
         $referenceId = $url['fragment'];
-        $query = '//*[@'.Helper::PFX_WSU.':Id="'.$referenceId.'" or @Id="'.$referenceId.'"]';
+        $query = '//*[@' . Helper::PFX_WSU . ':Id="' . $referenceId . '" or @Id="' . $referenceId . '"]';
         $xpath = new \DOMXPath($node->ownerDocument);
         $xpath->registerNamespace(Helper::PFX_WSU, Helper::NS_WSU);
 
@@ -325,23 +343,33 @@ abstract class WsSecurityFilterClientServer
             if (Helper::NS_WSS === $key->namespaceURI) {
                 switch ($key->localName) {
                     case 'KeyIdentifier':
-
                         return $this->serviceSecurityKey->getPublicKey();
                     case 'Reference':
                         $uri = $key->getAttribute('URI');
                         $referencedNode = $this->getReferenceNodeForUri($node, $uri);
 
-                        if (XmlSecurityEnc::NS_XMLENC === $referencedNode->namespaceURI
-                                && 'EncryptedKey' == $referencedNode->localName) {
-                            $key = XmlSecurityEnc::decryptEncryptedKey($referencedNode, $this->userSecurityKey->getPrivateKey());
+                        if (
+                            XmlSecurityEnc::NS_XMLENC === $referencedNode->namespaceURI
+                                && 'EncryptedKey' == $referencedNode->localName
+                        ) {
+                            $key = XmlSecurityEnc::decryptEncryptedKey(
+                                $referencedNode,
+                                $this->userSecurityKey->getPrivateKey()
+                            );
 
                             return XmlSecurityKey::factory($algorithm, $key, false, XmlSecurityKey::TYPE_PRIVATE);
-                        } elseif (Helper::NS_WSS === $referencedNode->namespaceURI
-                                && 'BinarySecurityToken' == $referencedNode->localName) {
-
+                        } elseif (
+                            Helper::NS_WSS === $referencedNode->namespaceURI
+                                && 'BinarySecurityToken' == $referencedNode->localName
+                        ) {
                             $key = XmlSecurityPem::formatKeyInPemFormat($referencedNode->textContent);
 
-                            return XmlSecurityKey::factory(XmlSecurityKey::RSA_SHA1, $key, false, XmlSecurityKey::TYPE_PUBLIC);
+                            return XmlSecurityKey::factory(
+                                XmlSecurityKey::RSA_SHA1,
+                                $key,
+                                false,
+                                XmlSecurityKey::TYPE_PUBLIC
+                            );
                         }
                 }
             }

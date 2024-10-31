@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoap.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -15,6 +15,8 @@ namespace BeSimple\SoapWsdl\Dumper;
 use BeSimple\SoapCommon\Definition\Method;
 
 /**
+ * Abstract version
+ *
  * @author Francis Besset <francis.besset@gmail.com>
  */
 abstract class AbstractVersion implements VersionInterface
@@ -41,8 +43,16 @@ abstract class AbstractVersion implements VersionInterface
 
     protected $servicePortNode;
 
-    public function __construct($soapNs, $typeNs, $name, $namespace, $portTypeName, $location, $style = \SOAP_RPC, $transport = 'http://schemas.xmlsoap.org/soap/http')
-    {
+    public function __construct(
+        $soapNs,
+        $typeNs,
+        $name,
+        $namespace,
+        $portTypeName,
+        $location,
+        $style = \SOAP_RPC,
+        $transport = 'http://schemas.xmlsoap.org/soap/http'
+    ) {
         $this->soapNs = $soapNs;
         $this->typeNs = $typeNs;
 
@@ -61,7 +71,7 @@ abstract class AbstractVersion implements VersionInterface
     {
         if (!$this->bindingNode) {
             $this->bindingNode = $this->document->createElement('binding');
-            $this->bindingNode->setAttribute('name', $this->name.'Binding');
+            $this->bindingNode->setAttribute('name', $this->name . 'Binding');
             $this->bindingNode->setAttribute('type', $this->portTypeName);
 
             $this->addSoapBinding();
@@ -74,8 +84,8 @@ abstract class AbstractVersion implements VersionInterface
     {
         if (!$this->servicePortNode) {
             $this->servicePortNode = $this->document->createElement('port');
-            $this->servicePortNode->setAttribute('name', $this->name.'Port');
-            $this->servicePortNode->setAttribute('binding', $this->typeNs.':'.$this->name.'Binding');
+            $this->servicePortNode->setAttribute('name', $this->name . 'Port');
+            $this->servicePortNode->setAttribute('binding', $this->typeNs . ':' . $this->name . 'Binding');
 
             $this->addSoapAddress();
         }
@@ -88,8 +98,8 @@ abstract class AbstractVersion implements VersionInterface
         $operation = $this->document->createElement('operation');
         $operation->setAttribute('name', $method->getName());
 
-        $soapOperation = $this->document->createElement($this->soapNs.':operation');
-        $soapOperation->setAttribute('soapAction', $this->namespace.$method->getName());
+        $soapOperation = $this->document->createElement($this->soapNs . ':operation');
+        $soapOperation->setAttribute('soapAction', $this->namespace . $method->getName());
         $operation->appendChild($soapOperation);
 
         $this->getBindingNode()->appendChild($operation);
@@ -99,7 +109,7 @@ abstract class AbstractVersion implements VersionInterface
         $input = $this->document->createElement('input');
         $operation->appendChild($input);
 
-        $soapBody = $this->document->createElement($this->soapNs.':body');
+        $soapBody = $this->document->createElement($this->soapNs . ':body');
         $soapBody->setAttribute('use', $use);
         $soapBody->setAttribute('namespace', $this->namespace);
         $soapBody->setAttribute('encodingStyle', $this->getEncodingStyle());
@@ -108,9 +118,9 @@ abstract class AbstractVersion implements VersionInterface
         $headers = $method->getHeaders();
         if (!$headers->isEmpty()) {
             foreach ($headers->all() as $part) {
-                $soapHeader = $this->document->createElement($this->soapNs.':header');
+                $soapHeader = $this->document->createElement($this->soapNs . ':header');
                 $soapHeader->setAttribute('part', $part->getName());
-                $soapHeader->setAttribute('message', $this->typeNs.':'.$headers->getName());
+                $soapHeader->setAttribute('message', $this->typeNs . ':' . $headers->getName());
                 $soapHeader->setAttribute('use', $use);
                 $soapHeader->setAttribute('namespace', $this->namespace);
                 $soapHeader->setAttribute('encodingStyle', $this->getEncodingStyle());
@@ -119,7 +129,7 @@ abstract class AbstractVersion implements VersionInterface
         }
 
         $output = $this->document->createElement('output');
-        $soapBody = $this->document->createElement($this->soapNs.':body');
+        $soapBody = $this->document->createElement($this->soapNs . ':body');
         $soapBody->setAttribute('use', $use);
         $soapBody->setAttribute('namespace', $this->namespace);
         $soapBody->setAttribute('encodingStyle', $this->getEncodingStyle());
@@ -129,7 +139,7 @@ abstract class AbstractVersion implements VersionInterface
 
     protected function addSoapBinding()
     {
-        $soapBinding = $this->document->createElement($this->soapNs.':binding');
+        $soapBinding = $this->document->createElement($this->soapNs . ':binding');
         $soapBinding->setAttribute('transport', $this->transport);
         $soapBinding->setAttribute('style', \SOAP_RPC === $this->style ? 'rpc' : 'document');
 
@@ -140,7 +150,7 @@ abstract class AbstractVersion implements VersionInterface
 
     protected function addSoapAddress()
     {
-        $soapAddress = $this->document->createElement($this->soapNs.':address');
+        $soapAddress = $this->document->createElement($this->soapNs . ':address');
         $soapAddress->setAttribute('location', $this->location);
 
         $this->servicePortNode->appendChild($soapAddress);

@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -16,6 +17,8 @@ use BeSimple\SoapBundle\Util\StringType;
 use BeSimple\SoapCommon\Converter\TypeConverterInterface;
 
 /**
+ * Xop include type converter
+ *
  * @author Christian Kerl <christian-kerl@web.de>
  */
 class XopIncludeTypeConverter implements TypeConverterInterface

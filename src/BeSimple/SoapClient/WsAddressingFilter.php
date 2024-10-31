@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapClient.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -47,7 +47,7 @@ class WsAddressingFilter implements SoapRequestFilter, SoapResponseFilter
      *
      * @see http://www.w3.org/TR/2006/REC-ws-addr-core-20060509/#predefaddr
      */
-    const ENDPOINT_REFERENCE_ANONYMOUS = 'http://www.w3.org/2005/08/addressing/anonymous';
+    public const ENDPOINT_REFERENCE_ANONYMOUS = 'http://www.w3.org/2005/08/addressing/anonymous';
 
     /**
      * (2.1) Endpoint reference (EPR) address for discarting messages.
@@ -59,7 +59,7 @@ class WsAddressingFilter implements SoapRequestFilter, SoapResponseFilter
      *
      * @see http://www.w3.org/TR/2006/REC-ws-addr-core-20060509/#predefaddr
      */
-    const ENDPOINT_REFERENCE_NONE = 'http://www.w3.org/2005/08/addressing/none';
+    public const ENDPOINT_REFERENCE_NONE = 'http://www.w3.org/2005/08/addressing/none';
 
     /**
      * (3.1) Predefined value for reply.
@@ -68,7 +68,7 @@ class WsAddressingFilter implements SoapRequestFilter, SoapResponseFilter
      *
      * see http://www.w3.org/TR/2006/REC-ws-addr-core-20060509/#predefrels
      */
-    const RELATIONSHIP_TYPE_REPLY = 'http://www.w3.org/2005/08/addressing/reply';
+    public const RELATIONSHIP_TYPE_REPLY = 'http://www.w3.org/2005/08/addressing/reply';
 
     /**
      * FaultTo.
@@ -103,7 +103,7 @@ class WsAddressingFilter implements SoapRequestFilter, SoapResponseFilter
      *
      * @var unknown_type
      */
-    protected $referenceParametersRecieved = array();
+    protected $referenceParametersReceived = array();
 
     /**
      * RelatesTo.
@@ -156,9 +156,8 @@ class WsAddressingFilter implements SoapRequestFilter, SoapResponseFilter
      */
     public function getReferenceParameter($ns, $parameter)
     {
-        if (isset($this->referenceParametersRecieved[$ns][$parameter])) {
-
-            return $this->referenceParametersRecieved[$ns][$parameter];
+        if (isset($this->referenceParametersReceived[$ns][$parameter])) {
+            return $this->referenceParametersReceived[$ns][$parameter];
         }
 
         return null;
@@ -172,7 +171,7 @@ class WsAddressingFilter implements SoapRequestFilter, SoapResponseFilter
         $this->faultTo                     = null;
         $this->from                        = null;
         $this->messageId                   = null;
-        $this->referenceParametersRecieved = array();
+        $this->referenceParametersReceived = array();
         $this->referenceParametersSet      = array();
         $this->relatesTo                   = null;
         $this->relatesToRelationshipType   = null;
@@ -300,7 +299,12 @@ class WsAddressingFilter implements SoapRequestFilter, SoapResponseFilter
         if (null !== $this->relatesTo) {
             $relatesTo = $filterHelper->createElement(Helper::NS_WSA, 'RelatesTo', $this->relatesTo);
             if (null !== $this->relatesToRelationshipType) {
-                $filterHelper->setAttribute($relatesTo, Helper::NS_WSA, 'RelationshipType', $this->relatesToRelationshipType);
+                $filterHelper->setAttribute(
+                    $relatesTo,
+                    Helper::NS_WSA,
+                    'RelationshipType',
+                    $this->relatesToRelationshipType
+                );
             }
             $filterHelper->addHeaderElement($relatesTo);
         }
@@ -333,14 +337,15 @@ class WsAddressingFilter implements SoapRequestFilter, SoapResponseFilter
         // get \DOMDocument from SOAP response
         $dom = $response->getContentDocument();
 
-        $this->referenceParametersRecieved = array();
+        $this->referenceParametersReceived = array();
         $referenceParameters = $dom->getElementsByTagNameNS(Helper::NS_WSA, 'ReferenceParameters')->item(0);
         if (null !== $referenceParameters) {
             foreach ($referenceParameters->childNodes as $childNode) {
-                if (!isset($this->referenceParametersRecieved[$childNode->namespaceURI])) {
-                    $this->referenceParametersRecieved[$childNode->namespaceURI] = array();
+                if (!isset($this->referenceParametersReceived[$childNode->namespaceURI])) {
+                    $this->referenceParametersReceived[$childNode->namespaceURI] = array();
                 }
-                $this->referenceParametersRecieved[$childNode->namespaceURI][$childNode->localName] = $childNode->nodeValue;
+                $this->referenceParametersReceived[$childNode->namespaceURI][$childNode->localName]
+                    = $childNode->nodeValue;
             }
         }
     }

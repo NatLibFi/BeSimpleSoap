@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -25,12 +25,12 @@ class WsdlHandler
     /**
      * Binding type 'input' .
      */
-    const BINDING_OPERATION_INPUT  = 'input';
+    public const BINDING_OPERATION_INPUT  = 'input';
 
     /**
      * Binding type 'output' .
      */
-    const BINDING_OPERATION_OUTPUT = 'output';
+    public const BINDING_OPERATION_OUTPUT = 'output';
 
     /**
      * WSDL file name.
@@ -92,7 +92,7 @@ class WsdlHandler
      */
     private function getMimeTypesForSoapAction($soapAction)
     {
-        $query = '/wsdl:definitions/wsdl:binding/wsdl:operation/soap:operation[@soapAction="'.$soapAction.'"]/..';
+        $query = '/wsdl:definitions/wsdl:binding/wsdl:operation/soap:operation[@soapAction="' . $soapAction . '"]/..';
         $nodes = $this->domXpath->query($query);
         $mimeTypes = array();
         if (null !== $wsdlOperation = $nodes->item(0)) {

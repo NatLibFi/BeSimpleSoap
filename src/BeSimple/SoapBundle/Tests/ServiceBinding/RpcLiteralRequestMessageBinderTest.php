@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -22,6 +22,8 @@ use BeSimple\SoapCommon\Definition\Type\TypeRepository;
 class RpcLiteralRequestMessageBinderTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * Test processing of messages
+     *
      * @dataProvider messageProvider
      */
     public function testProcessMessage(Definition\Method $method, array $message, array $assert)
@@ -249,17 +251,20 @@ class RpcLiteralRequestMessageBinderTest extends \PHPUnit\Framework\TestCase
         $fooBar->add('bar', 'BeSimple\SoapBundle\Tests\fixtures\ServiceBinding\Bar');
         $typeRepository->addComplexType($fooBar);
 
-        $simpleArrays = new ComplexType('BeSimple\SoapBundle\Tests\fixtures\ServiceBinding\SimpleArrays', 'SimpleArrays');
+        $simpleArrays
+            = new ComplexType('BeSimple\SoapBundle\Tests\fixtures\ServiceBinding\SimpleArrays', 'SimpleArrays');
         $simpleArrays->add('array1', 'string[]', true);
         $simpleArrays->add('array2', 'string[]');
         $simpleArrays->add('array3', 'string[]');
         $typeRepository->addComplexType($simpleArrays);
 
-        $fooRecursive = new ComplexType('BeSimple\SoapBundle\Tests\fixtures\ServiceBinding\FooRecursive', 'FooRecursive');
+        $fooRecursive
+            = new ComplexType('BeSimple\SoapBundle\Tests\fixtures\ServiceBinding\FooRecursive', 'FooRecursive');
         $fooRecursive->add('bar', 'BeSimple\SoapBundle\Tests\fixtures\ServiceBinding\BarRecursive');
         $typeRepository->addComplexType($fooRecursive);
 
-        $barRecursive = new ComplexType('BeSimple\SoapBundle\Tests\fixtures\ServiceBinding\BarRecursive', 'BarRecursive');
+        $barRecursive
+            = new ComplexType('BeSimple\SoapBundle\Tests\fixtures\ServiceBinding\BarRecursive', 'BarRecursive');
         $barRecursive->add('foo', 'BeSimple\SoapBundle\Tests\fixtures\ServiceBinding\FooRecursive');
         $typeRepository->addComplexType($barRecursive);
 

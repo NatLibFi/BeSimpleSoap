@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -15,6 +15,8 @@ namespace BeSimple\SoapBundle;
 use BeSimple\SoapCommon\Cache as BaseCache;
 
 /**
+ * Cache
+ *
  * @author Francis Besset <francis.besset@gmail.com>
  */
 class Cache

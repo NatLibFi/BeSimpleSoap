@@ -2,7 +2,7 @@
 
 namespace BeSimple\SoapClient\Tests\ServerInterop\Fixtures;
 
-class downloadFileResponse
+class DownloadFile
 {
-    public $data;
+    public $name;
 }

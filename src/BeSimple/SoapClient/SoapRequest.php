@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapClient.
  *
  * (c) Christian Kerl <christian-kerl@web.de>

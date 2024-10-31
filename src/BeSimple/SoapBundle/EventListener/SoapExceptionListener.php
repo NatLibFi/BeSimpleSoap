@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -20,12 +20,16 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
+ * SOAP error listener
+ *
  * @author Francis Besset <francis.besset@gmail.com>
  * @author Ere Maijala <ere.maijala@helsinki.fi>
  */
 class SoapExceptionListener extends ErrorListener
 {
     /**
+     * Container
+     *
      * @var ContainerInterface
      */
     protected $container;
@@ -55,7 +59,10 @@ class SoapExceptionListener extends ErrorListener
         $request = $event->getRequest();
         if (!in_array($request->getRequestFormat(), array('soap', 'xml'))) {
             return;
-        } elseif ('xml' === $request->getRequestFormat() && '_webservice_call' !== $request->attributes->get('_route')) {
+        } elseif (
+            'xml' === $request->getRequestFormat()
+            && '_webservice_call' !== $request->attributes->get('_route')
+        ) {
             return;
         }
 

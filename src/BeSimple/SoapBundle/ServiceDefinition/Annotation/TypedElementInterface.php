@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -12,8 +13,8 @@ namespace BeSimple\SoapBundle\ServiceDefinition\Annotation;
 
 interface TypedElementInterface
 {
-    function getPhpType();
-    function getXmlType();
-    function setPhpType($phpType);
-    function setXmlType($xmlType);
+    public function getPhpType();
+    public function getXmlType();
+    public function setPhpType($phpType);
+    public function setXmlType($xmlType);
 }

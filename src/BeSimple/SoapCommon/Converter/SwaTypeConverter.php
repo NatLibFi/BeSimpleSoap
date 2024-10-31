@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapClient.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -25,8 +25,10 @@ use BeSimple\SoapCommon\Converter\TypeConverterInterface;
 class SwaTypeConverter implements TypeConverterInterface, SoapKernelAwareInterface
 {
     /**
-    * @var \BeSimple\SoapCommon\SoapKernel $soapKernel SoapKernel instance
-    */
+     * Soap kernel
+     *
+     * @var \BeSimple\SoapCommon\SoapKernel $soapKernel SoapKernel instance
+     */
     protected $soapKernel = null;
 
     /**
@@ -61,10 +63,8 @@ class SwaTypeConverter implements TypeConverterInterface, SoapKernelAwareInterfa
             $contentId = urldecode(substr($ref, 4));
 
             if (null !== ($part = $this->soapKernel->getAttachment($contentId))) {
-
                 return $part->getContent();
             } else {
-
                 return null;
             }
         }

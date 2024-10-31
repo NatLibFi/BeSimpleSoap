@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoap.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -15,6 +15,8 @@ namespace BeSimple\SoapWsdl\Dumper;
 use BeSimple\SoapCommon\Definition\Method;
 
 /**
+ * Version interface
+ *
  * @author Francis Besset <francis.besset@gmail.com>
  */
 interface VersionInterface

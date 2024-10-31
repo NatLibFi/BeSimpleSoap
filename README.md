@@ -63,9 +63,11 @@ php /usr/local/bin/composer.phar install
 
 # Information for Developers
 
-Makefile contains different commands for running tests in a Docker container. Example:
+Makefile contains different commands for running tests e.g. in a Docker container. Examples:
 
 `make start`
+
+`make qa`
 
 ## Running tests locally
 

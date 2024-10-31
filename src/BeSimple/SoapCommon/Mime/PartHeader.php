@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -46,7 +46,11 @@ abstract class PartHeader
             } else {
                 $this->headers[$name][$value] = $subValue;
             }
-        } elseif (isset($this->headers[$name]) && is_array($this->headers[$name]) && isset($this->headers[$name]['@'])) {
+        } elseif (
+            isset($this->headers[$name])
+            && is_array($this->headers[$name])
+            && isset($this->headers[$name]['@'])
+        ) {
             $this->headers[$name]['@'] = $value;
         } else {
             $this->headers[$name] = $value;

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapClient.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class WsdlDownloader
 {
-    const XML_MIN_LENGTH = 25;
+    public const XML_MIN_LENGTH = 25;
 
     /**
      * Cache enabled.
@@ -50,9 +50,9 @@ class WsdlDownloader
     protected $cacheTtl;
 
     /**
-     * cURL instance for downloads.
+     * Curl instance for downloads.
      *
-     * @var unknown_type
+     * @var Curl
      */
     protected $curl;
 
@@ -94,9 +94,13 @@ class WsdlDownloader
         // resolve remote XSD includes
         $isRemoteFile = $this->isRemoteFile($wsdl);
         if ($isRemoteFile || $this->resolveRemoteIncludes) {
-            $cacheFilePath = $this->cacheDir.DIRECTORY_SEPARATOR.'wsdl_'.md5($wsdl).'.cache';
+            $cacheFilePath = $this->cacheDir . DIRECTORY_SEPARATOR . 'wsdl_' . md5($wsdl) . '.cache';
 
-            if (!$this->cacheEnabled || !file_exists($cacheFilePath) || (filemtime($cacheFilePath) + $this->cacheTtl) < time()) {
+            if (
+                !$this->cacheEnabled
+                || !file_exists($cacheFilePath)
+                || (filemtime($cacheFilePath) + $this->cacheTtl) < time()
+            ) {
                 if ($isRemoteFile) {
                     // execute request
                     $this->curl->exec($wsdl);
@@ -104,7 +108,7 @@ class WsdlDownloader
                     if (Response::HTTP_OK === $this->curl->getResponseStatusCode()) {
                         $response = $this->curl->getResponseBody();
                         if (empty($response)) {
-                            throw new \ErrorException("SOAP-ERROR: Parsing WSDL: Got empty wsdl from '" . $wsdl ."'");
+                            throw new \ErrorException("SOAP-ERROR: Parsing WSDL: Got empty wsdl from '" . $wsdl . "'");
                         }
 
                         if ($this->resolveRemoteIncludes) {
@@ -113,13 +117,16 @@ class WsdlDownloader
                             file_put_contents($cacheFilePath, $response);
                         }
                     } else {
-                        throw new \ErrorException("SOAP-ERROR: Parsing WSDL: Unexpected response code received from '" . $wsdl ."', response code: " . $this->curl->getResponseStatusCode());
+                        throw new \ErrorException(
+                            "SOAP-ERROR: Parsing WSDL: Unexpected response code received from '" . $wsdl
+                            . "', response code: " . $this->curl->getResponseStatusCode()
+                        );
                     }
                 } elseif (file_exists($wsdl)) {
                     $response = file_get_contents($wsdl);
                     $this->resolveRemoteIncludes($response, $cacheFilePath);
                 } else {
-                    throw new \ErrorException("SOAP-ERROR: Parsing WSDL: Couldn't load from '" . $wsdl ."'");
+                    throw new \ErrorException("SOAP-ERROR: Parsing WSDL: Couldn't load from '" . $wsdl . "'");
                 }
             }
 
@@ -128,7 +135,7 @@ class WsdlDownloader
             return realpath($wsdl);
         }
 
-        throw new \ErrorException("SOAP-ERROR: Parsing WSDL: Couldn't load from '" . $wsdl ."'");
+        throw new \ErrorException("SOAP-ERROR: Parsing WSDL: Couldn't load from '" . $wsdl . "'");
     }
 
     /**
@@ -172,7 +179,7 @@ class WsdlDownloader
         $xpath->registerNamespace(Helper::PFX_WSDL, Helper::NS_WSDL);
 
         // WSDL include/import
-        $query = './/'.Helper::PFX_WSDL.':include | .//'.Helper::PFX_WSDL.':import';
+        $query = './/' . Helper::PFX_WSDL . ':include | .//' . Helper::PFX_WSDL . ':import';
         $nodes = $xpath->query($query);
         if ($nodes->length > 0) {
             foreach ($nodes as $node) {
@@ -189,7 +196,7 @@ class WsdlDownloader
         }
 
         // XML schema include/import
-        $query = './/'.Helper::PFX_XML_SCHEMA.':include | .//'.Helper::PFX_XML_SCHEMA.':import';
+        $query = './/' . Helper::PFX_XML_SCHEMA . ':include | .//' . Helper::PFX_XML_SCHEMA . ':import';
         $nodes = $xpath->query($query);
         if ($nodes->length > 0) {
             foreach ($nodes as $node) {
@@ -234,13 +241,13 @@ class WsdlDownloader
             $path = $relative;
         } elseif (isset($urlParts['path']) && strrpos($urlParts['path'], '/') === (strlen($urlParts['path']) )) {
             // base path is directory
-            $path = $urlParts['path'].$relative;
+            $path = $urlParts['path'] . $relative;
         } elseif (isset($urlParts['path'])) {
             // strip filename from base path
-            $path = substr($urlParts['path'], 0, strrpos($urlParts['path'], '/')).'/'.$relative;
+            $path = substr($urlParts['path'], 0, strrpos($urlParts['path'], '/')) . '/' . $relative;
         } else {
             // no base path
-            $path = '/'.$relative;
+            $path = '/' . $relative;
         }
 
         // foo/./bar ==> foo/bar
@@ -269,11 +276,11 @@ class WsdlDownloader
             }
         }
 
-        $hostname = $urlParts['scheme'].'://'.$urlParts['host'];
+        $hostname = $urlParts['scheme'] . '://' . $urlParts['host'];
         if (isset($urlParts['port'])) {
-            $hostname .= ':'.$urlParts['port'];
+            $hostname .= ':' . $urlParts['port'];
         }
 
-        return $hostname.implode('/', $parts);
+        return $hostname . implode('/', $parts);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -17,6 +17,8 @@ use BeSimple\SoapCommon\Converter\TypeConverterCollection;
 use BeSimple\SoapCommon\Converter\TypeConverterInterface;
 
 /**
+ * Base class for SoapBuilders
+ *
  * @author Christian Kerl <christian-kerl@web.de>
  * @author Francis Besset <francis.besset@gmail.com>
  * @author Ere Maijala <ere.maijala@helsinki.fi>
@@ -45,9 +47,11 @@ abstract class AbstractSoapBuilder
     protected array $options = [];
 
     /**
+     * Create builder with defaults
+     *
      * @return static
      */
-    static public function createWithDefaults(): static
+    public static function createWithDefaults(): static
     {
         $builder = new static();
 
@@ -81,6 +85,8 @@ abstract class AbstractSoapBuilder
     }
 
     /**
+     * Set WSDL
+     *
      * @return static
      */
     public function withWsdl($wsdl): static
@@ -91,6 +97,8 @@ abstract class AbstractSoapBuilder
     }
 
     /**
+     * Set SOAP version to 1.1
+     *
      * @return static
      */
     public function withSoapVersion11(): static
@@ -101,6 +109,8 @@ abstract class AbstractSoapBuilder
     }
 
     /**
+     * Set SOAP version to 1.2
+     *
      * @return static
      */
     public function withSoapVersion12(): static
@@ -129,6 +139,8 @@ abstract class AbstractSoapBuilder
     }
 
     /**
+     * Disable WSDL cache
+     *
      * @return static
      */
     public function withWsdlCacheNone(): static
@@ -139,6 +151,8 @@ abstract class AbstractSoapBuilder
     }
 
     /**
+     * Enable WSDL disk cache
+     *
      * @return static
      */
     public function withWsdlCacheDisk(): static
@@ -149,6 +163,8 @@ abstract class AbstractSoapBuilder
     }
 
     /**
+     * Enable WSDL memory cache
+     *
      * @return static
      */
     public function withWsdlCacheMemory(): static
@@ -159,6 +175,8 @@ abstract class AbstractSoapBuilder
     }
 
     /**
+     * Enable WSDL disk and memory caches
+     *
      * @return static
      */
     public function withWsdlCacheDiskAndMemory(): static
@@ -170,7 +188,9 @@ abstract class AbstractSoapBuilder
 
     /**
      * Enables the SOAP_SINGLE_ELEMENT_ARRAYS feature.
-     * If enabled arrays containing only one element will be passed as arrays otherwise the single element is extracted and directly passed.
+     *
+     * If enabled arrays containing only one element will be passed as arrays otherwise the single element is extracted
+     * and directly passed.
      *
      * @return static
      */
@@ -242,7 +262,8 @@ abstract class AbstractSoapBuilder
      * Sets the classmap.
      *
      * @param Classmap $classmap The classmap.
-     * @param boolean  $merge    If true the given classmap is merged into the existing one, otherwise the existing one is overwritten.
+     * @param boolean  $merge    If true the given classmap is merged into the existing one, otherwise the existing one
+     * is overwritten.
      *
      * @return static
      */

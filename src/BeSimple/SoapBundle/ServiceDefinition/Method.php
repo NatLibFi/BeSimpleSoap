@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoap.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -13,9 +13,10 @@
 namespace BeSimple\SoapBundle\ServiceDefinition;
 
 use BeSimple\SoapCommon\Definition\Method as BaseMethod;
-use BeSimple\SoapCommon\Definition\Type\TypeRepository;
 
 /**
+ * Method
+ *
  * @author Christian Kerl <christian-kerl@web.de>
  * @author Francis Besset <francis.besset@gmail.com>
  */

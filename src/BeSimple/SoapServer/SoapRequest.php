@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapClient.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -39,7 +39,9 @@ class SoapRequest extends CommonSoapRequest
         // $content is if unmodified from SoapClient not a php string type!
         $request->setContent((string) (null === $content ? file_get_contents("php://input") : $content));
         $request->setLocation(self::getCurrentUrl());
-        $request->setAction(isset($_SERVER[SoapMessage::SOAP_ACTION_HEADER]) ? $_SERVER[SoapMessage::SOAP_ACTION_HEADER] : null);
+        $request->setAction(
+            isset($_SERVER[SoapMessage::SOAP_ACTION_HEADER]) ? $_SERVER[SoapMessage::SOAP_ACTION_HEADER] : null
+        );
         $request->setVersion($version);
 
         if (isset($_SERVER[SoapMessage::CONTENT_TYPE_HEADER])) {
@@ -64,7 +66,7 @@ class SoapRequest extends CommonSoapRequest
         } else {
             $url .= 'http://';
         }
-        $url .= isset( $_SERVER['SERVER_NAME'] ) ? $_SERVER['SERVER_NAME'] : '';
+        $url .= isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
         if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80) {
             $url .= ":{$_SERVER['SERVER_PORT']}";
         }

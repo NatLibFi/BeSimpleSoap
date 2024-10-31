@@ -1,18 +1,21 @@
 <?php
 
+/**
+ * This file is part of the BeSimpleSoapClient.
+ *
+ * (c) Christian Kerl <christian-kerl@web.de>
+ * (c) Francis Besset <francis.besset@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
+namespace BeSimple\SoapClient\Tests;
+
 use BeSimple\SoapClient\SoapClient as BeSimpleSoapClient;
 use BeSimple\SoapClient\WsSecurityFilter as BeSimpleWsSecurityFilter;
-
 use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBook;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBookResponse;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBooksByType;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBooksByTypeResponse;
 use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\addBook;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\addBookResponse;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\BookInformation;
-
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures;
-
 use BeSimple\SoapClient\Tests\ServerInterop\TestCase;
 
 class WsSecurityUserPassServerInteropTest extends TestCase
@@ -34,7 +37,7 @@ class WsSecurityUserPassServerInteropTest extends TestCase
 
     public function testUserPassText()
     {
-        $sc = new BeSimpleSoapClient(__DIR__.'/Fixtures/WsSecurityUserPass.wsdl', $this->options);
+        $sc = new BeSimpleSoapClient(__DIR__ . '/Fixtures/WsSecurityUserPass.wsdl', $this->options);
 
         $wssFilter = new BeSimpleWsSecurityFilter(true, 600);
         $wssFilter->addUserData('libuser', 'books', BeSimpleWsSecurityFilter::PASSWORD_TYPE_TEXT);
@@ -45,7 +48,10 @@ class WsSecurityUserPassServerInteropTest extends TestCase
         $gb = new getBook();
         $gb->isbn = '0061020052';
         $result = $sc->getBook($gb);
-        $this->assertInstanceOf('BeSimple\SoapClient\Tests\ServerInterop\Fixtures\BookInformation', $result->getBookReturn);
+        $this->assertInstanceOf(
+            'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\BookInformation',
+            $result->getBookReturn
+        );
 
         $ab = new addBook();
         $ab->isbn = '0445203498';
@@ -60,10 +66,10 @@ class WsSecurityUserPassServerInteropTest extends TestCase
 
     public function testUserPassDigest()
     {
-        $sc = new BeSimpleSoapClient(__DIR__.'/Fixtures/WsSecurityUserPass.wsdl', $this->options);
+        $sc = new BeSimpleSoapClient(__DIR__ . '/Fixtures/WsSecurityUserPass.wsdl', $this->options);
 
         $wssFilter = new BeSimpleWsSecurityFilter(true, 600);
-        $wssFilter->addUserData( 'libuser', 'books', BeSimpleWsSecurityFilter::PASSWORD_TYPE_DIGEST );
+        $wssFilter->addUserData('libuser', 'books', BeSimpleWsSecurityFilter::PASSWORD_TYPE_DIGEST);
 
         $soapKernel = $sc->getSoapKernel();
         $soapKernel->registerFilter($wssFilter);
@@ -71,7 +77,10 @@ class WsSecurityUserPassServerInteropTest extends TestCase
         $gb = new getBook();
         $gb->isbn = '0061020052';
         $result = $sc->getBook($gb);
-        $this->assertInstanceOf('BeSimple\SoapClient\Tests\ServerInterop\Fixtures\BookInformation', $result->getBookReturn);
+        $this->assertInstanceOf(
+            'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\BookInformation',
+            $result->getBookReturn
+        );
 
         $ab = new addBook();
         $ab->isbn = '0445203498';

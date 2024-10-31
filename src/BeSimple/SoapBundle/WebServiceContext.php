@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -52,14 +53,19 @@ class WebServiceContext
     public function getServiceDefinition()
     {
         if (null === $this->serviceDefinition) {
-            $cache = new ConfigCache(sprintf('%s/%s.definition.srz', $this->options['cache_dir'], $this->options['name']), $this->options['debug']);
+            $cache = new ConfigCache(
+                sprintf('%s/%s.definition.srz', $this->options['cache_dir'], $this->options['name']),
+                $this->options['debug']
+            );
             if ($cache->isFresh()) {
                 $this->serviceDefinition = unserialize(file_get_contents($cache->getPath())) ?: null;
             }
         }
         if (null === $this->serviceDefinition) {
             if (!$this->loader->supports($this->options['resource'], $this->options['resource_type'])) {
-                throw new \LogicException(sprintf('Cannot load "%s" (%s)', $this->options['resource'], $this->options['resource_type']));
+                throw new \LogicException(
+                    sprintf('Cannot load "%s" (%s)', $this->options['resource'], $this->options['resource_type'])
+                );
             }
 
             $this->serviceDefinition = $this->loader->load($this->options['resource'], $this->options['resource_type']);
@@ -79,10 +85,10 @@ class WebServiceContext
 
     public function getWsdlFile($endpoint = null)
     {
-        $file      = sprintf ('%s/%s.%s.wsdl', $this->options['cache_dir'], $this->options['name'], md5($endpoint));
+        $file      = sprintf('%s/%s.%s.wsdl', $this->options['cache_dir'], $this->options['name'], md5($endpoint));
         $cache = new ConfigCache($file, $this->options['debug']);
 
-        if(!$cache->isFresh()) {
+        if (!$cache->isFresh()) {
             $definition = $this->getServiceDefinition();
 
             if ($endpoint) {

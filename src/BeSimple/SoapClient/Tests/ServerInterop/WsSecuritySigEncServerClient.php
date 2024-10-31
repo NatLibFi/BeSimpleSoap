@@ -10,30 +10,25 @@ use BeSimple\SoapClient\SoapClient as BeSimpleSoapClient;
 use BeSimple\SoapClient\WsSecurityFilter as BeSimpleWsSecurityFilter;
 use BeSimple\SoapCommon\WsSecurityKey as BeSimpleWsSecurityKey;
 
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBook;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBookResponse;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBooksByType;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBooksByTypeResponse;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\addBook;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\addBookResponse;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\BookInformation;
+use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBook;
+use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AddBook;
 
 $options = array(
     'soap_version' => SOAP_1_2,
     'features'     => SOAP_SINGLE_ELEMENT_ARRAYS, // make sure that result is array for size=1
-    'trace'           => true, // enables use of the methods  SoapClient->__getLastRequest,  SoapClient->__getLastRequestHeaders,  SoapClient->__getLastResponse and  SoapClient->__getLastResponseHeaders
+    'trace'           => true, // enables use of the SoapClient->__getLast* methods
     'classmap'        => array(
-        'getBook'                => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBook',
-        'getBookResponse'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBookResponse',
-        'getBooksByType'         => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBooksByType',
-        'getBooksByTypeResponse' => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBooksByTypeResponse',
-        'addBook'                => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\addBook',
-        'addBookResponse'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\addBookResponse',
+        'getBook'                => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBook',
+        'getBookResponse'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBookResponse',
+        'getBooksByType'         => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBooksByType',
+        'getBooksByTypeResponse' => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBooksByTypeResponse',
+        'addBook'                => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AddBook',
+        'addBookResponse'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AddBookResponse',
         'BookInformation'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\BookInformation',
     ),
 );
 
-$sc = new BeSimpleSoapClient(__DIR__.'/Fixtures/WsSecuritySigEnc.wsdl', $options);
+$sc = new BeSimpleSoapClient(__DIR__ . '/Fixtures/WsSecuritySigEnc.wsdl', $options);
 
 //var_dump($sc->__getFunctions());
 //var_dump($sc->__getTypes());
@@ -42,13 +37,13 @@ try {
     $wssFilter = new BeSimpleWsSecurityFilter();
     // user key for signature and encryption
     $securityKeyUser = new BeSimpleWsSecurityKey();
-    $securityKeyUser->addPrivateKey(XmlSecurityKey::RSA_SHA1, __DIR__.'/Fixtures/clientkey.pem', true);
-    $securityKeyUser->addPublicKey(XmlSecurityKey::RSA_SHA1, __DIR__.'/Fixtures/clientcert.pem', true);
+    $securityKeyUser->addPrivateKey(XmlSecurityKey::RSA_SHA1, __DIR__ . '/Fixtures/clientkey.pem', true);
+    $securityKeyUser->addPublicKey(XmlSecurityKey::RSA_SHA1, __DIR__ . '/Fixtures/clientcert.pem', true);
     $wssFilter->setUserSecurityKeyObject($securityKeyUser);
     // service key for encryption
     $securityKeyService = new BeSimpleWsSecurityKey();
     $securityKeyService->addPrivateKey(XmlSecurityKey::TRIPLEDES_CBC);
-    $securityKeyService->addPublicKey(XmlSecurityKey::RSA_1_5, __DIR__.'/Fixtures/servercert.pem', true);
+    $securityKeyService->addPublicKey(XmlSecurityKey::RSA_1_5, __DIR__ . '/Fixtures/servercert.pem', true);
     $wssFilter->setServiceSecurityKeyObject($securityKeyService);
     // TOKEN_REFERENCE_SUBJECT_KEY_IDENTIFIER | TOKEN_REFERENCE_SECURITY_TOKEN | TOKEN_REFERENCE_THUMBPRINT_SHA1
     $wssFilter->setSecurityOptionsSignature(BeSimpleWsSecurityFilter::TOKEN_REFERENCE_SECURITY_TOKEN);
@@ -69,7 +64,6 @@ try {
     $ab->type = 'scifi';
 
     var_dump($sc->addBook($ab));
-
 } catch (Exception $e) {
     var_dump($e);
 }

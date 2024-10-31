@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -28,5 +28,5 @@ interface SoapKernelAwareInterface
      *
      * @return void
      */
-    function setKernel(SoapKernel $soapKernel);
+    public function setKernel(SoapKernel $soapKernel);
 }

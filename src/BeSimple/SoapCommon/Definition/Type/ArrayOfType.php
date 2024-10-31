@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoap.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -13,6 +13,8 @@
 namespace BeSimple\SoapCommon\Definition\Type;
 
 /**
+ * ArrayOfType
+ *
  * @author Francis Besset <francis.besset@gmail.com>
  */
 class ArrayOfType extends ComplexType
@@ -23,7 +25,7 @@ class ArrayOfType extends ComplexType
             $arrayOf = $arrayOf->getPhpType();
         }
 
-        parent::__construct($phpType, 'ArrayOf'.ucfirst($xmlTypeOf ?: $arrayOf));
+        parent::__construct($phpType, 'ArrayOf' . ucfirst($xmlTypeOf ?: $arrayOf));
 
         $this->add('item', $arrayOf);
     }

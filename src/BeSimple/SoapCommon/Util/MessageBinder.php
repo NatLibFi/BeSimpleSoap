@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -13,16 +13,22 @@
 namespace BeSimple\SoapCommon\Util;
 
 /**
+ * Message Binder
+ *
  * @author Francis Besset <francis.besset@gmail.com>
  */
 class MessageBinder
 {
     /**
+     * Message
+     *
      * @var Object
      */
     protected $message;
 
     /**
+     * Reflection class
+     *
      * @var \ReflectionClass
      */
     protected $reflectionClass;
@@ -39,21 +45,27 @@ class MessageBinder
 
     public function readProperty($property)
     {
-        if ($this->reflectionClass->hasMethod($getter = 'get'.$property)) {
+        if ($this->reflectionClass->hasMethod($getter = 'get' . $property)) {
             if (!$this->reflectionClass->getMethod($getter)->isPublic()) {
-                throw new \RuntimeException(sprintf('Method "%s()" is not public in class "%s"', $getter, $this->reflectionClass->name));
+                throw new \RuntimeException(
+                    sprintf('Method "%s()" is not public in class "%s"', $getter, $this->reflectionClass->name)
+                );
             }
 
             $value = $this->message->{$getter}();
-        } elseif ($this->reflectionClass->hasMethod($isser = 'is'.$property)) {
+        } elseif ($this->reflectionClass->hasMethod($isser = 'is' . $property)) {
             if (!$this->reflectionClass->getMethod($isser)->isPublic()) {
-                throw new \RuntimeException(sprintf('Method "%s()" is not public in class "%s"', $isser, $this->reflectionClass->name));
+                throw new \RuntimeException(
+                    sprintf('Method "%s()" is not public in class "%s"', $isser, $this->reflectionClass->name)
+                );
             }
 
             $value = $this->message->{$isser}();
-        } elseif ($this->reflectionClass->hasMethod($hasser = 'has'.$property)) {
+        } elseif ($this->reflectionClass->hasMethod($hasser = 'has' . $property)) {
             if (!$this->reflectionClass->getMethod($hasser)->isPublic()) {
-                throw new \RuntimeException(sprintf('Method "%s()" is not public in class "%s"', $hasser, $this->reflectionClass->name));
+                throw new \RuntimeException(
+                    sprintf('Method "%s()" is not public in class "%s"', $hasser, $this->reflectionClass->name)
+                );
             }
 
             $value = $this->message->{$hasser}();
@@ -77,9 +89,11 @@ class MessageBinder
 
     public function writeProperty($property, $value)
     {
-        if ($this->reflectionClass->hasMethod($setter = 'set'.$property)) {
+        if ($this->reflectionClass->hasMethod($setter = 'set' . $property)) {
             if (!$this->reflectionClass->getMethod($setter)->isPublic()) {
-                throw new \RuntimeException(sprintf('Method "%s()" is not public in class "%s"', $setter, $this->reflectionClass->name));
+                throw new \RuntimeException(
+                    sprintf('Method "%s()" is not public in class "%s"', $setter, $this->reflectionClass->name)
+                );
             }
 
             $this->message->{$setter}($value);

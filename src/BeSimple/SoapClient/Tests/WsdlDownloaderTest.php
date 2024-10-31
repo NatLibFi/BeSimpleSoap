@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapClient.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -17,9 +17,10 @@ use BeSimple\SoapCommon\Cache;
 use BeSimple\SoapClient\Curl;
 use Symfony\Component\Filesystem\Filesystem;
 use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\vfsStreamWrapper;
 
 /**
+ * WSDL downloader test
+ *
  * @author Andreas Schamberger <mail@andreass.net>
  * @author Francis Besset <francis.bessset@gmail.com>
  */
@@ -30,6 +31,8 @@ class WsdlDownloaderTest extends AbstractWebserverTest
     protected static $fixturesPath;
 
     /**
+     * Test download to VFS
+     *
      * @dataProvider provideDownload
      */
     public function testDownloadDownloadsToVfs($source, $regexp, $nbDownloads)
@@ -52,21 +55,20 @@ class WsdlDownloaderTest extends AbstractWebserverTest
         $this->assertIsReadable($cacheFileName);
 
         //Test that the Cache filename is valid
-        $regexp = '#'.sprintf($regexp, $cacheDirForRegExp).'#';
+        $regexp = '#' . sprintf($regexp, $cacheDirForRegExp) . '#';
         $this->assertMatchesRegularExpression($regexp, $cacheFileName);
-
     }
 
     public function provideDownload()
     {
         return array(
             array(
-                __DIR__.DIRECTORY_SEPARATOR.'Fixtures/build_include/xsdinctest_absolute.xml',
+                __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures/build_include/xsdinctest_absolute.xml',
                 '%s/wsdl_[a-f0-9]{32}\.cache',
                 2,
             ),
             array(
-                __DIR__.DIRECTORY_SEPARATOR.'Fixtures/xsdinclude/xsdinctest_relative.xml',
+                __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures/xsdinclude/xsdinctest_relative.xml',
                 '%s/wsdl_[a-f0-9]{32}\.cache',
                 1,
             ),
@@ -109,6 +111,8 @@ class WsdlDownloaderTest extends AbstractWebserverTest
     }
 
     /**
+     * Test resolving of WSDL includes
+     *
      * @dataProvider provideResolveWsdlIncludes
      */
     public function testResolveWsdlIncludes($source, $cacheFile, $remoteParentUrl, $regexp, $nbDownloads)
@@ -133,26 +137,32 @@ class WsdlDownloaderTest extends AbstractWebserverTest
         $m->invoke($wsdlDownloader, file_get_contents($source), $cacheFile, $remoteParentUrl);
         $this->assertCount($nbDownloads, $wsdlCacheDir->getChildren());
 
-        $this->assertMatchesRegularExpression('#'.sprintf($regexp, $cacheDirForRegExp).'#', file_get_contents($cacheFile));
+        $this->assertMatchesRegularExpression(
+            '#' . sprintf($regexp, $cacheDirForRegExp) . '#',
+            file_get_contents($cacheFile)
+        );
     }
 
+    /**
+     * Data provider for testResolveWsdlIncludes
+     */
     public function provideResolveWsdlIncludes()
     {
         $remoteUrlAbsolute = sprintf('http://localhost:%d/build_include/wsdlinctest_absolute.xml', WEBSERVER_PORT);
         $remoteUrlRelative = sprintf('http://localhost:%d/wsdlinclude/wsdlinctest_relative.xml', WEBSERVER_PORT);
         $wsdlIncludeMd5 = md5('http://' . sprintf('localhost:%d', WEBSERVER_PORT) . '/wsdl_include.wsdl');
-        $expectedWsdl = 'wsdl_'.$wsdlIncludeMd5.'.cache';
+        $expectedWsdl = 'wsdl_' . $wsdlIncludeMd5 . '.cache';
 
         return array(
             array(
-                __DIR__.DIRECTORY_SEPARATOR.'Fixtures/build_include/wsdlinctest_absolute.xml',
+                __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures/build_include/wsdlinctest_absolute.xml',
                 '%s/cache_local_absolute.xml',
                 null,
                 $expectedWsdl,
                 2,
             ),
             array(
-                __DIR__.DIRECTORY_SEPARATOR.'Fixtures/wsdlinclude/wsdlinctest_relative.xml',
+                __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures/wsdlinclude/wsdlinctest_relative.xml',
                 '%s/cache_local_relative.xml',
                 null,
                 '\.\./wsdl_include\.wsdl',
@@ -176,6 +186,8 @@ class WsdlDownloaderTest extends AbstractWebserverTest
     }
 
     /**
+     * Test resolving of XSD includes
+     *
      * @dataProvider provideResolveXsdIncludes
      */
     public function testResolveXsdIncludes($source, $cacheFile, $remoteParentUrl, $regexp, $nbDownloads)
@@ -200,26 +212,32 @@ class WsdlDownloaderTest extends AbstractWebserverTest
         $m->invoke($wsdlDownloader, file_get_contents($source), $cacheFile, $remoteParentUrl);
         $this->assertCount($nbDownloads, $wsdlCacheDir->getChildren());
 
-        $this->assertMatchesRegularExpression('#'.sprintf($regexp, $cacheDirForRegExp).'#', file_get_contents($cacheFile));
+        $this->assertMatchesRegularExpression(
+            '#' . sprintf($regexp, $cacheDirForRegExp) . '#',
+            file_get_contents($cacheFile)
+        );
     }
 
+    /**
+     * Data provider for testResolveXsdIncludes
+     */
     public function provideResolveXsdIncludes()
     {
         $remoteUrlAbsolute = sprintf('http://localhost:%d/build_include/xsdinctest_absolute.xml', WEBSERVER_PORT);
         $remoteUrlRelative = sprintf('http://localhost:%d/xsdinclude/xsdinctest_relative.xml', WEBSERVER_PORT);
         $xsdIncludeMd5 = md5('http://' . sprintf('localhost:%d', WEBSERVER_PORT) . '/type_include.xsd');
-        $expectedXsd = 'wsdl_'.$xsdIncludeMd5.'.cache';
+        $expectedXsd = 'wsdl_' . $xsdIncludeMd5 . '.cache';
 
         return array(
             array(
-                __DIR__.DIRECTORY_SEPARATOR.'Fixtures/build_include/xsdinctest_absolute.xml',
+                __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures/build_include/xsdinctest_absolute.xml',
                 '%s/cache_local_absolute.xml',
                 null,
                 $expectedXsd,
                 2,
             ),
             array(
-                __DIR__.DIRECTORY_SEPARATOR.'Fixtures/xsdinclude/xsdinctest_relative.xml',
+                __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures/xsdinclude/xsdinctest_relative.xml',
                 '%s/cache_local_relative.xml',
                 null,
                 '\.\./type_include\.xsd',
@@ -242,6 +260,9 @@ class WsdlDownloaderTest extends AbstractWebserverTest
         );
     }
 
+    /**
+     * Test relative path resolution
+     */
     public function testResolveRelativePathInUrl()
     {
         $wsdlDownloader = new WsdlDownloader(new Curl());
@@ -250,8 +271,14 @@ class WsdlDownloaderTest extends AbstractWebserverTest
         $m = $r->getMethod('resolveRelativePathInUrl');
         $m->setAccessible(true);
 
-        $this->assertEquals('http://localhost:8080/test', $m->invoke($wsdlDownloader, 'http://localhost:8080/sub', '/test'));
-        $this->assertEquals('http://localhost:8080/test', $m->invoke($wsdlDownloader, 'http://localhost:8080/sub/', '/test'));
+        $this->assertEquals(
+            'http://localhost:8080/test',
+            $m->invoke($wsdlDownloader, 'http://localhost:8080/sub', '/test')
+        );
+        $this->assertEquals(
+            'http://localhost:8080/test',
+            $m->invoke($wsdlDownloader, 'http://localhost:8080/sub/', '/test')
+        );
 
         $this->assertEquals('http://localhost/test', $m->invoke($wsdlDownloader, 'http://localhost/sub', '/test'));
         $this->assertEquals('http://localhost/test', $m->invoke($wsdlDownloader, 'http://localhost/sub/', '/test'));
@@ -259,20 +286,50 @@ class WsdlDownloaderTest extends AbstractWebserverTest
         $this->assertEquals('http://localhost/test', $m->invoke($wsdlDownloader, 'http://localhost', './test'));
         $this->assertEquals('http://localhost/test', $m->invoke($wsdlDownloader, 'http://localhost/', './test'));
 
-        $this->assertEquals('http://localhost/sub/test', $m->invoke($wsdlDownloader, 'http://localhost/sub/sub', './test'));
-        $this->assertEquals('http://localhost/sub/sub/test', $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/', './test'));
+        $this->assertEquals(
+            'http://localhost/sub/test',
+            $m->invoke($wsdlDownloader, 'http://localhost/sub/sub', './test')
+        );
+        $this->assertEquals(
+            'http://localhost/sub/sub/test',
+            $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/', './test')
+        );
 
-        $this->assertEquals('http://localhost/test', $m->invoke($wsdlDownloader, 'http://localhost/sub/sub', '../test'));
-        $this->assertEquals('http://localhost/sub/test', $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/', '../test'));
+        $this->assertEquals(
+            'http://localhost/test',
+            $m->invoke($wsdlDownloader, 'http://localhost/sub/sub', '../test')
+        );
+        $this->assertEquals(
+            'http://localhost/sub/test',
+            $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/', '../test')
+        );
 
-        $this->assertEquals('http://localhost/test', $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/sub', '../../test'));
-        $this->assertEquals('http://localhost/sub/test', $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/sub/', '../../test'));
+        $this->assertEquals(
+            'http://localhost/test',
+            $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/sub', '../../test')
+        );
+        $this->assertEquals(
+            'http://localhost/sub/test',
+            $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/sub/', '../../test')
+        );
 
-        $this->assertEquals('http://localhost/test', $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/sub/sub', '../../../test'));
-        $this->assertEquals('http://localhost/sub/test', $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/sub/sub/', '../../../test'));
+        $this->assertEquals(
+            'http://localhost/test',
+            $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/sub/sub', '../../../test')
+        );
+        $this->assertEquals(
+            'http://localhost/sub/test',
+            $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/sub/sub/', '../../../test')
+        );
 
-        $this->assertEquals('http://localhost/test', $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/sub', '../../../test'));
-        $this->assertEquals('http://localhost/test', $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/sub/', '../../../test'));
+        $this->assertEquals(
+            'http://localhost/test',
+            $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/sub', '../../../test')
+        );
+        $this->assertEquals(
+            'http://localhost/test',
+            $m->invoke($wsdlDownloader, 'http://localhost/sub/sub/sub/', '../../../test')
+        );
     }
 
     /**
@@ -285,7 +342,10 @@ class WsdlDownloaderTest extends AbstractWebserverTest
     public function testInvalidResponseCodes($responseCode)
     {
         $this->expectException('ErrorException');
-        $this->expectExceptionMessage('SOAP-ERROR: Parsing WSDL: Unexpected response code received from \'http://somefake.url/wsdl\', response code: ' . $responseCode);
+        $this->expectExceptionMessage(
+            'SOAP-ERROR: Parsing WSDL: Unexpected response code received from \'http://somefake.url/wsdl\', '
+            . 'response code: ' . $responseCode
+        );
 
         $curlMock = $this->createMock('BeSimple\SoapClient\Curl');
         $curlMock->expects($this->any())
@@ -320,7 +380,10 @@ class WsdlDownloaderTest extends AbstractWebserverTest
             ->willReturn(200);
         $curlMock->expects($this->once())
             ->method('getResponseBody')
-            ->willReturn('<?xml version="1.0"?><wsdl:types xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema"></wsdl:types>');
+            ->willReturn(
+                '<?xml version="1.0"?><wsdl:types xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" '
+                . 'xmlns:xs="http://www.w3.org/2001/XMLSchema"></wsdl:types>'
+            );
 
         $wsdlDownloader = new WsdlDownloader($curlMock);
 
@@ -334,21 +397,31 @@ class WsdlDownloaderTest extends AbstractWebserverTest
         parent::setUpBeforeClass();
 
         self::$filesystem = new Filesystem();
-        self::$fixturesPath = __DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR;
-        self::$filesystem->mkdir(self::$fixturesPath.'build_include');
+        self::$fixturesPath = __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures' . DIRECTORY_SEPARATOR;
+        self::$filesystem->mkdir(self::$fixturesPath . 'build_include');
 
         foreach (array('wsdlinclude/wsdlinctest_absolute.xml', 'xsdinclude/xsdinctest_absolute.xml') as $file) {
-            $content = file_get_contents(self::$fixturesPath.$file);
-            $content = preg_replace('#'.preg_quote('%location%').'#', sprintf('localhost:%d', WEBSERVER_PORT), $content);
+            $content = file_get_contents(self::$fixturesPath . $file);
+            $content = preg_replace(
+                '#' . preg_quote('%location%') . '#',
+                sprintf('localhost:%d', WEBSERVER_PORT),
+                $content
+            );
 
-            self::$filesystem->dumpFile(self::$fixturesPath.'build_include'.DIRECTORY_SEPARATOR.pathinfo($file, PATHINFO_BASENAME), $content);
+            self::$filesystem->dumpFile(
+                self::$fixturesPath . 'build_include' . DIRECTORY_SEPARATOR . pathinfo($file, PATHINFO_BASENAME),
+                $content
+            );
         }
     }
 
+    /**
+     * Cleanup
+     */
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
 
-        self::$filesystem->remove(self::$fixturesPath.'build_include');
+        self::$filesystem->remove(self::$fixturesPath . 'build_include');
     }
 }

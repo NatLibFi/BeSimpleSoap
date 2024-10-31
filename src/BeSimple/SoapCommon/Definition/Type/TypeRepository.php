@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoap.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -15,12 +15,14 @@ namespace BeSimple\SoapCommon\Definition\Type;
 use BeSimple\SoapCommon\Classmap;
 
 /**
+ * Type repository
+ *
  * @author Christian Kerl <christian-kerl@web.de>
  * @author Francis Besset <francis.besset@gmail.com>
  */
 class TypeRepository
 {
-    const ARRAY_SUFFIX = '[]';
+    public const ARRAY_SUFFIX = '[]';
 
     protected $xmlNamespaces = array();
     protected $types = array();
@@ -112,7 +114,7 @@ class TypeRepository
 
     public function getArrayOf($arrayType)
     {
-        if (!preg_match('#(.*)'.preg_quote(static::ARRAY_SUFFIX, '#').'$#', $arrayType, $match)) {
+        if (!preg_match('#(.*)' . preg_quote(static::ARRAY_SUFFIX, '#') . '$#', $arrayType, $match)) {
             return false;
         }
 

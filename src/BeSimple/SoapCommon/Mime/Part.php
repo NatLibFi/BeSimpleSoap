@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -31,27 +31,27 @@ class Part extends PartHeader
     /**
      * Encoding type base 64
      */
-    const ENCODING_BASE64 = 'base64';
+    public const ENCODING_BASE64 = 'base64';
 
     /**
      * Encoding type binary
      */
-    const ENCODING_BINARY = 'binary';
+    public const ENCODING_BINARY = 'binary';
 
     /**
      * Encoding type eight bit
      */
-    const ENCODING_EIGHT_BIT = '8bit';
+    public const ENCODING_EIGHT_BIT = '8bit';
 
     /**
      * Encoding type seven bit
      */
-    const ENCODING_SEVEN_BIT = '7bit';
+    public const ENCODING_SEVEN_BIT = '7bit';
 
     /**
      * Encoding type quoted printable
      */
-    const ENCODING_QUOTED_PRINTABLE = 'quoted-printable';
+    public const ENCODING_QUOTED_PRINTABLE = 'quoted-printable';
 
     /**
      * Content.
@@ -71,8 +71,13 @@ class Part extends PartHeader
      *
      * @return void
      */
-    public function __construct($content = null, $contentType = 'application/octet-stream', $charset = null, $encoding = self::ENCODING_BINARY, $contentId = null)
-    {
+    public function __construct(
+        $content = null,
+        $contentType = 'application/octet-stream',
+        $charset = null,
+        $encoding = self::ENCODING_BINARY,
+        $contentId = null
+    ) {
         $this->content = $content;
         $this->setHeader('Content-Type', $contentType);
         if (!is_null($charset)) {

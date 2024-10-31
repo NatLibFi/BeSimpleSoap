@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoap.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -16,6 +16,8 @@ namespace BeSimple\SoapCommon\Definition;
 use BeSimple\SoapCommon\Definition\Type\TypeRepository;
 
 /**
+ * Type definition
+ *
  * @author Francis Besset <francis.besset@gmail.com>
  * @author Ere Maijala <ere.maijala@helsinki.fi>
  */
@@ -66,7 +68,9 @@ class Definition
         }
 
         if ($invalid) {
-            throw new \InvalidArgumentException(sprintf('The Definition does not support the following options: "%s"', implode('", "', $invalid)));
+            throw new \InvalidArgumentException(
+                sprintf('The Definition does not support the following options: "%s"', implode('", "', $invalid))
+            );
         }
 
         return $this;

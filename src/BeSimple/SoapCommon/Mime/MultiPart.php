@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -97,7 +97,7 @@ class MultiPart extends PartHeader
             if (in_array($fieldName, $allowed)) {
                 $fieldValue = $this->generateHeaderFieldValue($value);
                 // for http only ISO-8859-1
-                $headers[] = $fieldName . ': '. iconv('utf-8', 'ISO-8859-1//TRANSLIT', $fieldValue);
+                $headers[] = $fieldName . ': ' . iconv('utf-8', 'ISO-8859-1//TRANSLIT', $fieldValue);
             }
         }
         return $headers;

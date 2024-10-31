@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 
 /**
+ * Exception handler
+ *
  * @author Francis Besset <francis.besset@gmail.com>
  * @author Ere Maijala <ere.maijala@helsinki.fi>
  */

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -29,6 +29,8 @@ use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Symfony\Component\Routing\Router;
 
 /**
+ * SOAP web service controller
+ *
  * @author Christian Kerl <christian-kerl@web.de>
  * @author Francis Besset <francis.besset@gmail.com>
  * @author Ere Maijala <ere.maijala@helsinki.fi>
@@ -36,26 +38,36 @@ use Symfony\Component\Routing\Router;
 class SoapWebServiceController extends AbstractController
 {
     /**
+     * SOAP server
+     *
      * @var \SoapServer
      */
     protected $soapServer;
 
     /**
+     * SOAP request
+     *
      * @var \BeSimple\SoapBundle\Soap\SoapRequest
      */
     protected $soapRequest;
 
     /**
+     * SOAP response
+     *
      * @var \BeSimple\SoapBundle\Soap\SoapResponse
      */
     protected $soapResponse;
 
     /**
+     * Service Binder
+     *
      * @var \BeSimple\SoapBundle\ServiceBinding\ServiceBinder
      */
     protected $serviceBinder;
 
     /**
+     * Headers
+     *
      * @var array
      */
     private $headers = [];
@@ -68,6 +80,8 @@ class SoapWebServiceController extends AbstractController
     }
 
     /**
+     * Call an action
+     *
      * @return \BeSimple\SoapBundle\Soap\SoapResponse
      */
     public function callAction($webservice)
@@ -95,6 +109,8 @@ class SoapWebServiceController extends AbstractController
     }
 
     /**
+     * Get definition
+     *
      * @return Symfony\Component\HttpFoundation\Response
      */
     public function definitionAction($webservice)
@@ -130,10 +146,15 @@ class SoapWebServiceController extends AbstractController
     public function exceptionAction(Request $request, FlattenException $exception, DebugLoggerInterface $logger = null)
     {
         if (!$request->query->get('_besimple_soap_webservice')) {
-            throw new \LogicException(sprintf('The parameter "%s" is required in Request::$query parameter bag to generate the SoapFault.', '_besimple_soap_webservice'));
+            throw new \LogicException(
+                sprintf(
+                    'The parameter "%s" is required in Request::$query parameter bag to generate the SoapFault.',
+                    '_besimple_soap_webservice'
+                )
+            );
         }
 
-        $view = 'TwigBundle:Exception:'.($this->kernel->isDebug() ? 'exception' : 'error').'.txt.twig';
+        $view = 'TwigBundle:Exception:' . ($this->kernel->isDebug() ? 'exception' : 'error') . '.txt.twig';
         $code = $exception->getStatusCode();
         $details = $this->render($view, [
             'status_code' => $code,
@@ -151,7 +172,7 @@ class SoapWebServiceController extends AbstractController
         }
 
         $server = SoapServerBuilder::createWithDefaults()
-            ->withWsdl(__DIR__.'/../Handler/wsdl/exception.wsdl')
+            ->withWsdl(__DIR__ . '/../Handler/wsdl/exception.wsdl')
             ->withWsdlCacheNone()
             ->withHandler($handler)
             ->build()
@@ -161,11 +182,12 @@ class SoapWebServiceController extends AbstractController
 
         ob_start();
         $server->handle(
-            '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://besim.pl/soap/exception/1.0/">'.
-               '<soapenv:Header/>'.
-               '<soapenv:Body>'.
-                  '<ns:exception />'.
-               '</soapenv:Body>'.
+            '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' .
+               'xmlns:ns="http://besim.pl/soap/exception/1.0/">' .
+               '<soapenv:Header/>' .
+               '<soapenv:Body>' .
+                  '<ns:exception />' .
+               '</soapenv:Body>' .
             '</soapenv:Envelope>'
         );
 
@@ -176,8 +198,8 @@ class SoapWebServiceController extends AbstractController
      * This method gets called once for every SOAP header the \SoapServer received
      * and afterwards once for the called SOAP operation.
      *
-     * @param string $method The SOAP header or SOAP operation name
-     * @param array $arguments
+     * @param string $method    The SOAP header or SOAP operation name
+     * @param array  $arguments
      *
      * @return mixed
      */
@@ -187,7 +209,8 @@ class SoapWebServiceController extends AbstractController
             // @TODO Add all SoapHeaders in SoapRequest
             foreach ($this->headers as $name => $value) {
                 if ($this->serviceBinder->isServiceHeader($method, $name)) {
-                    $this->soapRequest->getSoapHeaders()->add($this->serviceBinder->processServiceHeader($method, $name, $value));
+                    $this->soapRequest->getSoapHeaders()
+                        ->add($this->serviceBinder->processServiceHeader($method, $name, $value));
                 }
             }
             $this->headers = null;
@@ -197,7 +220,8 @@ class SoapWebServiceController extends AbstractController
             );
 
             // forward to controller
-            $response = $this->container->get('http_kernel')->handle($this->soapRequest, HttpKernelInterface::SUB_REQUEST, false);
+            $response = $this->container->get('http_kernel')
+                ->handle($this->soapRequest, HttpKernelInterface::SUB_REQUEST, false);
 
             $this->setResponse($response);
 
@@ -218,6 +242,8 @@ class SoapWebServiceController extends AbstractController
     }
 
     /**
+     * Get request
+     *
      * @return \BeSimple\SoapBundle\Soap\SoapRequest
      */
     protected function getRequest()
@@ -226,6 +252,8 @@ class SoapWebServiceController extends AbstractController
     }
 
     /**
+     * Get response
+     *
      * @return \BeSimple\SoapBundle\Soap\SoapResponse
      */
     protected function getResponse()

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoap.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -13,7 +13,6 @@
 namespace BeSimple\SoapBundle\ServiceDefinition\Loader;
 
 use BeSimple\SoapBundle\ServiceDefinition\ServiceDefinition;
-
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\FileLoader;
 
@@ -77,7 +76,9 @@ class AnnotationFileLoader extends FileLoader
      */
     public function supports($resource, $type = null)
     {
-        return is_string($resource) && 'php' === pathinfo($resource, PATHINFO_EXTENSION) && (!$type || 'annotation' === $type);
+        return is_string($resource)
+            && 'php' === pathinfo($resource, PATHINFO_EXTENSION)
+            && (!$type || 'annotation' === $type);
     }
 
     /**
@@ -98,7 +99,7 @@ class AnnotationFileLoader extends FileLoader
             }
 
             if (true === $class && T_STRING === $token[0]) {
-                return $namespace.'\\'.$token[1];
+                return $namespace . '\\' . $token[1];
             }
 
             if (true === $namespace && T_STRING === $token[0]) {

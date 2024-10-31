@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapCommon.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -19,8 +19,13 @@ namespace BeSimple\SoapServer\Exception;
  */
 class SenderSoapFault extends \SoapFault
 {
-    public function __construct($faultstring, $faultactor = null, $detail = null, $faultname = null, $headerfault = null)
-    {
+    public function __construct(
+        $faultstring,
+        $faultactor = null,
+        $detail = null,
+        $faultname = null,
+        $headerfault = null
+    ) {
         parent::__construct('Sender', $faultstring, $faultactor, $detail, $faultname, $headerfault);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -194,7 +194,9 @@ class SoapClientBuilder extends AbstractSoapBuilder
 
             if ($auth) {
                 if (!in_array($auth, array(\CURLAUTH_BASIC, \CURLAUTH_NTLM), true)) {
-                    throw new \InvalidArgumentException('Invalid authentication method: CURLAUTH_BASIC or CURLAUTH_NTLM constants are availables.');
+                    throw new \InvalidArgumentException(
+                        'Invalid authentication method: CURLAUTH_BASIC or CURLAUTH_NTLM constants are availables.'
+                    );
                 }
 
                 $this->soapOptions['proxy_auth'] = $auth;
@@ -205,10 +207,10 @@ class SoapClientBuilder extends AbstractSoapBuilder
     }
 
     /**
-    * SOAP attachment type Base64.
-    *
-    * @return \BeSimple\SoapServer\SoapServerBuilder
-    */
+     * SOAP attachment type Base64.
+     *
+     * @return \BeSimple\SoapServer\SoapServerBuilder
+     */
     public function withBase64Attachments()
     {
         $this->options['attachment_type'] = Helper::ATTACHMENTS_TYPE_BASE64;

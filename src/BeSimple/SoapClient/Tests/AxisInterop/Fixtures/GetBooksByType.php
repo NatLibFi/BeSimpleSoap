@@ -2,7 +2,7 @@
 
 namespace BeSimple\SoapClient\Tests\AxisInterop\Fixtures;
 
-class downloadFileResponse
+class GetBooksByType
 {
-    public $data;
+    public $type;
 }

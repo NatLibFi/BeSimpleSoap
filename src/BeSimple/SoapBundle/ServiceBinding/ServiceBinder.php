@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -14,37 +15,54 @@ use BeSimple\SoapBundle\ServiceDefinition\Definition;
 use BeSimple\SoapBundle\Soap\SoapHeader;
 
 /**
+ * Service binder
+ *
  * @author Christian Kerl <christian-kerl@web.de>
  */
 class ServiceBinder
 {
     /**
+     * Service definition
+     *
      * @var \BeSimple\SoapBundle\ServiceDefinition\ServiceDefinition
      */
     private $definition;
 
     /**
+     * Request header message binder
+     *
      * @var \BeSimple\SoapBundle\ServiceBinding\MessageBinderInterface
      */
     private $requestHeaderMessageBinder;
 
     /**
+     * Request message binder
+     *
      * @var \BeSimple\SoapBundle\ServiceBinding\MessageBinderInterface
      */
     private $requestMessageBinder;
 
     /**
+     * Response message binder
+     *
      * @var \BeSimple\SoapBundle\ServiceBinding\MessageBinderInterface
      */
     private $responseMessageBinder;
 
     /**
-     * @param Definition $definition
+     * Constructor
+     *
+     * @param Definition             $definition
      * @param MessageBinderInterface $requestHeaderMessageBinder
      * @param MessageBinderInterface $requestMessageBinder
      * @param MessageBinderInterface $responseMessageBinder
      */
-    public function __construct(Definition $definition, MessageBinderInterface $requestHeaderMessageBinder, MessageBinderInterface $requestMessageBinder, MessageBinderInterface $responseMessageBinder) {
+    public function __construct(
+        Definition $definition,
+        MessageBinderInterface $requestHeaderMessageBinder,
+        MessageBinderInterface $requestMessageBinder,
+        MessageBinderInterface $responseMessageBinder
+    ) {
         $this->definition = $definition;
 
         $this->requestHeaderMessageBinder = $requestHeaderMessageBinder;
@@ -54,6 +72,8 @@ class ServiceBinder
     }
 
     /**
+     * Is header a service header?
+     *
      * @param string $method
      * @param string $header
      *
@@ -65,6 +85,8 @@ class ServiceBinder
     }
 
     /**
+     * Is method a service method?
+     *
      * @param $string
      *
      * @return bool
@@ -75,9 +97,11 @@ class ServiceBinder
     }
 
     /**
+     * Process service header
+     *
      * @param string $method
      * @param string $header
-     * @param mixed $data
+     * @param mixed  $data
      *
      * @return SoapHeader
      */
@@ -87,14 +111,17 @@ class ServiceBinder
         $headerDefinition = $methodDefinition->getHeader($header);
 
         $this->requestHeaderMessageBinder->setHeader($header);
-        $data = $this->requestHeaderMessageBinder->processMessage($methodDefinition, $data, $this->definition->getTypeRepository());
+        $data = $this->requestHeaderMessageBinder
+            ->processMessage($methodDefinition, $data, $this->definition->getTypeRepository());
 
         return new SoapHeader($this->definition->getNamespace(), $headerDefinition->getName(), $data);
     }
 
     /**
+     * Process service method arguments
+     *
      * @param string $method
-     * @param array $arguments
+     * @param array  $arguments
      *
      * @return array
      */
@@ -104,11 +131,14 @@ class ServiceBinder
 
         return array_merge(
             array('_controller' => $methodDefinition->getController()),
-            $this->requestMessageBinder->processMessage($methodDefinition, $arguments, $this->definition->getTypeRepository())
+            $this->requestMessageBinder
+                ->processMessage($methodDefinition, $arguments, $this->definition->getTypeRepository())
         );
     }
 
     /**
+     * Process service method return value
+     *
      * @param string $name
      * @param mixed
      *
@@ -118,6 +148,7 @@ class ServiceBinder
     {
         $methodDefinition = $this->definition->getMethod($name);
 
-        return $this->responseMessageBinder->processMessage($methodDefinition, $return, $this->definition->getTypeRepository());
+        return $this->responseMessageBinder
+            ->processMessage($methodDefinition, $return, $this->definition->getTypeRepository());
     }
 }

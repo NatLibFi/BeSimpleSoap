@@ -2,8 +2,7 @@
 
 namespace BeSimple\SoapClient\Tests\AxisInterop\Fixtures;
 
-class base64Binary
+class GetBooksByTypeResponse
 {
-    public $_;
-    public $contentType;
+    public $getBooksByTypeReturn;
 }

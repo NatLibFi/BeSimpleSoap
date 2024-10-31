@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapBundle.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -15,6 +15,8 @@ namespace BeSimple\SoapServer;
 use BeSimple\SoapCommon\Classmap as BaseClassmap;
 
 /**
+ * Class map
+ *
  * @author Francis Besset <francis.besset@gmail.com>
  */
 class Classmap extends BaseClassmap
@@ -34,7 +36,9 @@ class Classmap extends BaseClassmap
     public function getByClassname($classname)
     {
         if (!$this->hasByClassname($classname)) {
-            throw new \InvalidArgumentException(sprintf('The classname "%s" was not found in %s', $classname, __CLASS__));
+            throw new \InvalidArgumentException(
+                sprintf('The classname "%s" was not found in %s', $classname, __CLASS__)
+            );
         }
 
         return $this->classmapInversed[$classname];

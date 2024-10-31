@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the BeSimpleSoapClient.
  *
  * (c) Christian Kerl <christian-kerl@web.de>
@@ -26,6 +26,8 @@ use BeSimple\SoapCommon\Converter\TypeConverterInterface;
 class MtomTypeConverter implements TypeConverterInterface, SoapKernelAwareInterface
 {
     /**
+     * SOAP kernel
+     *
      * @var \BeSimple\SoapCommon\SoapKernel $soapKernel SoapKernel instance
      */
     protected $soapKernel = null;
@@ -65,10 +67,8 @@ class MtomTypeConverter implements TypeConverterInterface, SoapKernelAwareInterf
             $contentId = urldecode(substr($ref, 4));
 
             if (null !== ($part = $this->soapKernel->getAttachment($contentId))) {
-
                 return $part->getContent();
             } else {
-
                 return null;
             }
         }
@@ -99,8 +99,8 @@ class MtomTypeConverter implements TypeConverterInterface, SoapKernelAwareInterf
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function setKernel(SoapKernel $soapKernel)
     {
         $this->soapKernel = $soapKernel;
