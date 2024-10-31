@@ -13,7 +13,7 @@ $options = array(
     'attachment_type' => BeSimpleSoapHelper::ATTACHMENTS_TYPE_MTOM,
     'cache_wsdl'      => WSDL_CACHE_NONE,
     'classmap'        => array(
-        'base64Binary'      => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\base64Binary',
+        'base64Binary'      => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\Base64Binary',
         'AttachmentType' => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AttachmentRequest',
     ),
 );
