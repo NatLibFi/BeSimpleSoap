@@ -40,7 +40,7 @@ class SoapKernel extends CommonSoapKernel
     public function filterResponse(CommonSoapResponse $response)
     {
         $response->setAttachments($this->attachments);
-        $this->attachments = array();
+        $this->attachments = [];
 
         parent::filterResponse($response);
     }

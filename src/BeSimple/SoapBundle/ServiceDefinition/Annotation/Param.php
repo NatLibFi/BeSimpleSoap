@@ -19,7 +19,9 @@ namespace BeSimple\SoapBundle\ServiceDefinition\Annotation;
 class Param extends Configuration implements TypedElementInterface
 {
     private $value;
+
     private $phpType;
+
     private $xmlType;
 
     public function getValue()

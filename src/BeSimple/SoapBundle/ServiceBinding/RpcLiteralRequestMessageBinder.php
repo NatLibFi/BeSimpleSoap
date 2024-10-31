@@ -18,6 +18,9 @@ use BeSimple\SoapCommon\Definition\Type\ComplexType;
 use BeSimple\SoapCommon\Definition\Type\TypeRepository;
 use BeSimple\SoapCommon\Util\MessageBinder;
 
+use function in_array;
+use function sprintf;
+
 /**
  * RPC literal request message binder
  *
@@ -28,13 +31,13 @@ class RpcLiteralRequestMessageBinder implements MessageBinderInterface
 {
     protected $typeRepository;
 
-    private $messageRefs = array();
+    private $messageRefs = [];
 
     public function processMessage(Method $messageDefinition, $message, TypeRepository $typeRepository)
     {
         $this->typeRepository = $typeRepository;
 
-        $result = array();
+        $result = [];
         $i      = 0;
 
         foreach ($messageDefinition->getInput()->all() as $argument) {
@@ -55,7 +58,7 @@ class RpcLiteralRequestMessageBinder implements MessageBinderInterface
         $type = $this->typeRepository->getType($phpType);
         if ($type instanceof ArrayOfType) {
             $isArray = true;
-            $array = array();
+            $array = [];
 
             $type = $this->typeRepository->getType($type->get('item')->getType());
         }
@@ -72,7 +75,7 @@ class RpcLiteralRequestMessageBinder implements MessageBinderInterface
 
                     // See https://github.com/BeSimple/BeSimpleSoapBundle/issues/29
                     if (in_array('BeSimple\SoapCommon\Type\AbstractKeyValue', class_parents($phpType))) {
-                        $assocArray = array();
+                        $assocArray = [];
                         foreach ($array as $keyValue) {
                             $assocArray[$keyValue->getKey()] = $keyValue->getValue();
                         }

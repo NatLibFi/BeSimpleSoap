@@ -16,27 +16,26 @@
 
 namespace BeSimple\SoapClient\Tests\AxisInterop;
 
-use BeSimple\SoapCommon\Helper as BeSimpleSoapHelper;
 use BeSimple\SoapClient\SoapClient as BeSimpleSoapClient;
-use BeSimple\SoapClient\Tests\AxisInterop\Fixtures\UploadFile;
 use BeSimple\SoapClient\Tests\AxisInterop\Fixtures\DownloadFile;
-use BeSimple\SoapClient\Tests\AxisInterop\TestCase;
+use BeSimple\SoapClient\Tests\AxisInterop\Fixtures\UploadFile;
+use BeSimple\SoapCommon\Helper as BeSimpleSoapHelper;
 
 class SwaAxisInteropTest extends TestCase
 {
-    private $options = array(
+    private $options = [
         'soap_version'    => SOAP_1_1,
         'features'        => SOAP_SINGLE_ELEMENT_ARRAYS, // make sure that result is array for size=1
         'attachment_type' => BeSimpleSoapHelper::ATTACHMENTS_TYPE_SWA,
         'cache_wsdl'      => WSDL_CACHE_NONE,
-        'classmap'        => array(
+        'classmap'        => [
             'downloadFile'         => 'BeSimple\SoapClient\Tests\AxisInterop\Fixtures\DownloadFile',
             'downloadFileResponse' => 'BeSimple\SoapClient\Tests\AxisInterop\Fixtures\DownloadFileResponse',
             'uploadFile'           => 'BeSimple\SoapClient\Tests\AxisInterop\Fixtures\UploadFile',
             'uploadFileResponse'   => 'BeSimple\SoapClient\Tests\AxisInterop\Fixtures\UploadFileResponse',
-        ),
+        ],
         'proxy_host' => false,
-    );
+    ];
 
     public function testUploadDownloadText()
     {

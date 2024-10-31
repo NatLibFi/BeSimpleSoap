@@ -13,7 +13,6 @@
 namespace BeSimple\SoapCommon\Tests;
 
 use BeSimple\SoapCommon\Mime\Part;
-use BeSimple\SoapCommon\Mime\PartHeader;
 
 class PartTest extends \PHPUnit\Framework\TestCase
 {
@@ -55,7 +54,7 @@ class PartTest extends \PHPUnit\Framework\TestCase
         "Content-Transfer-Encoding: binary\r\n" .
         "Content-ID: <urn:myuniqueresource>\r\n" .
         "\r\n" .
-        "<xml1/>";
+        '<xml1/>';
 
         $this->assertEquals($messagePart, $p->getMessagePart());
     }

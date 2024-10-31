@@ -13,6 +13,8 @@ namespace BeSimple\SoapBundle\ServiceBinding;
 
 use BeSimple\SoapBundle\ServiceDefinition\Method;
 
+use function count;
+
 /**
  * Document literal wrapped request message binder
  *
@@ -26,7 +28,7 @@ class DocumentLiteralWrappedRequestMessageBinder implements MessageBinderInterfa
             throw new \InvalidArgumentException();
         }
 
-        $result  = array();
+        $result  = [];
         $message = $message[0];
 
         foreach ($messageDefinition->getArguments() as $argument) {

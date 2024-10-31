@@ -15,6 +15,9 @@ namespace BeSimple\SoapBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
+use function is_array;
+use function sprintf;
+
 /**
  * WebServiceExtension configuration structure.
  *
@@ -23,8 +26,9 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
  */
 class Configuration
 {
-    private $cacheTypes = array('none', 'disk', 'memory', 'disk_memory');
-    private $proxyAuth = array('basic', 'ntlm');
+    private $cacheTypes = ['none', 'disk', 'memory', 'disk_memory'];
+
+    private $proxyAuth = ['basic', 'ntlm'];
 
     /**
      * Generates the configuration tree.
@@ -107,7 +111,7 @@ class Configuration
                                             return !is_array($v);
                                         })
                                         ->then(function ($v) {
-                                            return array('host' => null === $v ? false : $v);
+                                            return ['host' => null === $v ? false : $v];
                                         })
                                     ->end()
                                     ->children()
@@ -151,7 +155,7 @@ class Configuration
                             ->scalarNode('binding')
                                 ->defaultValue('document-wrapped')
                                 ->validate()
-                                    ->ifNotInArray(array('rpc-literal', 'document-wrapped'))
+                                    ->ifNotInArray(['rpc-literal', 'document-wrapped'])
                                     ->thenInvalid(
                                         "Service binding style has to be either 'rpc-literal' or 'document-wrapped'"
                                     )

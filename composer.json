@@ -40,6 +40,7 @@
         "besimple/soap-wsdl":   "self.version"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "3.64.0",
         "mikey179/vfsstream": "~1.0",
         "squizlabs/php_codesniffer": "3.10.3",
         "symfony/filesystem": "^5.4.45 || ^6.2.13",

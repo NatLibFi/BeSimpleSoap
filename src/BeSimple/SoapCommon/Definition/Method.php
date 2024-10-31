@@ -22,8 +22,11 @@ class Method
     private $name;
 
     private $headers;
+
     private $input;
+
     private $output;
+
     private $fault;
 
     public function __construct($name)
@@ -48,7 +51,7 @@ class Method
 
     public function getVersions()
     {
-        return array(\SOAP_1_1, \SOAP_1_2);
+        return [\SOAP_1_1, \SOAP_1_2];
     }
 
     public function getUse()

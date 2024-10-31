@@ -13,6 +13,8 @@
 
 namespace BeSimple\SoapCommon;
 
+use function in_array;
+
 /**
  * Base class for SoapRequest and SoapResponse.
  *
@@ -47,10 +49,10 @@ abstract class SoapMessage
      *
      * @var array(string=>string)
      */
-    protected static $versionToContentTypeMap = array(
+    protected static $versionToContentTypeMap = [
         SOAP_1_1 => 'text/xml; charset=utf-8',
-        SOAP_1_2 => 'application/soap+xml; charset=utf-8'
-    );
+        SOAP_1_2 => 'application/soap+xml; charset=utf-8',
+    ];
 
     /**
      * SOAP action.
@@ -64,7 +66,7 @@ abstract class SoapMessage
      *
      * @var array(\BeSimple\SoapCommon\Mime\Part)
      */
-    protected $attachments = array();
+    protected $attachments = [];
 
     /**
      * Message content (MIME Message or SOAP Envelope).
@@ -111,7 +113,7 @@ abstract class SoapMessage
      */
     public static function getContentTypeForVersion($version)
     {
-        if (!in_array($version, array(SOAP_1_1, SOAP_1_2))) {
+        if (!in_array($version, [SOAP_1_1, SOAP_1_2])) {
             throw new \InvalidArgumentException("The 'version' argument has to be either 'SOAP_1_1' or 'SOAP_1_2'!");
         }
 

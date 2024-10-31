@@ -12,6 +12,8 @@
 
 namespace BeSimple\SoapCommon;
 
+use function sprintf;
+
 /**
  * Class map
  *
@@ -24,8 +26,7 @@ class Classmap
      *
      * @var array
      */
-    protected $classmap = array();
-
+    protected $classmap = [];
 
     /**
      * Get all items
@@ -79,7 +80,7 @@ class Classmap
      */
     public function set(array $classmap)
     {
-        $this->classmap = array();
+        $this->classmap = [];
 
         foreach ($classmap as $type => $classname) {
             $this->add($type, $classname);

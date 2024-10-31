@@ -11,13 +11,18 @@
 
 namespace BeSimple\SoapBundle\Util;
 
+use function count;
+use function sprintf;
+
 /**
  * Collection
  */
 class Collection implements \IteratorAggregate, \Countable
 {
-    private $elements = array();
+    private $elements = [];
+
     private $getter;
+
     private $class;
 
     public function __construct($getter, $class = null)
@@ -32,7 +37,7 @@ class Collection implements \IteratorAggregate, \Countable
             throw new \InvalidArgumentException(
                 sprintf(
                     'Cannot add class "%s" because it is not an instance of "%s"',
-                    get_class($element),
+                    $element::class,
                     $this->class
                 )
             );
@@ -60,7 +65,7 @@ class Collection implements \IteratorAggregate, \Countable
 
     public function clear()
     {
-        $this->elements = array();
+        $this->elements = [];
     }
 
     public function count(): int

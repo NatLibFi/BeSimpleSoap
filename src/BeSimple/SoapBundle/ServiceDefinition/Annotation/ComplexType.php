@@ -19,7 +19,9 @@ namespace BeSimple\SoapBundle\ServiceDefinition\Annotation;
 class ComplexType extends Configuration
 {
     private $name;
+
     private $value;
+
     private $isNillable = false;
 
     public function getName()
@@ -49,7 +51,7 @@ class ComplexType extends Configuration
 
     public function setNillable($isNillable)
     {
-        $this->isNillable = (bool) $isNillable;
+        $this->isNillable = (bool)$isNillable;
     }
 
     public function getAliasName()

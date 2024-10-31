@@ -12,12 +12,15 @@
 
 namespace BeSimple\SoapBundle\ServiceDefinition\Loader;
 
-use BeSimple\SoapBundle\ServiceDefinition as Definition;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation;
+use BeSimple\SoapBundle\ServiceDefinition as Definition;
 use BeSimple\SoapCommon\Definition\Type\ComplexType;
 use BeSimple\SoapCommon\Definition\Type\TypeRepository;
 use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\Config\Loader\Loader;
+
+use function is_string;
+use function sprintf;
 
 /**
  * AnnotationClassLoader loads ServiceDefinition from a PHP class and its methods.
@@ -63,7 +66,7 @@ class AnnotationClassLoader extends Loader
         $class      = new \ReflectionClass($class);
         $definition = new Definition\Definition($this->typeRepository);
 
-        $sharedHeaders = array();
+        $sharedHeaders = [];
         foreach ($this->reader->getClassAnnotations($class) as $annotation) {
             if ($annotation instanceof Annotation\Header) {
                 $sharedHeaders[$annotation->getValue()] = $this->loadType($annotation->getPhpType());
@@ -72,7 +75,7 @@ class AnnotationClassLoader extends Loader
 
         foreach ($class->getMethods() as $method) {
             $serviceHeaders   = $sharedHeaders;
-            $serviceArguments = array();
+            $serviceArguments = [];
             $serviceMethod    =
             $serviceReturn    = null;
 
@@ -155,7 +158,7 @@ class AnnotationClassLoader extends Loader
             }
 
             $loaded = $complexTypeResolver->load($phpType);
-            $complexType = new ComplexType($phpType, isset($loaded['alias']) ? $loaded['alias'] : $phpType);
+            $complexType = new ComplexType($phpType, $loaded['alias'] ?? $phpType);
             foreach ($loaded['properties'] as $name => $property) {
                 $complexType->add($name, $this->loadType($property->getValue()), $property->isNillable());
             }

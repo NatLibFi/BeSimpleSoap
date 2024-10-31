@@ -16,6 +16,8 @@ use BeSimple\SoapCommon\Cache;
 use BeSimple\SoapCommon\Helper;
 use Symfony\Component\HttpFoundation\Response;
 
+use function strlen;
+
 /**
  * Downloads WSDL files with cURL. Uses the WSDL_CACHE_* constants and the
  * 'soap.wsdl_*' ini settings. Does only file caching as SoapClient only
@@ -73,7 +75,7 @@ class WsdlDownloader
     public function __construct(Curl $curl, $resolveRemoteIncludes = true, $cacheWsdl = Cache::TYPE_DISK)
     {
         $this->curl                  = $curl;
-        $this->resolveRemoteIncludes = (bool) $resolveRemoteIncludes;
+        $this->resolveRemoteIncludes = (bool)$resolveRemoteIncludes;
 
         // get current WSDL caching config
         $this->cacheEnabled = $cacheWsdl === Cache::TYPE_NONE ? Cache::DISABLED : Cache::ENABLED == Cache::isEnabled();
@@ -239,7 +241,7 @@ class WsdlDownloader
         if (isset($urlParts['path']) && '/' === $relative[0]) {
             // $relative is absolute path from domain (starts with /)
             $path = $relative;
-        } elseif (isset($urlParts['path']) && strrpos($urlParts['path'], '/') === (strlen($urlParts['path']) )) {
+        } elseif (isset($urlParts['path']) && strrpos($urlParts['path'], '/') === (strlen($urlParts['path']))) {
             // base path is directory
             $path = $urlParts['path'] . $relative;
         } elseif (isset($urlParts['path'])) {
@@ -252,7 +254,7 @@ class WsdlDownloader
 
         // foo/./bar ==> foo/bar
         // remove double slashes
-        $path = preg_replace(array('#/\./#', '#/+#'), '/', $path);
+        $path = preg_replace(['#/\./#', '#/+#'], '/', $path);
 
         // split path by '/'
         $parts = explode('/', $path);

@@ -42,18 +42,17 @@ namespace BeSimple\SoapClient\Tests\AxisInterop;
 
 use ass\XmlSecurity\Key as XmlSecurityKey;
 use BeSimple\SoapClient\SoapClient as BeSimpleSoapClient;
+use BeSimple\SoapClient\Tests\AxisInterop\Fixtures\AddBook;
+use BeSimple\SoapClient\Tests\AxisInterop\Fixtures\GetBook;
 use BeSimple\SoapClient\WsSecurityFilter as BeSimpleWsSecurityFilter;
 use BeSimple\SoapCommon\WsSecurityKey as BeSimpleWsSecurityKey;
-use BeSimple\SoapClient\Tests\AxisInterop\Fixtures\GetBook;
-use BeSimple\SoapClient\Tests\AxisInterop\Fixtures\AddBook;
-use BeSimple\SoapClient\Tests\AxisInterop\TestCase;
 
 class WsSecuritySigEncAxisInteropTest extends TestCase
 {
-    private $options = array(
+    private $options = [
         'soap_version' => SOAP_1_2,
         'features'     => SOAP_SINGLE_ELEMENT_ARRAYS, // make sure that result is array for size=1
-        'classmap'        => array(
+        'classmap'        => [
             'getBook'                => 'BeSimple\SoapClient\Tests\AxisInterop\Fixtures\GetBook',
             'getBookResponse'        => 'BeSimple\SoapClient\Tests\AxisInterop\Fixtures\GetBookResponse',
             'getBooksByType'         => 'BeSimple\SoapClient\Tests\AxisInterop\Fixtures\GetBooksByType',
@@ -61,9 +60,9 @@ class WsSecuritySigEncAxisInteropTest extends TestCase
             'addBook'                => 'BeSimple\SoapClient\Tests\AxisInterop\Fixtures\AddBook',
             'addBookResponse'        => 'BeSimple\SoapClient\Tests\AxisInterop\Fixtures\AddBookResponse',
             'BookInformation'        => 'BeSimple\SoapClient\Tests\AxisInterop\Fixtures\BookInformation',
-        ),
+        ],
         'proxy_host' => false,
-    );
+    ];
 
     public function testSigEnc()
     {
@@ -101,7 +100,7 @@ class WsSecuritySigEncAxisInteropTest extends TestCase
         $ab->author = 'Cook, Glen';
         $ab->type = 'scifi';
 
-        $this->assertTrue((bool) $sc->addBook($ab));
+        $this->assertTrue((bool)$sc->addBook($ab));
 
         // getBooksByType("scifi");
     }

@@ -22,6 +22,8 @@ use BeSimple\SoapCommon\SoapResponse as CommonSoapResponse;
 use BeSimple\SoapCommon\SoapResponseFilter;
 use BeSimple\SoapCommon\WsSecurityFilterClientServer;
 
+use function call_user_func;
+
 /**
  * This plugin implements a subset of the following standards:
  *  * Web Services Security: SOAP Message Security 1.0 (WS-Security 2004)
@@ -121,7 +123,7 @@ class WsSecurityFilter extends WsSecurityFilterClientServer implements SoapReque
             }
 
             // add SecurityTokenReference resolver for KeyInfo
-            $keyResolver = array($this, 'keyInfoSecurityTokenReferenceResolver');
+            $keyResolver = [$this, 'keyInfoSecurityTokenReferenceResolver'];
             XmlSecurityDSig::addKeyInfoResolver(Helper::NS_WSS, 'SecurityTokenReference', $keyResolver);
 
             // do we have a reference list in header
@@ -139,10 +141,10 @@ class WsSecurityFilter extends WsSecurityFilterClientServer implements SoapReque
             $signature = XmlSecurityDSig::locateSignature($security);
             if (null !== $signature) {
                 // verify references
-                $options = array(
+                $options = [
                     'id_ns_prefix' => Helper::PFX_WSU,
                     'id_prefix_ns' => Helper::NS_WSU,
-                );
+                ];
                 if (XmlSecurityDSig::verifyReferences($signature, $options) !== true) {
                     throw new \SoapFault('wsse:FailedCheck', 'The signature or decryption was invalid');
                 }
@@ -217,10 +219,10 @@ class WsSecurityFilter extends WsSecurityFilterClientServer implements SoapReque
                 null,
                 $keyInfo
             );
-            $options = array(
+            $options = [
                 'id_ns_prefix' => Helper::PFX_WSU,
                 'id_prefix_ns' => Helper::NS_WSU,
-            );
+            ];
             foreach ($nodes as $node) {
                 XmlSecurityDSig::addNodeToSignature(
                     $signature,

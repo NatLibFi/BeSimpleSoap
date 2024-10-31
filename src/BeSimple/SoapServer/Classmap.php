@@ -14,6 +14,8 @@ namespace BeSimple\SoapServer;
 
 use BeSimple\SoapCommon\Classmap as BaseClassmap;
 
+use function sprintf;
+
 /**
  * Class map
  *
@@ -21,7 +23,7 @@ use BeSimple\SoapCommon\Classmap as BaseClassmap;
  */
 class Classmap extends BaseClassmap
 {
-    protected $classmapInversed = array();
+    protected $classmapInversed = [];
 
     /**
      * {@inheritdoc}

@@ -14,6 +14,9 @@ namespace BeSimple\SoapClient\Tests;
 
 use BeSimple\SoapClient\Curl;
 
+use function sprintf;
+use function strlen;
+
 /**
  * Curl tests
  *
@@ -23,10 +26,9 @@ class CurlTest extends AbstractWebserverTest
 {
     public function testExec()
     {
-        $curl = new Curl(array(
+        $curl = new Curl([
             'proxy_host' => false,
-        ));
-
+        ]);
 
         $this->assertTrue($curl->exec(sprintf('http://localhost:%d/curl.txt', WEBSERVER_PORT)));
         $this->assertTrue($curl->exec(sprintf('http://localhost:%d/404.txt', WEBSERVER_PORT)));
@@ -34,9 +36,9 @@ class CurlTest extends AbstractWebserverTest
 
     public function testGetErrorMessage()
     {
-        $curl = new Curl(array(
+        $curl = new Curl([
             'proxy_host' => false,
-        ));
+        ]);
 
         $curl->exec('http://unknown/curl.txt');
         $this->assertMatchesRegularExpression('/^Could not connect to host.*$/', $curl->getErrorMessage());
@@ -53,9 +55,9 @@ class CurlTest extends AbstractWebserverTest
 
     public function testGetRequestHeaders()
     {
-        $curl = new Curl(array(
+        $curl = new Curl([
             'proxy_host' => false,
-        ));
+        ]);
 
         $curl->exec(sprintf('http://localhost:%d/curl.txt', WEBSERVER_PORT));
         $this->assertCorrectRequestHeaders($curl->getRequestHeaders(), '/curl.txt');
@@ -66,9 +68,9 @@ class CurlTest extends AbstractWebserverTest
 
     public function testGetResponse()
     {
-        $curl = new Curl(array(
+        $curl = new Curl([
             'proxy_host' => false,
-        ));
+        ]);
 
         $curl->exec(sprintf('http://localhost:%d/curl.txt', WEBSERVER_PORT));
         $this->assertSame('OK', $curl->getResponseStatusMessage());
@@ -84,9 +86,9 @@ class CurlTest extends AbstractWebserverTest
 
     public function testGetResponseBody()
     {
-        $curl = new Curl(array(
+        $curl = new Curl([
             'proxy_host' => false,
-        ));
+        ]);
 
         $curl->exec(sprintf('http://localhost:%d/curl.txt', WEBSERVER_PORT));
         $this->assertEquals('This is a testfile for cURL.', $curl->getResponseBody());
@@ -94,9 +96,9 @@ class CurlTest extends AbstractWebserverTest
 
     public function testGetResponseContentType()
     {
-        $curl = new Curl(array(
+        $curl = new Curl([
             'proxy_host' => false,
-        ));
+        ]);
 
         $curl->exec(sprintf('http://localhost:%d/curl.txt', WEBSERVER_PORT));
         $this->assertEquals('text/plain; charset=UTF-8', $curl->getResponseContentType());
@@ -107,9 +109,9 @@ class CurlTest extends AbstractWebserverTest
 
     public function testGetResponseHeaders()
     {
-        $curl = new Curl(array(
+        $curl = new Curl([
             'proxy_host' => false,
-        ));
+        ]);
 
         $curl->exec(sprintf('http://localhost:%d/curl.txt', WEBSERVER_PORT));
         $headers = $curl->getResponseHeaders();
@@ -122,9 +124,9 @@ class CurlTest extends AbstractWebserverTest
 
     public function testGetResponseStatusCode()
     {
-        $curl = new Curl(array(
+        $curl = new Curl([
             'proxy_host' => false,
-        ));
+        ]);
 
         $curl->exec(sprintf('http://localhost:%d/curl.txt', WEBSERVER_PORT));
         $this->assertEquals(200, $curl->getResponseStatusCode());

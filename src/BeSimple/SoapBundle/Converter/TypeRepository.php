@@ -25,6 +25,7 @@ class TypeRepository
     public const ARRAY_SUFFIX = '[]';
 
     private $xmlNamespaces  = [];
+
     private $defaultTypeMap = [];
 
     public function addXmlNamespace($prefix, $url)
@@ -47,6 +48,6 @@ class TypeRepository
 
     public function getXmlTypeMapping($phpType)
     {
-        return isset($this->defaultTypeMap[$phpType]) ? $this->defaultTypeMap[$phpType] : null;
+        return $this->defaultTypeMap[$phpType] ?? null;
     }
 }

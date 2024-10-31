@@ -12,8 +12,8 @@
 
 namespace BeSimple\SoapClient;
 
-use BeSimple\SoapCommon\SoapRequest as CommonSoapRequest;
 use BeSimple\SoapCommon\SoapMessage;
+use BeSimple\SoapCommon\SoapRequest as CommonSoapRequest;
 
 /**
  * SoapRequest class for SoapClient. Provides factory function for request object.
@@ -36,7 +36,7 @@ class SoapRequest extends CommonSoapRequest
     {
         $request = new SoapRequest();
         // $content is if unmodified from SoapClient not a php string type!
-        $request->setContent((string) $content);
+        $request->setContent((string)$content);
         $request->setLocation($location);
         $request->setAction($action);
         $request->setVersion($version);

@@ -13,8 +13,8 @@ namespace BeSimple\SoapBundle\Soap;
 
 use BeSimple\SoapBundle\Util\Collection;
 use Symfony\Component\HttpFoundation\Request;
-use ZBateson\MailMimeParser\MailMimeParser;
 use ZBateson\MailMimeParser\Header\HeaderConsts;
+use ZBateson\MailMimeParser\MailMimeParser;
 
 /**
  * SoapRequest.
@@ -201,13 +201,13 @@ class SoapRequest extends Request
 
     protected function splitContentTypeHeader($header)
     {
-        $result = array();
+        $result = [];
         $parts = explode(';', strtolower($header));
 
         $result['_type'] = array_shift($parts);
 
         foreach ($parts as $part) {
-            list($key, $value) = explode('=', trim($part), 2);
+            [$key, $value] = explode('=', trim($part), 2);
 
             $result[$key] = trim($value, '"');
         }

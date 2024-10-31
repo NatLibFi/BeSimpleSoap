@@ -18,9 +18,11 @@ use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+
+use function sprintf;
 
 /**
  * BeSimpleSoapExtension.
@@ -96,7 +98,7 @@ class BeSimpleSoapExtension extends Extension
                     ->getDefinition('besimple.soap.client.builder')
                     ->getArgument(1);
 
-            foreach (array('cache_type', 'user_agent') as $key) {
+            foreach (['cache_type', 'user_agent'] as $key) {
                 if (isset($options[$key])) {
                     $defOptions[$key] = $options[$key];
                 }
@@ -115,7 +117,7 @@ class BeSimpleSoapExtension extends Extension
                 $definition->addMethodCall('withProxy', [
                     $proxy['host'], $proxy['port'],
                     $proxy['login'], $proxy['password'],
-                    $proxy['auth']
+                    $proxy['auth'],
                 ]);
             }
 
@@ -138,9 +140,9 @@ class BeSimpleSoapExtension extends Extension
         $container->setDefinition(sprintf('besimple.soap.classmap.%s', $client), $definition);
 
         if (!empty($classmap)) {
-            $definition->setMethodCalls(array(
-                array('set', array($classmap)),
-            ));
+            $definition->setMethodCalls([
+                ['set', [$classmap]],
+            ]);
         }
 
         return sprintf('besimple.soap.classmap.%s', $client);
@@ -151,10 +153,10 @@ class BeSimpleSoapExtension extends Extension
         $definition = new ChildDefinition('besimple.soap.client');
         $container->setDefinition(sprintf('besimple.soap.client.%s', $client), $definition);
 
-        $definition->setFactory(array(
+        $definition->setFactory([
             new Reference(sprintf('besimple.soap.client.builder.%s', $client)),
-            'build'
-        ));
+            'build',
+        ]);
     }
 
     private function createWebServiceContext(array $config, ContainerBuilder $container)

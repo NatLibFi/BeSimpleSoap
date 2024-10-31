@@ -15,6 +15,9 @@ namespace BeSimple\SoapClient\Tests;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
+use function sprintf;
+use function strlen;
+
 /**
  * Abstract base class for web server tests
  *
@@ -44,13 +47,13 @@ abstract class AbstractWebServerTest extends \PHPUnit\Framework\TestCase
     public static function setUpBeforeClass(): void
     {
         $phpFinder = new PhpExecutableFinder();
-        self::$webserver = new Process(array(
+        self::$webserver = new Process([
             $phpFinder->find(),
             '-S',
             sprintf('localhost:%d', WEBSERVER_PORT),
             '-t',
             __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures',
-        ));
+        ]);
 
         self::$webserver->start();
         usleep(200000);

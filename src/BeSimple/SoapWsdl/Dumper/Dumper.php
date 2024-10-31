@@ -17,6 +17,9 @@ use BeSimple\SoapCommon\Definition\Method;
 use BeSimple\SoapCommon\Definition\Type\ArrayOfType;
 use BeSimple\SoapCommon\Definition\Type\ComplexType;
 
+use function array_key_exists;
+use function sprintf;
+
 /**
  * Dumper
  *
@@ -45,18 +48,24 @@ class Dumper
     public const TYPES_NS = 'tns';
 
     protected $definition;
+
     protected $options;
 
     protected $version11;
+
     protected $version12;
 
     protected $document;
+
     protected $domDefinitions;
+
     protected $domSchema;
+
     protected $domService;
+
     protected $domPortType;
 
-    public function __construct(Definition $definition, array $options = array())
+    public function __construct(Definition $definition, array $options = [])
     {
         $this->definition = $definition;
         $this->document = new \DOMDocument('1.0', 'utf-8');
@@ -66,15 +75,15 @@ class Dumper
 
     public function setOptions(array $options)
     {
-        $this->options = array(
+        $this->options = [
             'version11_class' => 'BeSimple\\SoapWsdl\\Dumper\\Version11',
             'version12_class' => 'BeSimple\\SoapWsdl\\Dumper\\Version12',
             'version11_name' => $this->definition->getName(),
             'version12_name' => $this->definition->getName() . '12',
             'stylesheet' => null,
-        );
+        ];
 
-        $invalid = array();
+        $invalid = [];
         foreach ($options as $key => $value) {
             if (array_key_exists($key, $this->options)) {
                 $this->options[$key] = $value;
@@ -118,7 +127,7 @@ class Dumper
         $this->addMethods();
         $this->addService();
 
-        foreach (array($this->version11, $this->version12) as $version) {
+        foreach ([$this->version11, $this->version12] as $version) {
             if (!$version) {
                 continue;
             }
@@ -298,11 +307,11 @@ class Dumper
         $operation = $this->document->createElement('operation');
         $operation->setAttribute('name', $method->getName());
 
-        $elements = array(
+        $elements = [
             'input' => $method->getInput(),
             'output' => $method->getOutput(),
-            'fault' => $method->getFault()
-        );
+            'fault' => $method->getFault(),
+        ];
         foreach ($elements as $type => $message) {
             if ('fault' === $type && $message->isEmpty()) {
                 continue;

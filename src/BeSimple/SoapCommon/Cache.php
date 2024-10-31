@@ -12,6 +12,9 @@
 
 namespace BeSimple\SoapCommon;
 
+use function in_array;
+use function ini_get;
+
 /**
  * Cache
  *
@@ -27,12 +30,12 @@ class Cache
     public const TYPE_MEMORY      = WSDL_CACHE_MEMORY;
     public const TYPE_DISK_MEMORY = WSDL_CACHE_BOTH;
 
-    protected static $types = array(
+    protected static $types = [
         self::TYPE_NONE,
         self::TYPE_DISK,
         self::TYPE_MEMORY,
         self::TYPE_DISK_MEMORY,
-    );
+    ];
 
     public static function getTypes()
     {
@@ -46,7 +49,7 @@ class Cache
 
     public static function setEnabled($enabled)
     {
-        if (!in_array($enabled, array(self::ENABLED, self::DISABLED), true)) {
+        if (!in_array($enabled, [self::ENABLED, self::DISABLED], true)) {
             throw new \InvalidArgumentException();
         }
 
@@ -78,7 +81,7 @@ class Cache
     public static function setDirectory($directory)
     {
         if (!is_dir($directory)) {
-            mkdir($directory, 0777, true);
+            mkdir($directory, 0o777, true);
         }
 
         self::iniSet('soap.wsdl_cache_dir', $directory);

@@ -12,6 +12,10 @@
 
 namespace BeSimple\SoapCommon\Util;
 
+use function gettype;
+use function is_object;
+use function sprintf;
+
 /**
  * Message Binder
  *

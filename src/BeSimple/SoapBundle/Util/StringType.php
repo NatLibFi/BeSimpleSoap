@@ -11,6 +11,9 @@
 
 namespace BeSimple\SoapBundle\Util;
 
+use function is_string;
+use function strlen;
+
 /**
  * StringType provides utility methods for strings.
  *

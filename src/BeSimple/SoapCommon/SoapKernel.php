@@ -14,10 +14,6 @@
 namespace BeSimple\SoapCommon;
 
 use BeSimple\SoapCommon\Mime\Part as MimePart;
-use BeSimple\SoapCommon\SoapRequest;
-use BeSimple\SoapCommon\SoapResponse;
-use BeSimple\SoapCommon\SoapRequestFilter;
-use BeSimple\SoapCommon\SoapResponseFilter;
 
 /**
  * SoapKernel provides methods to pre- and post-process SoapRequests and SoapResponses using
@@ -33,21 +29,21 @@ class SoapKernel
      *
      * @var array(\BeSimple\SoapCommon\Mime\Part)
      */
-    protected $attachments = array();
+    protected $attachments = [];
 
     /**
      * Request filters.
      *
      * @var array(SoapRequestFilter)
      */
-    private $requestFilters = array();
+    private $requestFilters = [];
 
     /**
      * Response filters.
      *
      * @var array(SoapResponseFilter)
      */
-    private $responseFilters = array();
+    private $responseFilters = [];
 
     /**
      * Add attachment.

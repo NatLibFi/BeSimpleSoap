@@ -16,6 +16,11 @@ use BeSimple\SoapBundle\ServiceDefinition\ServiceDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\FileLoader;
 
+use function function_exists;
+use function in_array;
+use function is_array;
+use function is_string;
+
 /**
  * AnnotationFileLoader loads ServiceDefinition from annotations set
  * on a PHP class and its methods.
@@ -34,7 +39,7 @@ class AnnotationFileLoader extends FileLoader
      * @param AnnotationClassLoader $loader An AnnotationClassLoader instance
      * @param string|array          $paths  A path or an array of paths where to look for resources
      */
-    public function __construct(FileLocator $locator, AnnotationClassLoader $loader, $paths = array())
+    public function __construct(FileLocator $locator, AnnotationClassLoader $loader, $paths = [])
     {
         if (!function_exists('token_get_all')) {
             throw new \RuntimeException('The Tokenizer extension is required for the routing annotation loaders.');
@@ -107,7 +112,7 @@ class AnnotationFileLoader extends FileLoader
                 do {
                     $namespace .= $token[1];
                     $token = array_shift($tokens);
-                } while ($tokens && is_array($token) && in_array($token[0], array(T_NS_SEPARATOR, T_STRING)));
+                } while ($tokens && is_array($token) && in_array($token[0], [T_NS_SEPARATOR, T_STRING]));
             }
 
             if (T_CLASS === $token[0]) {

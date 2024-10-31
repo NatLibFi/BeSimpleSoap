@@ -24,8 +24,9 @@ class TypeRepository
 {
     public const ARRAY_SUFFIX = '[]';
 
-    protected $xmlNamespaces = array();
-    protected $types = array();
+    protected $xmlNamespaces = [];
+
+    protected $types = [];
 
     protected $classmap;
 
@@ -38,6 +39,7 @@ class TypeRepository
     {
         return $this->xmlNamespaces;
     }
+
     public function getXmlNamespace($prefix)
     {
         return $this->xmlNamespaces[$prefix];
@@ -50,7 +52,7 @@ class TypeRepository
 
     public function getComplexTypes()
     {
-        $types = array();
+        $types = [];
         foreach ($this->types as $type) {
             if ($type instanceof ComplexType) {
                 $types[] = $type;

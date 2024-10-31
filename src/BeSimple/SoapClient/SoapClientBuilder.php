@@ -16,6 +16,8 @@ namespace BeSimple\SoapClient;
 use BeSimple\SoapCommon\AbstractSoapBuilder;
 use BeSimple\SoapCommon\Helper;
 
+use function in_array;
+
 /**
  * Fluent interface builder for SoapClient instance.
  *
@@ -30,7 +32,7 @@ class SoapClientBuilder extends AbstractSoapBuilder
      *
      * @var array(string=>mixed)
      */
-    protected $soapOptionAuthentication = array();
+    protected $soapOptionAuthentication = [];
 
     /**
      * Create new instance with default options.
@@ -141,11 +143,11 @@ class SoapClientBuilder extends AbstractSoapBuilder
      */
     public function withBasicAuthentication($username, $password)
     {
-        $this->soapOptionAuthentication = array(
+        $this->soapOptionAuthentication = [
             'authentication' => SOAP_AUTHENTICATION_BASIC,
             'login'          => $username,
             'password'       => $password,
-        );
+        ];
 
         return $this;
     }
@@ -160,10 +162,10 @@ class SoapClientBuilder extends AbstractSoapBuilder
      */
     public function withDigestAuthentication($certificate, $passphrase = null)
     {
-        $this->soapOptionAuthentication = array(
+        $this->soapOptionAuthentication = [
             'authentication' => SOAP_AUTHENTICATION_DIGEST,
             'local_cert'     => $certificate,
-        );
+        ];
 
         if ($passphrase) {
             $this->soapOptionAuthentication['passphrase'] = $passphrase;
@@ -193,7 +195,7 @@ class SoapClientBuilder extends AbstractSoapBuilder
             $this->soapOptions['proxy_password'] = $password;
 
             if ($auth) {
-                if (!in_array($auth, array(\CURLAUTH_BASIC, \CURLAUTH_NTLM), true)) {
+                if (!in_array($auth, [\CURLAUTH_BASIC, \CURLAUTH_NTLM], true)) {
                     throw new \InvalidArgumentException(
                         'Invalid authentication method: CURLAUTH_BASIC or CURLAUTH_NTLM constants are availables.'
                     );

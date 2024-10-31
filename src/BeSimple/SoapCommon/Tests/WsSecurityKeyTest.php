@@ -13,7 +13,6 @@
 namespace BeSimple\SoapCommon\Tests;
 
 use BeSimple\SoapCommon\WsSecurityKey;
-use ass\XmlSecurity\Key as XmlSecurityKey;
 
 class WsSecurityKeyTest extends \PHPUnit\Framework\TestCase
 {

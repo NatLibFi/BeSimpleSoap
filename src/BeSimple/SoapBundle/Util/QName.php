@@ -11,6 +11,9 @@
 
 namespace BeSimple\SoapBundle\Util;
 
+use function call_user_func;
+use function sprintf;
+
 /**
  * QName
  *
@@ -19,18 +22,19 @@ namespace BeSimple\SoapBundle\Util;
 class QName
 {
     private $namespace;
+
     private $name;
 
     public static function isPrefixedQName($qname)
     {
-        return false !== strpos($qname, ':') ? true : false;
+        return   str_contains($qname, ':') ? true : false;
     }
 
     public static function fromPrefixedQName($qname, $resolveNamespacePrefixCallable)
     {
         Assert::thatArgument('qname', self::isPrefixedQName($qname));
 
-        list($prefix, $name) = explode(':', $qname);
+        [$prefix, $name] = explode(':', $qname);
 
         return new self(call_user_func($resolveNamespacePrefixCallable, $prefix), $name);
     }

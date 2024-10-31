@@ -14,7 +14,9 @@ namespace BeSimple\SoapBundle\Soap;
 class SoapHeader
 {
     private $namespace;
+
     private $name;
+
     private $data;
 
     public function __construct($namespace, $name, $data)

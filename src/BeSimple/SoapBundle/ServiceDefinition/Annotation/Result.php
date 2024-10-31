@@ -19,6 +19,7 @@ namespace BeSimple\SoapBundle\ServiceDefinition\Annotation;
 class Result extends Configuration implements TypedElementInterface
 {
     private $phpType;
+
     private $xmlType;
 
     public function getPhpType()

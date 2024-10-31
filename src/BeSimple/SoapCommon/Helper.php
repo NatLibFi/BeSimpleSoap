@@ -12,6 +12,8 @@
 
 namespace BeSimple\SoapCommon;
 
+use function sprintf;
+
 /**
  * Soap helper class with static functions that are used in the client and
  * server implementations. It also provides namespace and configuration

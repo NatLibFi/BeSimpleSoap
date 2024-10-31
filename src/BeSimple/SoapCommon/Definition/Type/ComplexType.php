@@ -35,7 +35,6 @@ class ComplexType extends Message implements TypeInterface
      */
     protected string $xmlType;
 
-
     public function __construct($phpType, $xmlType)
     {
         $this->phpType = $phpType;

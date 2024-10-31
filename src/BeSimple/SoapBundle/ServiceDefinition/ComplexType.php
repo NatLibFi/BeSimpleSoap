@@ -20,7 +20,9 @@ namespace BeSimple\SoapBundle\ServiceDefinition;
 class ComplexType
 {
     private $name;
+
     private $value;
+
     private $isNillable = false;
 
     public function getName()
@@ -50,6 +52,6 @@ class ComplexType
 
     public function setNillable($isNillable)
     {
-        $this->isNillable = (bool) $isNillable;
+        $this->isNillable = (bool)$isNillable;
     }
 }

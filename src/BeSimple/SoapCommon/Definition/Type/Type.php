@@ -20,6 +20,7 @@ namespace BeSimple\SoapCommon\Definition\Type;
 class Type implements TypeInterface
 {
     protected $phpType;
+
     protected $xmlType;
 
     public function __construct($phpType, $xmlType)
