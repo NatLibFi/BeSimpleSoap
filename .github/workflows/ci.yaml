@@ -55,6 +55,9 @@ jobs:
       - name: Install composer dependencies
         run: composer install --prefer-dist --no-interaction
 
+      - name: Run checks
+        run: make qa
+
       - name: Start PHP web server
         run: ./src/BeSimple/SoapClient/Tests/bin/phpwebserver.sh
 
