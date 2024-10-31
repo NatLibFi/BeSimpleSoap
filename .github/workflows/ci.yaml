@@ -11,11 +11,8 @@ jobs:
       VUFIND_LOCAL_DIR: $GITHUB_WORKSPACE/local
     strategy:
       matrix:
-        php-version: ['7.4', '8.0', '8.1']
+        php-version: ['8.1', '8.2', '8.3']
         symfony-version: ['5.4.*', '6.0.*']
-        exclude:
-          - php-version: 7.4
-            symfony-version: "6.0.*"
 
     steps:
       - name: Setup PHP
@@ -23,21 +20,27 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: intl, xsl
-          tools: composer:2.1.6
+          tools: composer
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Get composer cache directory
         id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache composer dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
+
+      - name: Cache downloads
+        uses: actions/cache@v4
+        with:
+          path: src/BeSimple/SoapClient/Tests/bin/*.zip
+          key: ${{ runner.os }}-tests-zip
 
       - name: Configure Symfony version
         run: composer require symfony/framework-bundle:${{ matrix.symfony-version }} --no-update

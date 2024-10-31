@@ -11,8 +11,9 @@
 namespace BeSimple\SoapBundle\Soap;
 
 use BeSimple\SoapBundle\Util\Collection;
-use Laminas\Mime\Message;
 use Symfony\Component\HttpFoundation\Request;
+use ZBateson\MailMimeParser\MailMimeParser;
+use ZBateson\MailMimeParser\Header\HeaderConsts;
 
 /**
  * SoapRequest.
@@ -51,7 +52,20 @@ class SoapRequest extends Request
         return new static($request->query->all(), $request->request->all(), $request->attributes->all(), $request->cookies->all(), $request->files->all(), $request->server->all(), $request->content);
     }
 
-    public function initialize(array $query = array(), array $request = array(), array $attributes = array(), array $cookies = array(), array $files = array(), array $server = array(), $content = null)
+    /**
+     * Sets the parameters for this request.
+     *
+     * This method also re-initializes all properties.
+     *
+     * @param array                $query      The GET parameters
+     * @param array                $request    The POST parameters
+     * @param array                $attributes The request attributes (parameters parsed from the PATH_INFO, ...)
+     * @param array                $cookies    The COOKIE parameters
+     * @param array                $files      The FILES parameters
+     * @param array                $server     The SERVER parameters
+     * @param string|resource|null $content    The raw body data
+     */
+    public function initialize(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null): void
     {
         parent::initialize($query, $request, $attributes, $cookies, $files, $server, $content);
 
@@ -118,25 +132,31 @@ class SoapRequest extends Request
             throw new \InvalidArgumentException();
         }
 
-        $mimeMessage = Message::createFromMessage($content, $contentTypeHeader['boundary']);
-        $mimeParts = $mimeMessage->getParts();
+        $fullMessage = HeaderConsts::CONTENT_TYPE . ': ' . $this->server->get('CONTENT_TYPE') . "\r\n"
+            . HeaderConsts::MIME_VERSION . ": 1.0\r\n"
+            . "\r\n$content";
+
+        $mailParser = new MailMimeParser();
+        $message = $mailParser->parse($fullMessage, false);
+        $mimeParts = $message->getAllParts();
 
         $soapMimePartId = trim($contentTypeHeader['start'], '<>');
         $soapMimePartType = $contentTypeHeader['start-info'];
 
+        array_shift($mimeParts);
         $rootPart = array_shift($mimeParts);
-        $rootPartType = $this->splitContentTypeHeader($rootPart->type);
+        $rootPartType = $rootPart->getContentType();
 
         // TODO: add more checks to achieve full compatibility to MTOM spec
         // http://www.w3.org/TR/soap12-mtom/
-        if($rootPart->id != $soapMimePartId || $rootPartType['_type'] != 'application/xop+xml' || $rootPartType['type'] != $soapMimePartType) {
+        if($rootPart->getContentId() != $soapMimePartId || ($rootPartType != 'application/xop+xml' && $rootPartType != $soapMimePartType)) {
             throw new \InvalidArgumentException();
         }
 
         foreach($mimeParts as $mimePart) {
             $this->soapAttachments->add(new SoapAttachment(
-                $mimePart->id,
-                $mimePart->type,
+                $mimePart->getContentId(),
+                $mimePart->getContentType(),
                 // handle content decoding / prevent encoding
                 $mimePart->getContent()
             ));

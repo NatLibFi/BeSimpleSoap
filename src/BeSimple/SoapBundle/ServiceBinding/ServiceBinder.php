@@ -57,7 +57,7 @@ class ServiceBinder
      * @param string $method
      * @param string $header
      *
-     * @return boolean
+     * @return bool
      */
     public function isServiceHeader($method, $header)
     {
@@ -67,7 +67,7 @@ class ServiceBinder
     /**
      * @param $string
      *
-     * @return boolean
+     * @return bool
      */
     public function isServiceMethod($method)
     {

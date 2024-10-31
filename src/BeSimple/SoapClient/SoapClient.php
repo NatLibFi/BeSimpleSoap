@@ -198,7 +198,7 @@ class SoapClient extends \SoapClient
         $flattenedHttpHeaders = array_merge($flattenedHttpHeaders, $staticallyAddedHeaders); //add statically added headers to the headers passed in
 
         // execute HTTP request with cURL
-        $responseSuccessfull = $this->curl->exec(
+        $responseSuccessful = $this->curl->exec(
             $location,
             $content,
             $flattenedHttpHeaders,
@@ -215,7 +215,7 @@ class SoapClient extends \SoapClient
             $this->lastRequest = $soapRequest->getContent();
         }
         // in case of an error while making the http request throw a soapFault
-        if (false === $responseSuccessfull) {
+        if (false === $responseSuccessful) {
             // get error message from curl
             $faultstring = $this->curl->getErrorMessage();
             throw new \SoapFault('HTTP', $faultstring);
@@ -246,11 +246,11 @@ class SoapClient extends \SoapClient
      * @param string $location Location
      * @param string $action   SOAP action
      * @param int    $version  SOAP version
-     * @param int    $oneWay   0|1
+     * @param bool   $oneWay   One way (no result expected)?
      *
      * @return string
      */
-    public function __doRequest($request, $location, $action, $version, $oneWay = 0): ?string
+    public function __doRequest($request, $location, $action, $version, $oneWay = false): ?string
     {
         // wrap request data in SoapRequest object
         $soapRequest = SoapRequest::create($request, $location, $action, $version);

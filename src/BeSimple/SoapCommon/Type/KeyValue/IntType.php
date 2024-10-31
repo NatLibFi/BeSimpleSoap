@@ -5,10 +5,10 @@ namespace BeSimple\SoapCommon\Type\KeyValue;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use BeSimple\SoapCommon\Type\AbstractKeyValue;
 
-class DateTime extends AbstractKeyValue
+class IntType extends AbstractKeyValue
 {
     /**
-     * @Soap\ComplexType("dateTime")
+     * @Soap\ComplexType("int")
      */
     protected $value;
 }

@@ -59,7 +59,7 @@ class WsdlDownloader
     /**
      * Resolve WSDl/XSD includes.
      *
-     * @var boolean
+     * @var bool
      */
     protected $resolveRemoteIncludes = true;
 
@@ -67,13 +67,13 @@ class WsdlDownloader
      * Constructor.
      *
      * @param \BeSimple\SoapClient\Curl $curl                  Curl instance
-     * @param boolean                   $resolveRemoteIncludes WSDL/XSD include enabled?
-     * @param boolean                   $cacheWsdl             Cache constant
+     * @param bool                      $resolveRemoteIncludes WSDL/XSD include enabled?
+     * @param bool                      $cacheWsdl             Cache constant
      */
     public function __construct(Curl $curl, $resolveRemoteIncludes = true, $cacheWsdl = Cache::TYPE_DISK)
     {
         $this->curl                  = $curl;
-        $this->resolveRemoteIncludes = (Boolean) $resolveRemoteIncludes;
+        $this->resolveRemoteIncludes = (bool) $resolveRemoteIncludes;
 
         // get current WSDL caching config
         $this->cacheEnabled = $cacheWsdl === Cache::TYPE_NONE ? Cache::DISABLED : Cache::ENABLED == Cache::isEnabled();
@@ -136,7 +136,7 @@ class WsdlDownloader
      *
      * @param string $file File URL/path
      *
-     * @return boolean
+     * @return bool
      */
     protected function isRemoteFile($file)
     {
@@ -153,9 +153,9 @@ class WsdlDownloader
     /**
      * Resolves remote WSDL/XSD includes within the WSDL files.
      *
-     * @param string  $xml            XML file
-     * @param string  $cacheFilePath  Cache file name
-     * @param boolean $parentFilePath Parent file name
+     * @param string $xml            XML file
+     * @param string $cacheFilePath  Cache file name
+     * @param ?bool  $parentFilePath Parent file name
      *
      * @return void
      */

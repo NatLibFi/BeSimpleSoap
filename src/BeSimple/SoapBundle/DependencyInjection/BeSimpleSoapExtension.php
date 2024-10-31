@@ -5,6 +5,7 @@
  *
  * (c) Christian Kerl <christian-kerl@web.de>
  * (c) Francis Besset <francis.besset@gmail.com>
+ * Copyright (C) University Of Helsinki (The National Library of Finland) 2024.
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -16,8 +17,8 @@ use BeSimple\SoapCommon\Cache;
 
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -27,14 +28,15 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  *
  * @author Christian Kerl <christian-kerl@web.de>
  * @author Francis Besset <francis.besset@gmail.com>
+ * @author Ere Maijala <ere.maijala@helsinki.fi>
  */
 class BeSimpleSoapExtension extends Extension
 {
     // maps config options to service suffix
-    private $bindingConfigToServiceSuffixMap = array(
+    private $bindingConfigToServiceSuffixMap = [
         'rpc-literal'      => 'rpcliteral',
         'document-wrapped' => 'documentwrapped',
-    );
+    ];
 
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -73,7 +75,7 @@ class BeSimpleSoapExtension extends Extension
 
         $config['type'] = $this->getCacheType($config['type']);
 
-        foreach (array('type', 'lifetime', 'limit') as $key) {
+        foreach (['type', 'lifetime', 'limit'] as $key) {
             $container->setParameter('besimple.soap.cache.'.$key, $config[$key]);
         }
     }
@@ -83,7 +85,7 @@ class BeSimpleSoapExtension extends Extension
         $loader->load('client.xml');
 
         foreach ($config as $client => $options) {
-            $definition = new DefinitionDecorator('besimple.soap.client.builder');
+            $definition = new ChildDefinition('besimple.soap.client.builder');
             $container->setDefinition(sprintf('besimple.soap.client.builder.%s', $client), $definition);
 
             $definition->replaceArgument(0, $options['wsdl']);
@@ -108,11 +110,11 @@ class BeSimpleSoapExtension extends Extension
                     }
                 }
 
-                $definition->addMethodCall('withProxy', array(
+                $definition->addMethodCall('withProxy', [
                     $proxy['host'], $proxy['port'],
                     $proxy['login'], $proxy['password'],
                     $proxy['auth']
-                ));
+                ]);
             }
 
             if (isset($defOptions['cache_type'])) {
@@ -130,7 +132,7 @@ class BeSimpleSoapExtension extends Extension
 
     private function createClientClassmap($client, array $classmap, ContainerBuilder $container)
     {
-        $definition = new DefinitionDecorator('besimple.soap.classmap');
+        $definition = new ChildDefinition('besimple.soap.classmap');
         $container->setDefinition(sprintf('besimple.soap.classmap.%s', $client), $definition);
 
         if (!empty($classmap)) {
@@ -144,7 +146,7 @@ class BeSimpleSoapExtension extends Extension
 
     private function createClient($client, ContainerBuilder $container)
     {
-        $definition = new DefinitionDecorator('besimple.soap.client');
+        $definition = new ChildDefinition('besimple.soap.client');
         $container->setDefinition(sprintf('besimple.soap.client.%s', $client), $definition);
 
         $definition->setFactory(array(
@@ -159,7 +161,7 @@ class BeSimpleSoapExtension extends Extension
         unset($config['binding']);
 
         $contextId  = 'besimple.soap.context.'.$config['name'];
-        $definition = new DefinitionDecorator('besimple.soap.context.'.$bindingSuffix);
+        $definition = new ChildDefinition('besimple.soap.context.'.$bindingSuffix);
         $container->setDefinition($contextId, $definition);
 
         if (isset($config['cache_type'])) {

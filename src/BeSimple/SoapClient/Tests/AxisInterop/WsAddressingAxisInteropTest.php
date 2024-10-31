@@ -37,6 +37,12 @@ class WsAddressingAxisInteropTest extends TestCase
 
     public function testSession()
     {
+        // Enable test only with recent PHP versions, older ones can segfault:
+        if (PHP_VERSION_ID < 80313) {
+            $this->markTestSkipped();
+            return;
+        }
+
         $sc = new BeSimpleSoapClient('http://localhost:8080/axis2/services/Version2?wsdl', $this->options);
         $soapKernel = $sc->getSoapKernel();
         $wsaFilter = new BeSimpleWsAddressingFilter();
@@ -46,12 +52,14 @@ class WsAddressingAxisInteropTest extends TestCase
         $wsaFilter->setMessageId();
 
         $version = $sc->getVersion();
+        $this->assertMatchesRegularExpression('/Hi - the Axis2 version is \d+\.\d+\.\d+/', $version->return);
 
         $soapSessionId1 = $wsaFilter->getReferenceParameter('http://ws.apache.org/namespaces/axis2', 'ServiceGroupId');
 
         $wsaFilter->addReferenceParameter('http://ws.apache.org/namespaces/axis2', 'axis2', 'ServiceGroupId', $soapSessionId1);
 
         $version = $sc->getVersion();
+        $this->assertMatchesRegularExpression('/Hi - the Axis2 version is \d+\.\d+\.\d+/', $version->return);
 
         $soapSessionId2 = $wsaFilter->getReferenceParameter('http://ws.apache.org/namespaces/axis2', 'ServiceGroupId');
 

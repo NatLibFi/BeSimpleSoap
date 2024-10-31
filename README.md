@@ -60,3 +60,20 @@ Now you are ready to install the library:
 ```sh
 php /usr/local/bin/composer.phar install
 ```
+
+# Information for Developers
+
+Makefile contains different commands for running tests in a Docker container. Example:
+
+`make start`
+
+## Running tests locally
+
+Tests that don't require a running server can be run locally with the following command:
+
+`COMPOSER_BINARY=/path/to/composer.phar bin/simple-phpunit`
+
+To start the servers and run all tests, run the following commands first, then the one above:
+
+`src/BeSimple/SoapClient/Tests/bin/axis.sh`
+`src/BeSimple/SoapClient/Tests/bin/phpwebserver.sh`

@@ -5,6 +5,7 @@
  *
  * (c) Christian Kerl <christian-kerl@web.de>
  * (c) Francis Besset <francis.besset@gmail.com>
+ * Copyright (C) University Of Helsinki (The National Library of Finland) 2024.
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -20,6 +21,7 @@ use BeSimple\SoapCommon\Helper;
  *
  * @author Francis Besset <francis.besset@gmail.com>
  * @author Christian Kerl <christian-kerl@web.de>
+ * @author Ere Maijala <ere.maijala@helsinki.fi>
  */
 class SoapClientBuilder extends AbstractSoapBuilder
 {
@@ -33,9 +35,9 @@ class SoapClientBuilder extends AbstractSoapBuilder
     /**
      * Create new instance with default options.
      *
-     * @return \BeSimple\SoapClient\SoapClientBuilder
+     * @return static
      */
-    public static function createWithDefaults()
+    public static function createWithDefaults(): static
     {
         return parent::createWithDefaults()
             ->withUserAgent('BeSimpleSoap');
@@ -66,7 +68,7 @@ class SoapClientBuilder extends AbstractSoapBuilder
     /**
      * Configure option 'trace'.
      *
-     * @param boolean $trace Enable/Disable
+     * @param bool $trace Enable/Disable
      *
      * @return \BeSimple\SoapClient\SoapClientBuilder
      */
@@ -80,7 +82,7 @@ class SoapClientBuilder extends AbstractSoapBuilder
     /**
      * Configure option 'exceptions'.
      *
-     * @param boolean $exceptions Enable/Disable
+     * @param bool $exceptions Enable/Disable
      *
      * @return \BeSimple\SoapClient\SoapClientBuilder
      */
