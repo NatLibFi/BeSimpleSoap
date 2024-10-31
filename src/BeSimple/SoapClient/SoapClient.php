@@ -398,10 +398,12 @@ class SoapClient extends \SoapClient
                 $converter = new SwaTypeConverter();
                 $converter->setKernel($this->soapKernel);
             } elseif (Helper::ATTACHMENTS_TYPE_MTOM === $options['attachment_type']) {
-                $xmlMimeFilter = new XmlMimeFilter($options['attachment_type']);
+                $xmlMimeFilter = new XmlMimeFilter();
                 $this->soapKernel->registerFilter($xmlMimeFilter);
                 $converter = new MtomTypeConverter();
                 $converter->setKernel($this->soapKernel);
+            } else {
+                throw new \LogicException('Invalid attachment_type: ' . var_export($options['attachment_type'], true));
             }
             // configure typemap
             if (!isset($options['typemap'])) {

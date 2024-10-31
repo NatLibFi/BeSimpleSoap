@@ -60,7 +60,7 @@ class AnnotationFileLoader extends FileLoader
      *
      * @throws \InvalidArgumentException When the file does not exist
      */
-    public function load($file, $type = null)
+    public function load(mixed $file, ?string $type = null): mixed
     {
         $path = $this->locator->locate($file);
 
@@ -79,7 +79,7 @@ class AnnotationFileLoader extends FileLoader
      *
      * @return bool True if this class supports the given resource, false otherwise
      */
-    public function supports($resource, $type = null)
+    public function supports(mixed $resource, ?string $type = null): bool
     {
         return is_string($resource)
             && 'php' === pathinfo($resource, PATHINFO_EXTENSION)

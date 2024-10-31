@@ -50,6 +50,13 @@ jobs:
           key: "php-${{ matrix.php-version }}-php-cs-fixer-${{ github.sha }}"
           restore-keys: "php-${{ matrix.php-version }}-php-cs-fixer-"
 
+      - name: Cache phpstan data
+        uses: actions/cache@v4
+        with:
+          path: tests/phpstan-cache
+          key: "php-${{ matrix.php-version }}-phpstan-${{ github.sha }}"
+          restore-keys: "php-${{ matrix.php-version }}-phpstan-"
+
       - name: Cache downloads
         uses: actions/cache@v4
         with:

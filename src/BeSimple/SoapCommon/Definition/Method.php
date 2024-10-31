@@ -44,11 +44,6 @@ class Method
         return $this->name;
     }
 
-    public function getDefinition()
-    {
-        return $this->definition;
-    }
-
     public function getVersions()
     {
         return [\SOAP_1_1, \SOAP_1_2];

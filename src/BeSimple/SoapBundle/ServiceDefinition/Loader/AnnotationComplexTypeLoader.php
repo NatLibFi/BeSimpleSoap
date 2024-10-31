@@ -41,7 +41,7 @@ class AnnotationComplexTypeLoader extends AnnotationClassLoader
      *
      * @throws \InvalidArgumentException When route can't be parsed
      */
-    public function load($class, $type = null)
+    public function load(mixed $class, ?string $type = null): mixed
     {
         if (!class_exists($class)) {
             throw new \InvalidArgumentException(sprintf('Class "%s" does not exist.', $class));
@@ -78,7 +78,7 @@ class AnnotationComplexTypeLoader extends AnnotationClassLoader
      *
      * @return bool True if this class supports the given resource, false otherwise
      */
-    public function supports($resource, $type = null)
+    public function supports(mixed $resource, ?string $type = null): bool
     {
         return is_string($resource) && class_exists($resource) && 'annotation_complextype' === $type;
     }

@@ -25,3 +25,4 @@ src/BeSimple/SoapClient/Tests/bin/test123.txt
 src/BeSimple/SoapClient/Tests/bin/upload.txt
 tests/phpcs.cache.json
 tests/php-cs-fixer-cache
+tests/phpstan-cache

@@ -14,14 +14,13 @@ namespace BeSimple\SoapBundle\Converter;
 use BeSimple\SoapBundle\Soap\SoapRequest;
 use BeSimple\SoapBundle\Soap\SoapResponse;
 use BeSimple\SoapBundle\Util\StringType;
-use BeSimple\SoapCommon\Converter\TypeConverterInterface;
 
 /**
  * Xop include type converter
  *
  * @author Christian Kerl <christian-kerl@web.de>
  */
-class XopIncludeTypeConverter implements TypeConverterInterface
+class XopIncludeTypeConverter
 {
     public function getTypeNamespace()
     {

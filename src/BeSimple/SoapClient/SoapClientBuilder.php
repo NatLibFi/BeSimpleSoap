@@ -41,7 +41,7 @@ class SoapClientBuilder extends AbstractSoapBuilder
      */
     public static function createWithDefaults(): static
     {
-        return parent::createWithDefaults()
+        return parent::configureWithDefaults(new self())
             ->withUserAgent('BeSimpleSoap');
     }
 

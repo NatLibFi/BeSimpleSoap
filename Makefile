@@ -39,6 +39,7 @@ enter: ## enter docker container
 qa: ## Quality Assurance
 	bin/phpcs --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml -s
 	bin/php-cs-fixer fix --config=tests/php-cs-fixer.php -vvv --dry-run
+	bin/phpstan --configuration=tests/phpstan.neon --memory-limit=1G analyse
 
 fix: ## Apply automatic fixes
 	-bin/phpcs --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml
@@ -47,6 +48,8 @@ fix: ## Apply automatic fixes
 php-cs-fixer: ## Apply php-cs-fixer fixes
 	bin/php-cs-fixer fix --config=tests/php-cs-fixer.php -vvv
 
+phpstan:
+	bin/phpstan --configuration=tests/phpstan.neon --memory-limit=1G analyse
 
 .PHONY: up start stop enter
 

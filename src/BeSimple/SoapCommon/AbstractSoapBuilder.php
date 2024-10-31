@@ -49,14 +49,12 @@ abstract class AbstractSoapBuilder
     protected array $options = [];
 
     /**
-     * Create builder with defaults
+     * Configure builder with defaults
      *
-     * @return static
+     * @return mixed
      */
-    public static function createWithDefaults(): static
+    public static function configureWithDefaults($builder)
     {
-        $builder = new static();
-
         return $builder
             ->withSoapVersion12()
             ->withEncoding('UTF-8')

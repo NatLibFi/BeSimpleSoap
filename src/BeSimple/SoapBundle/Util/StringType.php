@@ -12,7 +12,6 @@
 namespace BeSimple\SoapBundle\Util;
 
 use function is_string;
-use function strlen;
 
 /**
  * StringType provides utility methods for strings.
@@ -31,9 +30,7 @@ class StringType
      */
     public static function startsWith($str, $substr)
     {
-        if (is_string($str) && is_string($substr) && strlen($str) >= strlen($substr)) {
-            return $substr == substr($str, 0, strlen($substr));
-        }
+        return is_string($str) && is_string($substr) && str_starts_with($str, $substr);
     }
 
     /**
@@ -46,8 +43,6 @@ class StringType
      */
     public static function endsWith($str, $substr)
     {
-        if (is_string($str) && is_string($substr) && strlen($str) >= strlen($substr)) {
-            return $substr == substr($str, strlen($str) - strlen($substr));
-        }
+        return is_string($str) && is_string($substr) && str_ends_with($str, $substr);
     }
 }

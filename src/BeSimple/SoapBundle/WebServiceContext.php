@@ -64,19 +64,20 @@ class WebServiceContext
             if ($cache->isFresh()) {
                 $this->serviceDefinition = unserialize(file_get_contents($cache->getPath())) ?: null;
             }
-        }
-        if (null === $this->serviceDefinition) {
-            if (!$this->loader->supports($this->options['resource'], $this->options['resource_type'])) {
-                throw new \LogicException(
-                    sprintf('Cannot load "%s" (%s)', $this->options['resource'], $this->options['resource_type'])
-                );
+            if (null === $this->serviceDefinition) {
+                if (!$this->loader->supports($this->options['resource'], $this->options['resource_type'])) {
+                    throw new \LogicException(
+                        sprintf('Cannot load "%s" (%s)', $this->options['resource'], $this->options['resource_type'])
+                    );
+                }
+
+                $this->serviceDefinition
+                    = $this->loader->load($this->options['resource'], $this->options['resource_type']);
+                $this->serviceDefinition->setName($this->options['name']);
+                $this->serviceDefinition->setNamespace($this->options['namespace']);
+
+                $cache->write(serialize($this->serviceDefinition));
             }
-
-            $this->serviceDefinition = $this->loader->load($this->options['resource'], $this->options['resource_type']);
-            $this->serviceDefinition->setName($this->options['name']);
-            $this->serviceDefinition->setNamespace($this->options['namespace']);
-
-            $cache->write(serialize($this->serviceDefinition));
         }
 
         return $this->serviceDefinition;
