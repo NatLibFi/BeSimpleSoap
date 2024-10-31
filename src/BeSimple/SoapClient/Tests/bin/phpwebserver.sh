@@ -1,9 +1,28 @@
 #!/bin/bash -e
 
+FG=0
+while getopts ":f" option; do
+   case $option in
+      f)
+         FG=1
+         ;;
+     \?) # Invalid option
+         echo "Error: Invalid option $option"
+         exit;;
+   esac
+done
+
 DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
-php -S localhost:8081 -t "$DIR/.." &
+if (( "$FG" == "1" ))
+then
+    echo "Starting PHP webserver in foregroung"
+    php -S localhost:8081 -t "$DIR/.."
+    exit 0
+else
+    php -S localhost:8081 -t "$DIR/.." &
+fi
 PHP_PID=$!
 echo "Started process $PHP_PID"
 
