@@ -43,6 +43,13 @@ jobs:
           key: "php-${{ matrix.php-version }}-phpcs-${{ github.sha }}"
           restore-keys: "php-${{ matrix.php-version }}-phpcs-"
 
+      - name: Cache php-cs-fixer data
+        uses: actions/cache@v4
+        with:
+          path: tests/php-cs-fixer-cache
+          key: "php-${{ matrix.php-version }}-php-cs-fixer-${{ github.sha }}"
+          restore-keys: "php-${{ matrix.php-version }}-php-cs-fixer-"
+
       - name: Cache downloads
         uses: actions/cache@v4
         with:
@@ -55,7 +62,7 @@ jobs:
       - name: Install composer dependencies
         run: composer install --prefer-dist --no-interaction
 
-      - name: Run checks
+      - name: Run QA checks
         run: make qa
 
       - name: Start PHP web server
