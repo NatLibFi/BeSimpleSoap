@@ -20,7 +20,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: intl, xsl
-          tools: composer:2.1.6
+          tools: composer
 
       - name: Checkout
         uses: actions/checkout@v4
