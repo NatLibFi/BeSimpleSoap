@@ -2,21 +2,21 @@
 
 require '../../../../../vendor/autoload.php';
 
+use BeSimple\SoapClient\Tests\ServerInterop\Fixtures;
 use BeSimple\SoapCommon\Helper as BeSimpleSoapHelper;
+
 use BeSimple\SoapServer\SoapServer as BeSimpleSoapServer;
 
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures;
-
-$options = array(
+$options = [
     'soap_version'    => SOAP_1_1,
     'features'        => SOAP_SINGLE_ELEMENT_ARRAYS, // make sure that result is array for size=1
     'attachment_type' => BeSimpleSoapHelper::ATTACHMENTS_TYPE_MTOM,
     'cache_wsdl'      => WSDL_CACHE_NONE,
-    'classmap'        => array(
+    'classmap'        => [
         'base64Binary'      => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\Base64Binary',
         'AttachmentType' => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AttachmentRequest',
-    ),
-);
+    ],
+];
 
 class Mtom
 {

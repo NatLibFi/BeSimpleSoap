@@ -16,6 +16,9 @@ namespace BeSimple\SoapServer;
 use BeSimple\SoapCommon\AbstractSoapBuilder;
 use BeSimple\SoapCommon\Helper;
 
+use function is_object;
+use function is_string;
+
 /**
  * SoapServerBuilder provides a fluent interface to configure and create a SoapServer instance.
  *
@@ -25,9 +28,11 @@ use BeSimple\SoapCommon\Helper;
 class SoapServerBuilder extends AbstractSoapBuilder
 {
     protected $persistence;
+
     protected $errorReporting;
 
     protected $handlerClass;
+
     protected $handlerObject;
 
     /**

@@ -4,21 +4,21 @@ require '../../../../../vendor/autoload.php';
 
 use ass\XmlSecurity\Key as XmlSecurityKey;
 
-use BeSimple\SoapServer\SoapServer as BeSimpleSoapServer;
-use BeSimple\SoapServer\WsSecurityFilter as BeSimpleWsSecurityFilter;
-use BeSimple\SoapCommon\WsSecurityKey as BeSimpleWsSecurityKey;
-
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBook;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBookResponse;
 use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AddBook;
 use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AddBookResponse;
 use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\BookInformation;
 
-$options = array(
+use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBook;
+use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBookResponse;
+use BeSimple\SoapCommon\WsSecurityKey as BeSimpleWsSecurityKey;
+use BeSimple\SoapServer\SoapServer as BeSimpleSoapServer;
+use BeSimple\SoapServer\WsSecurityFilter as BeSimpleWsSecurityFilter;
+
+$options = [
     'soap_version'    => SOAP_1_1,
     'features'        => SOAP_SINGLE_ELEMENT_ARRAYS, // make sure that result is array for size=1
     'cache_wsdl'      => WSDL_CACHE_NONE,
-    'classmap'        => array(
+    'classmap'        => [
         'getBook'                => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBook',
         'getBookResponse'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBookResponse',
         'getBooksByType'         => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBooksByType',
@@ -26,8 +26,8 @@ $options = array(
         'addBook'                => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AddBook',
         'addBookResponse'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AddBookResponse',
         'BookInformation'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\BookInformation',
-    ),
-);
+    ],
+];
 
 class WsSecuritySigEncServer
 {

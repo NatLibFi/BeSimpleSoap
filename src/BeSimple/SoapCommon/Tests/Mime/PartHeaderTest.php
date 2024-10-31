@@ -12,7 +12,6 @@
 
 namespace BeSimple\SoapCommon\Tests;
 
-use BeSimple\SoapCommon\Mime\PartHeader;
 use BeSimple\SoapCommon\Tests\Fixtures\MimePartHeader;
 
 class PartHeaderTest extends \PHPUnit\Framework\TestCase

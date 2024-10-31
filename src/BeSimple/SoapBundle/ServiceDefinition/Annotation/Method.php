@@ -19,6 +19,7 @@ namespace BeSimple\SoapBundle\ServiceDefinition\Annotation;
 class Method extends Configuration
 {
     private $value;
+
     private $service;
 
     public function getValue()

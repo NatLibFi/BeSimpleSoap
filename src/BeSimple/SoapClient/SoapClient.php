@@ -12,9 +12,9 @@
 
 namespace BeSimple\SoapClient;
 
-use BeSimple\SoapCommon\Helper;
 use BeSimple\SoapCommon\Converter\MtomTypeConverter;
 use BeSimple\SoapCommon\Converter\SwaTypeConverter;
+use BeSimple\SoapCommon\Helper;
 
 /**
  * Extended SoapClient that uses a a cURL wrapper for all underlying HTTP
@@ -52,7 +52,7 @@ class SoapClient extends \SoapClient
      *
      * @var array
      */
-    protected $requestHeaders = array();
+    protected $requestHeaders = [];
 
     /**
      * Last request headers.
@@ -118,7 +118,7 @@ class SoapClient extends \SoapClient
      *
      * @throws \SoapFault
      */
-    public function __construct($wsdl, array $options = array())
+    public function __construct($wsdl, array $options = [])
     {
         // tracing enabled: store last request/response header and body
         if (isset($options['trace']) && true === $options['trace']) {
@@ -184,14 +184,14 @@ class SoapClient extends \SoapClient
         $soapVersion = $soapRequest->getVersion();
         $soapAction = $soapRequest->getAction();
         if (SOAP_1_1 == $soapVersion) {
-            $staticallyAddedHeaders = array(
+            $staticallyAddedHeaders = [
                 'Content-Type:' . $soapRequest->getContentType(),
                 'SOAPAction: "' . $soapAction . '"',
-            );
+            ];
         } else {
-            $staticallyAddedHeaders = array(
+            $staticallyAddedHeaders = [
                'Content-Type:' . $soapRequest->getContentType() . '; action="' . $soapAction . '"',
-            );
+            ];
         }
 
         $location = $soapRequest->getLocation();
@@ -299,7 +299,7 @@ class SoapClient extends \SoapClient
      */
     protected function filterRequestOptions(SoapRequest $soapRequest)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -405,9 +405,9 @@ class SoapClient extends \SoapClient
             }
             // configure typemap
             if (!isset($options['typemap'])) {
-                $options['typemap'] = array();
+                $options['typemap'] = [];
             }
-            $options['typemap'][] = array(
+            $options['typemap'][] = [
                 'type_name' => $converter->getTypeName(),
                 'type_ns' => $converter->getTypeNamespace(),
                 'from_xml' => function ($input) use ($converter) {
@@ -416,7 +416,7 @@ class SoapClient extends \SoapClient
                 'to_xml' => function ($input) use ($converter) {
                     return $converter->convertPhpToXml($input);
                 },
-            );
+            ];
         }
     }
 
@@ -487,7 +487,7 @@ class SoapClient extends \SoapClient
      */
     public function getRequestHeadersForCurl()
     {
-        $requestHeadersStringArray = array();
+        $requestHeadersStringArray = [];
         foreach ($this->requestHeaders as $key => $value) {
             $requestHeadersStringArray[] = $key . ': ' . $value;
         }

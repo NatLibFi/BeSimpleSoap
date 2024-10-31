@@ -11,6 +11,8 @@
 
 namespace BeSimple\SoapBundle\ServiceDefinition\Annotation;
 
+use function sprintf;
+
 /**
  * Based on \Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationAnnotation
  *

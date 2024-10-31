@@ -4,18 +4,17 @@ namespace BeSimple\SoapClient\Tests\ServerInterop;
 
 use ass\XmlSecurity\Key as XmlSecurityKey;
 use BeSimple\SoapClient\SoapClient as BeSimpleSoapClient;
+use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AddBook;
+use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBook;
 use BeSimple\SoapClient\WsSecurityFilter as BeSimpleWsSecurityFilter;
 use BeSimple\SoapCommon\WsSecurityKey as BeSimpleWsSecurityKey;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBook;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AddBook;
-use BeSimple\SoapClient\Tests\ServerInterop\TestCase;
 
 class WsSecuritySigEncServerInteropTest extends TestCase
 {
-    private $options = array(
+    private $options = [
         'soap_version' => SOAP_1_2,
         'features'     => SOAP_SINGLE_ELEMENT_ARRAYS, // make sure that result is array for size=1
-        'classmap'        => array(
+        'classmap'        => [
             'getBook'                => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBook',
             'getBookResponse'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBookResponse',
             'getBooksByType'         => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\GetBooksByType',
@@ -23,9 +22,9 @@ class WsSecuritySigEncServerInteropTest extends TestCase
             'addBook'                => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AddBook',
             'addBookResponse'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AddBookResponse',
             'BookInformation'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\BookInformation',
-        ),
+        ],
         'proxy_host' => false,
-    );
+    ];
 
     public function testSigEnc()
     {
@@ -63,7 +62,7 @@ class WsSecuritySigEncServerInteropTest extends TestCase
         $ab->author = 'Cook, Glen';
         $ab->type = 'scifi';
 
-        $this->assertTrue((bool) $sc->addBook($ab));
+        $this->assertTrue((bool)$sc->addBook($ab));
 
         // getBooksByType("scifi");
     }

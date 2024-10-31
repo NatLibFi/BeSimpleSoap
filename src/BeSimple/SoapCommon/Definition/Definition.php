@@ -15,6 +15,9 @@ namespace BeSimple\SoapCommon\Definition;
 
 use BeSimple\SoapCommon\Definition\Type\TypeRepository;
 
+use function array_key_exists;
+use function sprintf;
+
 /**
  * Type definition
  *
@@ -24,11 +27,13 @@ use BeSimple\SoapCommon\Definition\Type\TypeRepository;
 class Definition
 {
     protected $name;
+
     protected $namespace;
 
     protected $typeRepository;
 
     protected $options;
+
     protected $methods;
 
     /**
@@ -38,11 +43,11 @@ class Definition
      */
     protected $types = [];
 
-    public function __construct($name, $namespace, TypeRepository $typeRepository, array $options = array())
+    public function __construct($name, $namespace, TypeRepository $typeRepository, array $options = [])
     {
         $this->name = $name;
         $this->namespace = $namespace;
-        $this->methods = array();
+        $this->methods = [];
 
         $this->typeRepository = $typeRepository;
 
@@ -51,14 +56,14 @@ class Definition
 
     public function setOptions(array $options)
     {
-        $this->options = array(
+        $this->options = [
             'version' => \SOAP_1_1,
             'style' => \SOAP_RPC,
             'use' => \SOAP_LITERAL,
             'location' => null,
-        );
+        ];
 
-        $invalid = array();
+        $invalid = [];
         foreach ($options as $key => $value) {
             if (array_key_exists($key, $this->options)) {
                 $this->options[$key] = $value;
@@ -122,7 +127,7 @@ class Definition
 
     public function getMessages()
     {
-        $messages = array();
+        $messages = [];
         foreach ($this->methods as $method) {
             $messages[] = $method->getHeaders();
             $messages[] = $method->getInput();
@@ -134,7 +139,7 @@ class Definition
 
     public function getMethod($name, $default = null)
     {
-        return isset($this->methods[$name]) ? $this->methods[$name] : $default;
+        return $this->methods[$name] ?? $default;
     }
 
     public function getMethods()

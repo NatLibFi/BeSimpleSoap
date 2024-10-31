@@ -13,17 +13,17 @@
 namespace BeSimple\SoapClient\Tests;
 
 use BeSimple\SoapClient\SoapClient as BeSimpleSoapClient;
-use BeSimple\SoapClient\WsSecurityFilter as BeSimpleWsSecurityFilter;
-use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBook;
 use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\addBook;
+use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBook;
 use BeSimple\SoapClient\Tests\ServerInterop\TestCase;
+use BeSimple\SoapClient\WsSecurityFilter as BeSimpleWsSecurityFilter;
 
 class WsSecurityUserPassServerInteropTest extends TestCase
 {
-    private $options = array(
+    private $options = [
         'soap_version' => SOAP_1_2,
         'features'     => SOAP_SINGLE_ELEMENT_ARRAYS, // make sure that result is array for size=1
-        'classmap'     => array(
+        'classmap'     => [
             'getBook'                => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBook',
             'getBookResponse'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBookResponse',
             'getBooksByType'         => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\getBooksByType',
@@ -31,9 +31,9 @@ class WsSecurityUserPassServerInteropTest extends TestCase
             'addBook'                => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\addBook',
             'addBookResponse'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\addBookResponse',
             'BookInformation'        => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\BookInformation',
-        ),
+        ],
         'proxy_host' => false,
-    );
+    ];
 
     public function testUserPassText()
     {
@@ -59,7 +59,7 @@ class WsSecurityUserPassServerInteropTest extends TestCase
         $ab->author = 'Cook, Glen';
         $ab->type = 'scifi';
 
-        $this->assertTrue((bool) $sc->addBook($ab));
+        $this->assertTrue((bool)$sc->addBook($ab));
 
         // getBooksByType("scifi");
     }
@@ -88,7 +88,7 @@ class WsSecurityUserPassServerInteropTest extends TestCase
         $ab->author = 'Cook, Glen';
         $ab->type = 'scifi';
 
-        $this->assertTrue((bool) $sc->addBook($ab));
+        $this->assertTrue((bool)$sc->addBook($ab));
 
         // getBooksByType("scifi");
     }

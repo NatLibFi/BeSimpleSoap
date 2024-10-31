@@ -14,8 +14,8 @@
 namespace BeSimple\SoapBundle\Handler;
 
 use BeSimple\SoapServer\Exception\ReceiverSoapFault;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Exception handler
@@ -26,7 +26,9 @@ use Symfony\Component\ErrorHandler\Exception\FlattenException;
 class ExceptionHandler
 {
     protected $exception;
+
     protected $details;
+
     protected $soapFault;
 
     public function __construct(FlattenException $exception, $details = null)
@@ -49,7 +51,7 @@ class ExceptionHandler
         $code = $this->exception->getStatusCode();
 
         throw new ReceiverSoapFault(
-            isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
+            Response::$statusTexts[$code] ?? '',
             null,
             $this->details
         );

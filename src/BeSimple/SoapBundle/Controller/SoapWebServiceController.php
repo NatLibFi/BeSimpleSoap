@@ -28,6 +28,8 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Symfony\Component\Routing\Router;
 
+use function sprintf;
+
 /**
  * SOAP web service controller
  *
@@ -158,7 +160,7 @@ class SoapWebServiceController extends AbstractController
         $code = $exception->getStatusCode();
         $details = $this->render($view, [
             'status_code' => $code,
-            'status_text' => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
+            'status_text' => Response::$statusTexts[$code] ?? '',
             'exception'   => $exception,
             'logger'      => $logger,
         ]);

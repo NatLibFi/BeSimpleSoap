@@ -13,9 +13,9 @@
 
 namespace BeSimple\SoapServer;
 
-use BeSimple\SoapCommon\Helper;
 use BeSimple\SoapCommon\Converter\MtomTypeConverter;
 use BeSimple\SoapCommon\Converter\SwaTypeConverter;
+use BeSimple\SoapCommon\Helper;
 
 /**
  * Extended SoapServer that allows adding filters for SwA, MTOM, ... .
@@ -53,7 +53,7 @@ class SoapServer extends \SoapServer
      * @param string               $wsdl    WSDL file
      * @param array(string=>mixed) $options Options array
      */
-    public function __construct($wsdl, array $options = array())
+    public function __construct($wsdl, array $options = [])
     {
         // store SOAP version
         if (isset($options['soap_version'])) {
@@ -114,7 +114,7 @@ class SoapServer extends \SoapServer
          * Previously, the SoapFault was'nt catch but directly written in the buffer.
          * We need to catch it to be able to manage and return the error properly
          */
-        if (strstr($response, "SOAP_ERROR_COMPLEX_TYPE")) {
+        if (strstr($response, 'SOAP_ERROR_COMPLEX_TYPE')) {
             $doc = new \DOMDocument();
             $doc->loadXML($response);
 
@@ -126,12 +126,12 @@ class SoapServer extends \SoapServer
                 return null;
             };
 
-            if (!empty($doc->getElementsByTagName("SOAP-ENV:Fault"))) {
-                $faultCode = $getNodeContent("faultcode");
-                $faultString =  $getNodeContent("faultstring");
-                $faultActor = $getNodeContent("faultactor");
-                $detail = $getNodeContent("detail");
-                $faultName = $getNodeContent("faultname");
+            if (!empty($doc->getElementsByTagName('SOAP-ENV:Fault'))) {
+                $faultCode = $getNodeContent('faultcode');
+                $faultString =  $getNodeContent('faultstring');
+                $faultActor = $getNodeContent('faultactor');
+                $detail = $getNodeContent('detail');
+                $faultName = $getNodeContent('faultname');
 
                 throw new \SoapFault($faultCode, $faultString, $faultActor, $detail, $faultName);
             }
@@ -190,9 +190,9 @@ class SoapServer extends \SoapServer
             }
             // configure typemap
             if (!isset($options['typemap'])) {
-                $options['typemap'] = array();
+                $options['typemap'] = [];
             }
-            $options['typemap'][] = array(
+            $options['typemap'][] = [
                 'type_name' => $converter->getTypeName(),
                 'type_ns'   => $converter->getTypeNamespace(),
                 'from_xml'  => function ($input) use ($converter) {
@@ -201,7 +201,7 @@ class SoapServer extends \SoapServer
                 'to_xml'    => function ($input) use ($converter) {
                     return $converter->convertPhpToXml($input);
                 },
-            );
+            ];
         }
     }
 }

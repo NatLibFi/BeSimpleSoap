@@ -12,6 +12,8 @@
 
 namespace BeSimple\SoapCommon\Converter;
 
+use function sprintf;
+
 /**
  * Date type converter
  *

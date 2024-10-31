@@ -33,18 +33,19 @@ server-tests: composer-install ## Run tests that need servers
 composer-update: ## Execute package update
 	$(COMPOSER) update $(BUNDLE)
 
-php-cs-fixer: ## apply php-cs-fixer fixes
-	$(QA) php-cs-fixer fix src --using-cache=no --verbose --diff --rules @Symfony
-
 enter: ## enter docker container
 	$(EXEC) bash
 
 qa: ## Quality Assurance
-	-bin/phpcs --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml -s
+	bin/phpcs --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml -s
+	bin/php-cs-fixer fix --config=tests/php-cs-fixer.php -vvv --dry-run
 
 fix: ## Apply automatic fixes
 	-bin/phpcs --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml
 	bin/phpcbf --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml
+
+php-cs-fixer: ## Apply php-cs-fixer fixes
+	bin/php-cs-fixer fix --config=tests/php-cs-fixer.php -vvv
 
 
 .PHONY: up start stop enter

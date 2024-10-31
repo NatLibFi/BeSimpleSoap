@@ -2,25 +2,24 @@
 
 namespace BeSimple\SoapClient\Tests\ServerInterop;
 
-use BeSimple\SoapCommon\Helper as BeSimpleSoapHelper;
 use BeSimple\SoapClient\SoapClient as BeSimpleSoapClient;
 use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AttachmentRequest;
 use BeSimple\SoapClient\Tests\ServerInterop\Fixtures\Base64Binary;
-use BeSimple\SoapClient\Tests\ServerInterop\TestCase;
+use BeSimple\SoapCommon\Helper as BeSimpleSoapHelper;
 
 class MtomServerInteropTest extends TestCase
 {
-    private $options = array(
+    private $options = [
         'soap_version'    => SOAP_1_1,
         'features'        => SOAP_SINGLE_ELEMENT_ARRAYS, // make sure that result is array for size=1
         'attachment_type' => BeSimpleSoapHelper::ATTACHMENTS_TYPE_MTOM,
         'cache_wsdl'      => WSDL_CACHE_NONE,
-        'classmap'        => array(
+        'classmap'        => [
             'base64Binary'      => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\Base64Binary',
             'AttachmentRequest' => 'BeSimple\SoapClient\Tests\ServerInterop\Fixtures\AttachmentRequest',
-        ),
+        ],
         'proxy_host' => false,
-    );
+    ];
 
     public function testAttachment()
     {

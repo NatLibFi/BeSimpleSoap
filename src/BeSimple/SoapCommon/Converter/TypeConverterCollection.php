@@ -12,6 +12,8 @@
 
 namespace BeSimple\SoapCommon\Converter;
 
+use function sprintf;
+
 /**
  * Type converter collection
  *
@@ -19,7 +21,7 @@ namespace BeSimple\SoapCommon\Converter;
  */
 class TypeConverterCollection
 {
-    private $converters = array();
+    private $converters = [];
 
     public function all()
     {
@@ -52,7 +54,7 @@ class TypeConverterCollection
 
     public function set(array $converters)
     {
-        $this->converters = array();
+        $this->converters = [];
 
         foreach ($converters as $converter) {
             $this->add($converter);
@@ -78,10 +80,10 @@ class TypeConverterCollection
      */
     public function getTypemap()
     {
-        $typemap = array();
+        $typemap = [];
 
         foreach ($this->converters as $converter) {
-            $typemap[] = array(
+            $typemap[] = [
                 'type_name' => $converter->getTypeName(),
                 'type_ns'   => $converter->getTypeNamespace(),
                 'from_xml'  => function ($input) use ($converter) {
@@ -90,7 +92,7 @@ class TypeConverterCollection
                 'to_xml'    => function ($input) use ($converter) {
                     return $converter->convertPhpToXml($input);
                 },
-            );
+            ];
         }
 
         return $typemap;

@@ -14,7 +14,9 @@ namespace BeSimple\SoapBundle\Soap;
 class SoapAttachment
 {
     private $id;
+
     private $type;
+
     private $content;
 
     public function __construct($id, $type, $content)

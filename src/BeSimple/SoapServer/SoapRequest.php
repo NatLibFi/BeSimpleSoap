@@ -13,8 +13,8 @@
 
 namespace BeSimple\SoapServer;
 
-use BeSimple\SoapCommon\SoapRequest as CommonSoapRequest;
 use BeSimple\SoapCommon\SoapMessage;
+use BeSimple\SoapCommon\SoapRequest as CommonSoapRequest;
 
 /**
  * SoapRequest class for SoapClient. Provides factory function for request object.
@@ -37,10 +37,10 @@ class SoapRequest extends CommonSoapRequest
         $request = new SoapRequest();
 
         // $content is if unmodified from SoapClient not a php string type!
-        $request->setContent((string) (null === $content ? file_get_contents("php://input") : $content));
+        $request->setContent((string)(null === $content ? file_get_contents('php://input') : $content));
         $request->setLocation(self::getCurrentUrl());
         $request->setAction(
-            isset($_SERVER[SoapMessage::SOAP_ACTION_HEADER]) ? $_SERVER[SoapMessage::SOAP_ACTION_HEADER] : null
+            $_SERVER[SoapMessage::SOAP_ACTION_HEADER] ?? null
         );
         $request->setVersion($version);
 
@@ -66,11 +66,11 @@ class SoapRequest extends CommonSoapRequest
         } else {
             $url .= 'http://';
         }
-        $url .= isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
+        $url .= $_SERVER['SERVER_NAME'] ?? '';
         if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80) {
             $url .= ":{$_SERVER['SERVER_PORT']}";
         }
-        $url .= isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+        $url .= $_SERVER['REQUEST_URI'] ?? '';
         return $url;
     }
 }

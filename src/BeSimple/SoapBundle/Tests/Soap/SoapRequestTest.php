@@ -14,6 +14,8 @@ namespace BeSimple\SoapBundle\Tests\Soap;
 
 use BeSimple\SoapBundle\Soap\SoapRequest;
 
+use function strlen;
+
 /**
  * UnitTest for \BeSimple\SoapBundle\Soap\SoapRequest.
  *
@@ -25,7 +27,7 @@ class SoapRequestTest extends \PHPUnit\Framework\TestCase
     {
         $content = $this->loadRequestContentFixture('mtom/simple.txt');
 
-        $request = new SoapRequest(array(), array(), array(), array(), array(), array(), $content);
+        $request = new SoapRequest([], [], [], [], [], [], $content);
         $request->server->set(
             'CONTENT_TYPE',
             'multipart/related; type="application/xop+xml";start="<http://tempuri.org/0>";'
@@ -35,7 +37,7 @@ class SoapRequestTest extends \PHPUnit\Framework\TestCase
         $message = $request->getSoapMessage();
 
         $this->assertEquals(735, strlen(trim($message)));
-        $this->assertEquals(1, count($request->getSoapAttachments()));
+        $this->assertCount(1, $request->getSoapAttachments());
 
         $attachment = $request->getSoapAttachments()->get('http://tempuri.org/1/632618206527087310');
 

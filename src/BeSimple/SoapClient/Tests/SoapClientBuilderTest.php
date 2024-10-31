@@ -16,11 +16,11 @@ use BeSimple\SoapClient\SoapClientBuilder;
 
 class SoapClientBuilderTest extends \PHPUnit\Framework\TestCase
 {
-    private $defaultOptions = array(
+    private $defaultOptions = [
         'features' => 0,
-        'classmap' => array(),
-        'typemap'  => array(),
-    );
+        'classmap' => [],
+        'typemap'  => [],
+    ];
 
     public function testContruct()
     {
@@ -29,7 +29,7 @@ class SoapClientBuilderTest extends \PHPUnit\Framework\TestCase
             ->getSoapOptions()
         ;
 
-        $this->assertEquals($this->mergeOptions(array()), $options);
+        $this->assertEquals($this->mergeOptions([]), $options);
     }
 
     public function testWithTrace()
@@ -37,10 +37,10 @@ class SoapClientBuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->getSoapBuilder();
 
         $builder->withTrace();
-        $this->assertEquals($this->mergeOptions(array('trace' => true)), $builder->getSoapOptions());
+        $this->assertEquals($this->mergeOptions(['trace' => true]), $builder->getSoapOptions());
 
         $builder->withTrace(false);
-        $this->assertEquals($this->mergeOptions(array('trace' => false)), $builder->getSoapOptions());
+        $this->assertEquals($this->mergeOptions(['trace' => false]), $builder->getSoapOptions());
     }
 
     public function testWithExceptions()
@@ -48,10 +48,10 @@ class SoapClientBuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->getSoapBuilder();
 
         $builder->withExceptions();
-        $this->assertEquals($this->mergeOptions(array('exceptions' => true)), $builder->getSoapOptions());
+        $this->assertEquals($this->mergeOptions(['exceptions' => true]), $builder->getSoapOptions());
 
         $builder->withExceptions(false);
-        $this->assertEquals($this->mergeOptions(array('exceptions' => false)), $builder->getSoapOptions());
+        $this->assertEquals($this->mergeOptions(['exceptions' => false]), $builder->getSoapOptions());
     }
 
     public function testWithUserAgent()
@@ -60,7 +60,7 @@ class SoapClientBuilderTest extends \PHPUnit\Framework\TestCase
 
         $builder->withUserAgent('BeSimpleSoap Test');
         $this->assertEquals(
-            $this->mergeOptions(array('user_agent' => 'BeSimpleSoap Test')),
+            $this->mergeOptions(['user_agent' => 'BeSimpleSoap Test']),
             $builder->getSoapOptions()
         );
     }
@@ -71,13 +71,13 @@ class SoapClientBuilderTest extends \PHPUnit\Framework\TestCase
 
         $builder->withCompressionGzip();
         $this->assertEquals(
-            $this->mergeOptions(array('compression' => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP)),
+            $this->mergeOptions(['compression' => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP]),
             $builder->getSoapOptions()
         );
 
         $builder->withCompressionDeflate();
         $this->assertEquals(
-            $this->mergeOptions(array('compression' => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_DEFLATE)),
+            $this->mergeOptions(['compression' => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_DEFLATE]),
             $builder->getSoapOptions()
         );
     }
@@ -89,11 +89,11 @@ class SoapClientBuilderTest extends \PHPUnit\Framework\TestCase
         $builder->withDigestAuthentication(__DIR__ . '/Fixtures/cert.pem', 'foobar');
         $this->assertEquals(
             $this->mergeOptions(
-                array(
+                [
                     'authentication' => SOAP_AUTHENTICATION_DIGEST,
                     'local_cert' => __DIR__ . '/Fixtures/cert.pem',
-                    'passphrase' => 'foobar'
-                )
+                    'passphrase' => 'foobar',
+                ]
             ),
             $builder->getSoapOptions()
         );
@@ -101,10 +101,10 @@ class SoapClientBuilderTest extends \PHPUnit\Framework\TestCase
         $builder->withDigestAuthentication(__DIR__ . '/Fixtures/cert.pem');
         $this->assertEquals(
             $this->mergeOptions(
-                array(
+                [
                     'authentication' => SOAP_AUTHENTICATION_DIGEST,
-                    'local_cert' => __DIR__ . '/Fixtures/cert.pem'
-                )
+                    'local_cert' => __DIR__ . '/Fixtures/cert.pem',
+                ]
             ),
             $builder->getSoapOptions()
         );
@@ -112,11 +112,11 @@ class SoapClientBuilderTest extends \PHPUnit\Framework\TestCase
         $builder->withBasicAuthentication('foo', 'bar');
         $this->assertEquals(
             $this->mergeOptions(
-                array(
+                [
                     'authentication' => SOAP_AUTHENTICATION_BASIC,
                     'login' => 'foo',
-                    'password' => 'bar'
-                )
+                    'password' => 'bar',
+                ]
             ),
             $builder->getSoapOptions()
         );
@@ -129,10 +129,10 @@ class SoapClientBuilderTest extends \PHPUnit\Framework\TestCase
         $builder->withProxy('localhost', 8080);
         $this->assertEquals(
             $this->mergeOptions(
-                array(
+                [
                     'proxy_host' => 'localhost',
-                    'proxy_port' => 8080
-                )
+                    'proxy_port' => 8080,
+                ]
             ),
             $builder->getSoapOptions()
         );
@@ -140,12 +140,12 @@ class SoapClientBuilderTest extends \PHPUnit\Framework\TestCase
         $builder->withProxy('127.0.0.1', 8585, 'foo', 'bar');
         $this->assertEquals(
             $this->mergeOptions(
-                array(
+                [
                     'proxy_host' => '127.0.0.1',
                     'proxy_port' => 8585,
                     'proxy_login' => 'foo',
-                    'proxy_password' => 'bar'
-                )
+                    'proxy_password' => 'bar',
+                ]
             ),
             $builder->getSoapOptions()
         );
@@ -153,13 +153,13 @@ class SoapClientBuilderTest extends \PHPUnit\Framework\TestCase
         $builder->withProxy('127.0.0.1', 8585, 'foo', 'bar', \CURLAUTH_BASIC);
         $this->assertEquals(
             $this->mergeOptions(
-                array(
+                [
                     'proxy_host' => '127.0.0.1',
                     'proxy_port' => 8585,
                     'proxy_login' => 'foo',
                     'proxy_password' => 'bar',
-                    'proxy_auth' => \CURLAUTH_BASIC
-                )
+                    'proxy_auth' => \CURLAUTH_BASIC,
+                ]
             ),
             $builder->getSoapOptions()
         );
@@ -167,13 +167,13 @@ class SoapClientBuilderTest extends \PHPUnit\Framework\TestCase
         $builder->withProxy('127.0.0.1', 8585, 'foo', 'bar', \CURLAUTH_NTLM);
         $this->assertEquals(
             $this->mergeOptions(
-                array(
+                [
                     'proxy_host' => '127.0.0.1',
                     'proxy_port' => 8585,
                     'proxy_login' => 'foo',
                     'proxy_password' => 'bar',
-                    'proxy_auth' => \CURLAUTH_NTLM
-                )
+                    'proxy_auth' => \CURLAUTH_NTLM,
+                ]
             ),
             $builder->getSoapOptions()
         );
@@ -195,12 +195,12 @@ class SoapClientBuilderTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             $this->mergeOptions(
-                array(
+                [
                     'soap_version' => SOAP_1_2,
                     'encoding' => 'UTF-8',
                     'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
-                    'user_agent' => 'BeSimpleSoap'
-                )
+                    'user_agent' => 'BeSimpleSoap',
+                ]
             ),
             $builder->getSoapOptions()
         );

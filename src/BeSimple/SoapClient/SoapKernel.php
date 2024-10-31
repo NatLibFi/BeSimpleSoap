@@ -30,7 +30,7 @@ class SoapKernel extends CommonSoapKernel
     public function filterRequest(CommonSoapRequest $request)
     {
         $request->setAttachments($this->attachments);
-        $this->attachments = array();
+        $this->attachments = [];
 
         parent::filterRequest($request);
     }

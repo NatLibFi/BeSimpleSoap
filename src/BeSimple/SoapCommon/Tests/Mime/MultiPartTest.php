@@ -14,7 +14,8 @@ namespace BeSimple\SoapCommon\Tests;
 
 use BeSimple\SoapCommon\Mime\MultiPart;
 use BeSimple\SoapCommon\Mime\Part;
-use BeSimple\SoapCommon\Mime\PartHeader;
+
+use function strlen;
 
 class MultiPartTest extends \PHPUnit\Framework\TestCase
 {
@@ -92,17 +93,17 @@ class MultiPartTest extends \PHPUnit\Framework\TestCase
     {
         $mp = new MultiPart();
 
-        $result = array(
+        $result = [
             'Content-Type: multipart/related; type="text/xml"; charset=utf-8; boundary="'
             . $mp->getHeader('Content-Type', 'boundary') . '"',
-        );
+        ];
         $this->assertEquals($result, $mp->getHeadersForHttp());
 
-        $result = array(
+        $result = [
             'Content-Type: multipart/related; type="text/xml"; charset=utf-8; boundary="'
             . $mp->getHeader('Content-Type', 'boundary') . '"',
             'Content-Description: test',
-        );
+        ];
         $mp->setHeader('Content-Description', 'test');
         $this->assertEquals($result, $mp->getHeadersForHttp());
     }
@@ -135,15 +136,15 @@ class MultiPartTest extends \PHPUnit\Framework\TestCase
         $p2 = new Part('test');
         $mp->addPart($p2);
 
-        $withoutMain = array(
+        $withoutMain = [
             trim($p2->getHeader('Content-ID'), '<>') => $p2,
-        );
+        ];
         $this->assertEquals($withoutMain, $mp->getParts());
 
-        $withMain = array(
+        $withMain = [
             trim($p1->getHeader('Content-ID'), '<>') => $p1,
             trim($p2->getHeader('Content-ID'), '<>') => $p2,
-        );
+        ];
         $this->assertEquals($withMain, $mp->getParts(true));
     }
 }

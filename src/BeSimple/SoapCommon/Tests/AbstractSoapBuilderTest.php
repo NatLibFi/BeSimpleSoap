@@ -24,11 +24,11 @@ use BeSimple\SoapCommon\Tests\Fixtures\SoapBuilder;
  */
 class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
 {
-    private $defaultOptions = array(
+    private $defaultOptions = [
         'features' => 0,
-        'classmap' => array(),
-        'typemap'  => array(),
-    );
+        'classmap' => [],
+        'typemap'  => [],
+    ];
 
     public function testContruct()
     {
@@ -37,7 +37,7 @@ class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
             ->getSoapOptions()
         ;
 
-        $this->assertEquals($this->mergeOptions(array()), $options);
+        $this->assertEquals($this->mergeOptions([]), $options);
     }
 
     public function testWithWsdl()
@@ -54,10 +54,10 @@ class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
         $builder = $this->getSoapBuilder();
 
         $builder->withSoapVersion11();
-        $this->assertEquals($this->mergeOptions(array('soap_version' => SOAP_1_1)), $builder->getSoapOptions());
+        $this->assertEquals($this->mergeOptions(['soap_version' => SOAP_1_1]), $builder->getSoapOptions());
 
         $builder->withSoapVersion12();
-        $this->assertEquals($this->mergeOptions(array('soap_version' => SOAP_1_2)), $builder->getSoapOptions());
+        $this->assertEquals($this->mergeOptions(['soap_version' => SOAP_1_2]), $builder->getSoapOptions());
     }
 
     public function testWithEncoding()
@@ -67,7 +67,7 @@ class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
             ->withEncoding('ISO 8859-15')
         ;
 
-        $this->assertEquals($this->mergeOptions(array('encoding' => 'ISO 8859-15')), $builder->getSoapOptions());
+        $this->assertEquals($this->mergeOptions(['encoding' => 'ISO 8859-15']), $builder->getSoapOptions());
     }
 
     public function testWithWsdlCache()
@@ -76,22 +76,22 @@ class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
 
         $builder->withWsdlCache(Cache::TYPE_DISK_MEMORY);
         $this->assertEquals(
-            $this->mergeOptions(array('cache_wsdl' => Cache::TYPE_DISK_MEMORY)),
+            $this->mergeOptions(['cache_wsdl' => Cache::TYPE_DISK_MEMORY]),
             $builder->getSoapOptions()
         );
 
         $builder->withWsdlCacheNone();
-        $this->assertEquals($this->mergeOptions(array('cache_wsdl' => Cache::TYPE_NONE)), $builder->getSoapOptions());
+        $this->assertEquals($this->mergeOptions(['cache_wsdl' => Cache::TYPE_NONE]), $builder->getSoapOptions());
 
         $builder->withWsdlCacheDisk();
-        $this->assertEquals($this->mergeOptions(array('cache_wsdl' => Cache::TYPE_DISK)), $builder->getSoapOptions());
+        $this->assertEquals($this->mergeOptions(['cache_wsdl' => Cache::TYPE_DISK]), $builder->getSoapOptions());
 
         $builder->withWsdlCacheMemory();
-        $this->assertEquals($this->mergeOptions(array('cache_wsdl' => Cache::TYPE_MEMORY)), $builder->getSoapOptions());
+        $this->assertEquals($this->mergeOptions(['cache_wsdl' => Cache::TYPE_MEMORY]), $builder->getSoapOptions());
 
         $builder->withWsdlCacheDiskAndMemory();
         $this->assertEquals(
-            $this->mergeOptions(array('cache_wsdl' => Cache::TYPE_DISK_MEMORY)),
+            $this->mergeOptions(['cache_wsdl' => Cache::TYPE_DISK_MEMORY]),
             $builder->getSoapOptions()
         );
     }
@@ -113,7 +113,7 @@ class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
             ->getSoapOptions()
         ;
 
-        $this->assertEquals($this->mergeOptions(array('features' => SOAP_SINGLE_ELEMENT_ARRAYS)), $options);
+        $this->assertEquals($this->mergeOptions(['features' => SOAP_SINGLE_ELEMENT_ARRAYS]), $options);
     }
 
     public function testWithWaitOneWayCalls()
@@ -124,7 +124,7 @@ class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
             ->getSoapOptions()
         ;
 
-        $this->assertEquals($this->mergeOptions(array('features' => SOAP_WAIT_ONE_WAY_CALLS)), $options);
+        $this->assertEquals($this->mergeOptions(['features' => SOAP_WAIT_ONE_WAY_CALLS]), $options);
     }
 
     public function testWithUseXsiArrayType()
@@ -135,7 +135,7 @@ class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
             ->getSoapOptions()
         ;
 
-        $this->assertEquals($this->mergeOptions(array('features' => SOAP_USE_XSI_ARRAY_TYPE)), $options);
+        $this->assertEquals($this->mergeOptions(['features' => SOAP_USE_XSI_ARRAY_TYPE]), $options);
     }
 
     public function testFeatures()
@@ -145,15 +145,15 @@ class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
 
         $builder->withSingleElementArrays();
         $features |= SOAP_SINGLE_ELEMENT_ARRAYS;
-        $this->assertEquals($this->mergeOptions(array('features' => $features)), $builder->getSoapOptions());
+        $this->assertEquals($this->mergeOptions(['features' => $features]), $builder->getSoapOptions());
 
         $builder->withWaitOneWayCalls();
         $features |= SOAP_WAIT_ONE_WAY_CALLS;
-        $this->assertEquals($this->mergeOptions(array('features' => $features)), $builder->getSoapOptions());
+        $this->assertEquals($this->mergeOptions(['features' => $features]), $builder->getSoapOptions());
 
         $builder->withUseXsiArrayType();
         $features |= SOAP_USE_XSI_ARRAY_TYPE;
-        $this->assertEquals($this->mergeOptions(array('features' => $features)), $builder->getSoapOptions());
+        $this->assertEquals($this->mergeOptions(['features' => $features]), $builder->getSoapOptions());
     }
 
     public function testWithTypeConverters()
@@ -163,19 +163,19 @@ class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
         $builder->withTypeConverter(new DateTypeConverter());
         $options = $builder->getSoapOptions();
 
-        $this->assertEquals(1, count($options['typemap']));
+        $this->assertCount(1, $options['typemap']);
 
         $converters = new TypeConverterCollection();
         $converters->add(new DateTimeTypeConverter());
         $builder->withTypeConverters($converters);
         $options = $builder->getSoapOptions();
 
-        $this->assertEquals(2, count($options['typemap']));
+        $this->assertCount(2, $options['typemap']);
 
         $builder->withTypeConverters($converters, false);
         $options = $builder->getSoapOptions();
 
-        $this->assertEquals(1, count($options['typemap']));
+        $this->assertCount(1, $options['typemap']);
     }
 
     public function testClassmap()
@@ -185,19 +185,19 @@ class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
         $builder->withClassMapping('foo', __CLASS__);
         $options = $builder->getSoapOptions();
 
-        $this->assertEquals(1, count($options['classmap']));
+        $this->assertCount(1, $options['classmap']);
 
         $classmap = new Classmap();
         $classmap->add('bar', __CLASS__);
         $builder->withClassmap($classmap);
         $options = $builder->getSoapOptions();
 
-        $this->assertEquals(2, count($options['classmap']));
+        $this->assertCount(2, $options['classmap']);
 
         $builder->withClassmap($classmap, false);
         $options = $builder->getSoapOptions();
 
-        $this->assertEquals(1, count($options['classmap']));
+        $this->assertCount(1, $options['classmap']);
     }
 
     public function testCreateWithDefaults()
@@ -208,11 +208,11 @@ class AbstractSoapBuilderTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             $this->mergeOptions(
-                array(
+                [
                     'soap_version' => SOAP_1_2,
                     'encoding' => 'UTF-8',
-                    'features' => SOAP_SINGLE_ELEMENT_ARRAYS
-                )
+                    'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
+                ]
             ),
             $builder->getSoapOptions()
         );

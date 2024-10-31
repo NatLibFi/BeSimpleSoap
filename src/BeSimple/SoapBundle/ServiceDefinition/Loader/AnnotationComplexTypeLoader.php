@@ -15,6 +15,9 @@ namespace BeSimple\SoapBundle\ServiceDefinition\Loader;
 use BeSimple\SoapBundle\ServiceDefinition\ComplexType;
 use BeSimple\SoapBundle\Util\Collection;
 
+use function is_string;
+use function sprintf;
+
 /**
  * AnnotationComplexTypeLoader loads ServiceDefinition from a PHP class and its methods.
  *
@@ -25,6 +28,7 @@ use BeSimple\SoapBundle\Util\Collection;
 class AnnotationComplexTypeLoader extends AnnotationClassLoader
 {
     private $aliasClass       = 'BeSimple\SoapBundle\ServiceDefinition\Annotation\Alias';
+
     private $complexTypeClass = 'BeSimple\SoapBundle\ServiceDefinition\Annotation\ComplexType';
 
     /**
@@ -43,7 +47,7 @@ class AnnotationComplexTypeLoader extends AnnotationClassLoader
             throw new \InvalidArgumentException(sprintf('Class "%s" does not exist.', $class));
         }
 
-        $annotations = array();
+        $annotations = [];
 
         $class = new \ReflectionClass($class);
         if ($alias = $this->reader->getClassAnnotation($class, $this->aliasClass)) {

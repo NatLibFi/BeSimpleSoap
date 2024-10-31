@@ -8,26 +8,25 @@
 *
 */
 
-use BeSimple\SoapCommon\Helper as BeSimpleSoapHelper;
 use BeSimple\SoapClient\SoapClient as BeSimpleSoapClient;
 use BeSimple\SoapClient\Tests\AxisInterop\Fixtures\AttachmentRequest;
-use BeSimple\SoapClient\Tests\AxisInterop\Fixtures\AttachmentType;
 use BeSimple\SoapClient\Tests\AxisInterop\Fixtures\Base64Binary;
 use BeSimple\SoapClient\Tests\AxisInterop\TestCase;
+use BeSimple\SoapCommon\Helper as BeSimpleSoapHelper;
 
 class MtomAxisInteropTest extends TestCase
 {
-    private $options = array(
+    private $options = [
         'soap_version'    => SOAP_1_1,
         'features'        => SOAP_SINGLE_ELEMENT_ARRAYS, // make sure that result is array for size=1
         'attachment_type' => BeSimpleSoapHelper::ATTACHMENTS_TYPE_MTOM,
         'cache_wsdl'      => WSDL_CACHE_NONE,
-        'classmap'        => array(
+        'classmap'        => [
             'base64Binary'      => 'BeSimple\SoapClient\Tests\AxisInterop\Fixtures\Base64Binary',
             'AttachmentRequest' => 'BeSimple\SoapClient\Tests\AxisInterop\Fixtures\AttachmentRequest',
-        ),
+        ],
         'proxy_host' => false,
-    );
+    ];
 
     public function testAttachment()
     {
@@ -43,8 +42,8 @@ class MtomAxisInteropTest extends TestCase
 
         $this->assertEquals('File saved succesfully.', $sc->attachment($attachment));
 
-//         $fileCreatedByServer = __DIR__.'/'.$attachment->fileName;
-//         $this->assertEquals($b64->_, file_get_contents($fileCreatedByServer));
-//         unlink($fileCreatedByServer);
+        //         $fileCreatedByServer = __DIR__.'/'.$attachment->fileName;
+        //         $this->assertEquals($b64->_, file_get_contents($fileCreatedByServer));
+        //         unlink($fileCreatedByServer);
     }
 }

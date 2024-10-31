@@ -14,8 +14,9 @@ namespace BeSimple\SoapCommon\Tests;
 
 use BeSimple\SoapCommon\Mime\MultiPart;
 use BeSimple\SoapCommon\Mime\Parser;
-use BeSimple\SoapCommon\Mime\Part;
-use BeSimple\SoapCommon\Mime\PartHeader;
+
+use function dirname;
+use function strlen;
 
 class ParserTest extends \PHPUnit\Framework\TestCase
 {
@@ -126,13 +127,13 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $filename = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Fixtures/WS-I-MTOM-request_noheader.txt';
         $mimeMessage = file_get_contents($filename);
 
-        $headers = array(
+        $headers = [
             'Content-Type' => 'multipart/related; type="application/xop+xml";start="<http://tempuri.org/0>";'
                 . 'boundary="uuid:0ca0e16e-feb1-426c-97d8-c4508ada5e82+id=7";start-info="application/soap+xml"',
             'Content-Length' => 1941,
             'Host' => '131.107.72.15',
             'Expect' => '100-continue',
-        );
+        ];
 
         $mp = Parser::parseMimeMessage($mimeMessage, $headers);
         $this->assertsForWsiMtomRequest($mp);

@@ -19,6 +19,9 @@ use Symfony\Component\HttpKernel\EventListener\ErrorListener;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
+use function in_array;
+use function sprintf;
+
 /**
  * SOAP error listener
  *
@@ -57,7 +60,7 @@ class SoapExceptionListener extends ErrorListener
         }
 
         $request = $event->getRequest();
-        if (!in_array($request->getRequestFormat(), array('soap', 'xml'))) {
+        if (!in_array($request->getRequestFormat(), ['soap', 'xml'])) {
             return;
         } elseif (
             'xml' === $request->getRequestFormat()
@@ -90,7 +93,7 @@ class SoapExceptionListener extends ErrorListener
     {
         return [
             // Must be called before ExceptionListener of HttpKernel component
-            KernelEvents::EXCEPTION => array('onKernelException', -64),
+            KernelEvents::EXCEPTION => ['onKernelException', -64],
         ];
     }
 }

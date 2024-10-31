@@ -26,15 +26,14 @@ namespace BeSimple\SoapClient\Tests\AxisInterop;
 
 use BeSimple\SoapClient\SoapClient as BeSimpleSoapClient;
 use BeSimple\SoapClient\WsAddressingFilter as BeSimpleWsAddressingFilter;
-use BeSimple\SoapClient\Tests\AxisInterop\TestCase;
 
 class WsAddressingAxisInteropTest extends TestCase
 {
-    private $options = array(
+    private $options = [
         'soap_version' => SOAP_1_2,
         'features'     => SOAP_SINGLE_ELEMENT_ARRAYS, // make sure that result is array for size=1
         'proxy_host' => false,
-    );
+    ];
 
     public function testSession()
     {

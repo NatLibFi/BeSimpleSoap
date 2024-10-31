@@ -20,7 +20,9 @@ namespace BeSimple\SoapCommon\Definition;
 class Part
 {
     protected $name;
+
     protected $type;
+
     protected $nillable;
 
     public function __construct($name, $type, $nillable = false)
@@ -52,6 +54,6 @@ class Part
 
     public function setNillable($nillable)
     {
-        $this->nillable = (bool) $nillable;
+        $this->nillable = (bool)$nillable;
     }
 }

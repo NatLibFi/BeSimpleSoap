@@ -23,7 +23,7 @@ class Cache
 {
     public function __construct($cacheDisabled, $type, $directory, $lifetime = null, $limit = null)
     {
-        $isEnabled = (bool) $cacheDisabled ? BaseCache::DISABLED : BaseCache::ENABLED;
+        $isEnabled = (bool)$cacheDisabled ? BaseCache::DISABLED : BaseCache::ENABLED;
 
         BaseCache::setEnabled($isEnabled);
 

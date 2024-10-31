@@ -12,6 +12,8 @@
 
 namespace BeSimple\SoapCommon\Mime;
 
+use function is_array;
+
 /**
  * Mime part base class.
  *
@@ -24,7 +26,7 @@ abstract class PartHeader
      *
      * @var array(string=>mixed|array(mixed))
      */
-    protected $headers = array();
+    protected $headers = [];
 
     /**
      * Add a new header to the mime part.
@@ -37,12 +39,12 @@ abstract class PartHeader
      */
     public function setHeader($name, $value, $subValue = null)
     {
-        if (isset($this->headers[$name]) && !is_null($subValue)) {
+        if (isset($this->headers[$name]) && null !== $subValue) {
             if (!is_array($this->headers[$name])) {
-                $this->headers[$name] = array(
+                $this->headers[$name] = [
                     '@'    => $this->headers[$name],
                     $value => $subValue,
-                );
+                ];
             } else {
                 $this->headers[$name][$value] = $subValue;
             }
@@ -68,7 +70,7 @@ abstract class PartHeader
     public function getHeader($name, $subValue = null)
     {
         if (isset($this->headers[$name])) {
-            if (!is_null($subValue)) {
+            if (null !== $subValue) {
                 if (is_array($this->headers[$name]) && isset($this->headers[$name][$subValue])) {
                     return $this->headers[$name][$subValue];
                 } else {
@@ -91,11 +93,11 @@ abstract class PartHeader
     protected function generateHeaders()
     {
         $charset = strtolower($this->getHeader('Content-Type', 'charset') ?? '');
-        $preferences = array(
+        $preferences = [
             'scheme' => 'Q',
             'input-charset' => 'utf-8',
             'output-charset' => $charset,
-        );
+        ];
         $headers = '';
         foreach ($this->headers as $fieldName => $value) {
             $fieldValue = $this->generateHeaderFieldValue($value);

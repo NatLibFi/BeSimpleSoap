@@ -21,6 +21,8 @@ use BeSimple\SoapCommon\SoapRequestFilter;
 use BeSimple\SoapCommon\SoapResponse;
 use BeSimple\SoapCommon\SoapResponseFilter;
 
+use function count;
+
 /**
  * MIME filter.
  *
@@ -63,15 +65,15 @@ class MimeFilter implements SoapRequestFilter, SoapResponseFilter
     public function filterRequest(SoapRequest $request)
     {
         // array to store attachments
-        $attachmentsRecieved = array();
+        $attachmentsRecieved = [];
 
         // check content type if it is a multipart mime message
         $requestContentType = $request->getContentType();
         if (false !== stripos($requestContentType, 'multipart/related')) {
             // parse mime message
-            $headers = array(
+            $headers = [
                 'Content-Type' => trim($requestContentType),
-            );
+            ];
             $multipart = MimeParser::parseMimeMessage($request->getContent(), $headers);
             // get soap payload and update SoapResponse object
             $soapPart = $multipart->getPart();
@@ -129,7 +131,7 @@ class MimeFilter implements SoapRequestFilter, SoapResponseFilter
 
             // TODO
             $headers = $multipart->getHeadersForHttp();
-            list(, $contentType) = explode(': ', $headers[0]);
+            [, $contentType] = explode(': ', $headers[0]);
 
             $response->setContentType($contentType);
         }

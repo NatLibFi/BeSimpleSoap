@@ -96,14 +96,14 @@ class WsAddressingFilter implements SoapRequestFilter, SoapResponseFilter
      *
      * @var unknown_type
      */
-    protected $referenceParametersSet = array();
+    protected $referenceParametersSet = [];
 
     /**
      * List of reference parameters recieved with this soap message.
      *
      * @var unknown_type
      */
-    protected $referenceParametersReceived = array();
+    protected $referenceParametersReceived = [];
 
     /**
      * RelatesTo.
@@ -138,12 +138,12 @@ class WsAddressingFilter implements SoapRequestFilter, SoapResponseFilter
      */
     public function addReferenceParameter($ns, $pfx, $parameter, $value)
     {
-        $this->referenceParametersSet[] = array(
+        $this->referenceParametersSet[] = [
             'ns' => $ns,
             'pfx' => $pfx,
             'parameter' => $parameter,
             'value' => $value,
-        );
+        ];
     }
 
     /**
@@ -171,8 +171,8 @@ class WsAddressingFilter implements SoapRequestFilter, SoapResponseFilter
         $this->faultTo                     = null;
         $this->from                        = null;
         $this->messageId                   = null;
-        $this->referenceParametersReceived = array();
-        $this->referenceParametersSet      = array();
+        $this->referenceParametersReceived = [];
+        $this->referenceParametersSet      = [];
         $this->relatesTo                   = null;
         $this->relatesToRelationshipType   = null;
         $this->replyTo                     = null;
@@ -337,12 +337,12 @@ class WsAddressingFilter implements SoapRequestFilter, SoapResponseFilter
         // get \DOMDocument from SOAP response
         $dom = $response->getContentDocument();
 
-        $this->referenceParametersReceived = array();
+        $this->referenceParametersReceived = [];
         $referenceParameters = $dom->getElementsByTagNameNS(Helper::NS_WSA, 'ReferenceParameters')->item(0);
         if (null !== $referenceParameters) {
             foreach ($referenceParameters->childNodes as $childNode) {
                 if (!isset($this->referenceParametersReceived[$childNode->namespaceURI])) {
-                    $this->referenceParametersReceived[$childNode->namespaceURI] = array();
+                    $this->referenceParametersReceived[$childNode->namespaceURI] = [];
                 }
                 $this->referenceParametersReceived[$childNode->namespaceURI][$childNode->localName]
                     = $childNode->nodeValue;

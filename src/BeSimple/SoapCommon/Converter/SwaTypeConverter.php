@@ -14,8 +14,8 @@ namespace BeSimple\SoapCommon\Converter;
 
 use BeSimple\SoapCommon\Mime\Part as MimePart;
 use BeSimple\SoapCommon\SoapKernel;
-use BeSimple\SoapCommon\Converter\SoapKernelAwareInterface;
-use BeSimple\SoapCommon\Converter\TypeConverterInterface;
+
+use function sprintf;
 
 /**
  * SwA type converter.

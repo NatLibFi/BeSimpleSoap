@@ -194,10 +194,10 @@ class WsSecurityFilter extends WsSecurityFilterClientServer implements SoapReque
                 null,
                 $keyInfo
             );
-            $options = array(
+            $options = [
                 'id_ns_prefix' => Helper::PFX_WSU,
                 'id_prefix_ns' => Helper::NS_WSU,
-            );
+            ];
             foreach ($nodes as $node) {
                 XmlSecurityDSig::addNodeToSignature(
                     $signature,
@@ -280,7 +280,7 @@ class WsSecurityFilter extends WsSecurityFilterClientServer implements SoapReque
         $security = $dom->getElementsByTagNameNS(Helper::NS_WSS, 'Security')->item(0);
         if (null !== $security) {
             // add SecurityTokenReference resolver for KeyInfo
-            $keyResolver = array($this, 'keyInfoSecurityTokenReferenceResolver');
+            $keyResolver = [$this, 'keyInfoSecurityTokenReferenceResolver'];
             XmlSecurityDSig::addKeyInfoResolver(Helper::NS_WSS, 'SecurityTokenReference', $keyResolver);
             // do we have a reference list in header
             $referenceList = XmlSecurityEnc::locateReferenceList($security);
@@ -296,10 +296,10 @@ class WsSecurityFilter extends WsSecurityFilterClientServer implements SoapReque
             $signature = XmlSecurityDSig::locateSignature($security);
             if (null !== $signature) {
                 // verify references
-                $options = array(
+                $options = [
                     'id_ns_prefix' => Helper::PFX_WSU,
                     'id_prefix_ns' => Helper::NS_WSU,
-                );
+                ];
                 if (XmlSecurityDSig::verifyReferences($signature, $options) !== true) {
                     throw new \SoapFault('wsse:FailedCheck', 'The signature or decryption was invalid');
                 }

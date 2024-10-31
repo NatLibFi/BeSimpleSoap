@@ -16,9 +16,6 @@ use ass\XmlSecurity\DSig as XmlSecurityDSig;
 use ass\XmlSecurity\Enc as XmlSecurityEnc;
 use ass\XmlSecurity\Key as XmlSecurityKey;
 use ass\XmlSecurity\Pem as XmlSecurityPem;
-use BeSimple\SoapCommon\FilterHelper;
-use BeSimple\SoapCommon\Helper;
-use BeSimple\SoapCommon\WsSecurityKey;
 
 /**
  * WS-Security common code for client & server.
@@ -221,7 +218,7 @@ abstract class WsSecurityFilterClientServer
                 $filterHelper->setAttribute($reference, null, 'ValueType', Helper::NAME_WSS_X509 . '#X509v3');
             }
             $securityTokenReference->appendChild($reference);
-        // subject key identifier
+            // subject key identifier
         } elseif (self::TOKEN_REFERENCE_SUBJECT_KEY_IDENTIFIER === $tokenReference && null !== $xmlSecurityKey) {
             $keyIdentifier = $filterHelper->createElement(Helper::NS_WSS, 'KeyIdentifier');
             $filterHelper->setAttribute($keyIdentifier, null, 'EncodingType', Helper::NAME_WSS_SMS . '#Base64Binary');
@@ -235,7 +232,7 @@ abstract class WsSecurityFilterClientServer
             $certificate = $xmlSecurityKey->getX509SubjectKeyIdentifier();
             $dataNode = new \DOMText($certificate);
             $keyIdentifier->appendChild($dataNode);
-        // thumbprint sha1
+            // thumbprint sha1
         } elseif (self::TOKEN_REFERENCE_THUMBPRINT_SHA1 === $tokenReference && null !== $xmlSecurityKey) {
             $keyIdentifier = $filterHelper->createElement(Helper::NS_WSS, 'KeyIdentifier');
             $filterHelper->setAttribute($keyIdentifier, null, 'EncodingType', Helper::NAME_WSS_SMS . '#Base64Binary');
@@ -285,7 +282,7 @@ abstract class WsSecurityFilterClientServer
      */
     protected function createNodeListForSigning(\DOMDocument $dom, \DOMElement $security)
     {
-        $nodes = array();
+        $nodes = [];
         $body = $dom->getElementsByTagNameNS($dom->documentElement->namespaceURI, 'Body')->item(0);
         if (null !== $body) {
             $nodes[] = $body;
@@ -327,7 +324,6 @@ abstract class WsSecurityFilterClientServer
 
         return $xpath->query($query)->item(0);
     }
-
 
     /**
      * Tries to resolve a key from the given \DOMElement.

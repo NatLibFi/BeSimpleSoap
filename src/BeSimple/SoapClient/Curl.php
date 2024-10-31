@@ -12,6 +12,9 @@
 
 namespace BeSimple\SoapClient;
 
+use function count;
+use function sprintf;
+
 /**
  * Wrapper for cURL for doing HTTP requests that uses the soap class options.
  *
@@ -57,7 +60,7 @@ class Curl
      * @param array $options                    Options array from SoapClient constructor
      * @param int   $followLocationMaxRedirects Redirection limit for Location header
      */
-    public function __construct(array $options = array(), $followLocationMaxRedirects = 10)
+    public function __construct(array $options = [], $followLocationMaxRedirects = 10)
     {
         // set the default HTTP user agent
         if (!isset($options['user_agent'])) {
@@ -69,7 +72,7 @@ class Curl
 
         // make http request
         $this->ch = curl_init();
-        $curlOptions = array(
+        $curlOptions = [
             CURLOPT_ENCODING => '',
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_FAILONERROR => false,
@@ -78,7 +81,7 @@ class Curl
             CURLOPT_HEADER => true,
             CURLOPT_USERAGENT => $options['user_agent'],
             CURLINFO_HEADER_OUT => true,
-        );
+        ];
         curl_setopt_array($this->ch, $curlOptions);
         if (isset($options['compression']) && !($options['compression'] & SOAP_COMPRESSION_ACCEPT)) {
             curl_setopt($this->ch, CURLOPT_ENCODING, 'identity');
@@ -92,7 +95,7 @@ class Curl
 
         if (isset($options['proxy_host'])) {
             if (false !== $options['proxy_host']) {
-                $proxyHost = $options['proxy_host'] . (isset($options['proxy_port']) ? $options['proxy_port'] : 8080);
+                $proxyHost = $options['proxy_host'] . ($options['proxy_port'] ?? 8080);
             } else {
                 $proxyHost = false;
             }
@@ -111,18 +114,18 @@ class Curl
                 }
             }
         }
-        $authType = isset($options['auth_type']) ? $options['auth_type'] : Curl::AUTH_TYPE_NONE;
+        $authType = $options['auth_type'] ?? Curl::AUTH_TYPE_NONE;
         if (isset($options['login']) && Curl::AUTH_TYPE_NONE !== $authType) {
             $curlUserPwd = $options['login'] . ':' . $options['password'];
 
-                // use preemptive authentication
-                $curlAuthType = CURLAUTH_ANY;
+            // use preemptive authentication
+            $curlAuthType = CURLAUTH_ANY;
             if (self::AUTH_TYPE_BASIC === $authType) {
                 $headers[] = sprintf('Authorization: Basic %s', base64_encode($curlUserPwd));
                 $curlAuthType = CURLAUTH_BASIC;
             }
-                curl_setopt($this->ch, CURLOPT_HTTPAUTH, $curlAuthType);
-                curl_setopt($this->ch, CURLOPT_USERPWD, $curlUserPwd);
+            curl_setopt($this->ch, CURLOPT_HTTPAUTH, $curlAuthType);
+            curl_setopt($this->ch, CURLOPT_USERPWD, $curlUserPwd);
         }
         if (isset($options['local_cert'])) {
             curl_setopt($this->ch, CURLOPT_SSLCERT, $options['local_cert']);
@@ -164,11 +167,11 @@ class Curl
      *
      * @return bool
      */
-    public function exec($location, $request = null, $requestHeaders = array(), $requestOptions = array())
+    public function exec($location, $request = null, $requestHeaders = [], $requestOptions = [])
     {
         curl_setopt($this->ch, CURLOPT_URL, $location);
 
-        if (!is_null($request)) {
+        if (null !== $request) {
             curl_setopt($this->ch, CURLOPT_POST, true);
             curl_setopt($this->ch, CURLOPT_POSTFIELDS, $request);
         }
@@ -207,7 +210,7 @@ class Curl
         if (307 == $httpResponseCode) {
             $headerSize = curl_getinfo($this->ch, CURLINFO_HEADER_SIZE);
             $header = substr($response, 0, $headerSize);
-            $matches = array();
+            $matches = [];
             preg_match('/Location:(.*?)\n/', $header, $matches);
             $url = trim(array_pop($matches));
             // @parse_url to suppress E_WARNING for invalid urls
@@ -243,7 +246,7 @@ class Curl
      */
     protected function getErrorCodeMapping()
     {
-        return array(
+        return [
             1 => 'Unknown protocol. Only http and https are allowed.', //CURLE_UNSUPPORTED_PROTOCOL
             3 => 'Unable to parse URL', //CURLE_URL_MALFORMAT
             5 => 'Could not connect to host', //CURLE_COULDNT_RESOLVE_PROXY
@@ -269,7 +272,7 @@ class Curl
             77 => 'Could not connect to host', //CURLE_SSL_CACERT_BADFILE
             80 => 'Error Fetching http body, No Content-Length, connection closed or chunked data',
             //CURLE_SSL_SHUTDOWN_FAILED
-        );
+        ];
     }
 
     /**

@@ -11,6 +11,8 @@
 
 namespace BeSimple\SoapBundle\Util;
 
+use function sprintf;
+
 /**
  * Assert
  *

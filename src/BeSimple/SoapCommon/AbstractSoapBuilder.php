@@ -16,6 +16,8 @@ namespace BeSimple\SoapCommon;
 use BeSimple\SoapCommon\Converter\TypeConverterCollection;
 use BeSimple\SoapCommon\Converter\TypeConverterInterface;
 
+use function in_array;
+
 /**
  * Base class for SoapBuilders
  *
@@ -37,7 +39,7 @@ abstract class AbstractSoapBuilder
      *
      * @var array
      */
-    protected $soapOptions = array();
+    protected $soapOptions = [];
 
     /**
      * Other options
