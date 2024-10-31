@@ -33,7 +33,7 @@ class Curl
     /**
      * Curl resource.
      *
-     * @var resource
+     * @var \CurlHandle
      */
     protected $ch;
 
