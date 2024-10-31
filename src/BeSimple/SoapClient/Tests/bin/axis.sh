@@ -27,7 +27,7 @@ fi
 
 if [ ! -f "$DIR/$ZIP_AXIS" ]; then
     echo "Downloading Axis"
-    curl -O -s $PATH_AXIS
+    curl --max-time 300 --retry 2 -O -s $PATH_AXIS
 fi
 
 # Note: Rampart 1.5 is the last one that doesn't cause a NullPointerException without a configured
@@ -38,7 +38,7 @@ PATH_RAMPART=https://archive.apache.org/dist/axis/axis2/java/rampart/$VERSION_RA
 
 if [ ! -f "$DIR/$ZIP_RAMPART" ]; then
     echo "Downloading Rampart"
-    curl -O -s $PATH_RAMPART
+    curl --max-time 300 --retry 2 -O -s $PATH_RAMPART
 fi
 
 echo "Extracting packages"
