@@ -23,6 +23,7 @@ src/BeSimple/SoapClient/Tests/bin/rampart-dist-*
 src/BeSimple/SoapClient/Tests/bin/image.jpg
 src/BeSimple/SoapClient/Tests/bin/test123.txt
 src/BeSimple/SoapClient/Tests/bin/upload.txt
+src/BeSimple/SoapClient/Tests/Fixtures/build_include/
 tests/phpcs.cache.json
 tests/php-cs-fixer-cache
 tests/phpstan-cache

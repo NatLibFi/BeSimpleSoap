@@ -12,49 +12,53 @@ Build SOAP and WSDL based web services
 
 BeSimpleSoap consists of four components as described below.
 
-## BeSimpleSoapClient
+
+## BeSimple\SoapClient
 
 The BeSimpleSoapClient is a component that extends the native PHP SoapClient with further features like SwA, MTOM and WS-Security.
-For further information see the [README](https://github.com/NatLibFi/BeSimpleSoap/blob/dev/src/BeSimple/SoapClient/README.md).
 
-## BeSimpleSoapCommon
+### Features (only subsets of the linked specs implemented)
 
-The BeSimpleSoapCommon component contains functionylity shared by both the server and client implementations.
-For further information see the [README](https://github.com/NatLibFi/BeSimpleSoap/blob/dev/src/BeSimple/SoapCommon/README.md).
+* SwA: SOAP Messages with Attachments [Spec](http://www.w3.org/TR/SOAP-attachments)
+* MTOM: SOAP Message Transmission Optimization Mechanism [Spec](http://www.w3.org/TR/soap12-mtom/)
+* WS-Security [Spec1](http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0.pdf), [Spec2](http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0.pdf)
+* WS-Adressing [Spec](http://www.w3.org/2002/ws/addr/)
+
+### Usage
+
+See [PHP documentation](https://www.php.net/manual/en/class.soapclient.php) for more information on how to use the library.
 
 
-## BeSimpleSoapServer
+## BeSimple\SoapServer
 
 The BeSimpleSoapServer is a component that extends the native PHP SoapServer with further features like SwA, MTOM and WS-Security.
-For further information see the [README](https://github.com/NatLibFi/BeSimpleSoap/blob/dev/src/BeSimple/SoapServer/README.md).
 
-## BeSimpleSoapWsdl
+### Features (only subsets of the linked specs implemented)
 
-For further information see the [README](https://github.com/NatLibFi/BeSimpleSoap/blob/dev/src/BeSimple/SoapWsdl/README.md).
+* SwA: SOAP Messages with Attachments [Spec](http://www.w3.org/TR/SOAP-attachments)
+* MTOM: SOAP Message Transmission Optimization Mechanism [Spec](http://www.w3.org/TR/soap12-mtom/)
+* WS-Security [Spec1](http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0.pdf), [Spec2](http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0.pdf)
 
-# Installation
+### Usage
 
-If you do not yet have composer, install it like this:
+See [PHP documentation](https://www.php.net/manual/en/class.soapserver.php) for more information on how to use the library.
 
-```sh
-curl -s http://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin
-```
 
-Create a `composer.json` file:
+## BeSimple\SoapCommon
 
-```json
-{
-    "require": {
-        "natlibfi/besimple-soap": "dev-main"
-    }
-}
-```
+The BeSimpleSoapCommon component contains functionality shared by both the server and client implementations.
 
-Now you are ready to install the library:
+### Features
 
-```sh
-php /usr/local/bin/composer.phar install
-```
+* Common interfaces for SoapClient and SoapServer input/output processing flow
+* MIME parser for SwA and MTOM implementation
+* Soap type converters
+
+
+## BeSimple\SoapWsdl
+
+WSDL support classes.
+
 
 # Information for Developers
 
