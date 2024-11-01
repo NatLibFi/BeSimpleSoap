@@ -14,7 +14,7 @@ namespace BeSimple\SoapClient;
 
 use BeSimple\SoapCommon\Cache;
 use BeSimple\SoapCommon\Helper;
-use Symfony\Component\HttpFoundation\Response;
+use PH7\JustHttp\StatusCode;
 
 use function strlen;
 
@@ -107,7 +107,7 @@ class WsdlDownloader
                     // execute request
                     $this->curl->exec($wsdl);
                     // get content
-                    if (Response::HTTP_OK === $this->curl->getResponseStatusCode()) {
+                    if (StatusCode::OK === $this->curl->getResponseStatusCode()) {
                         $response = $this->curl->getResponseBody();
                         if (empty($response)) {
                             throw new \ErrorException("SOAP-ERROR: Parsing WSDL: Got empty wsdl from '" . $wsdl . "'");

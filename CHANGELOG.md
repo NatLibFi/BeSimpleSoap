@@ -17,3 +17,7 @@ Anything marked with [**BC**] is known to affect backward compatibility with pre
 - PHP_CodeSniffer, PHP CS Fixer and PHPStan have been added to the QA pipeline. This includes extensive harmonization of code style as well as fixing of several uncovered issues.
 - PHP 8.3 is now properly supported.
 - [**BC**] Several class names have been changed to start with uppercase letter, to not collide with PHP's built in names and/or to be autoloader compatible (e.g. float => FloatType in src/BeSimple/SoapCommon/Type/KeyValue/FloatType.php).
+
+### Removed
+
+- [**BC**] The Symfony bundle (SoapBundle) is no longer included. If you need it, the last version is available in the [dev-soap-bundle](https://github.com/NatLibFi/BeSimpleSoap/tree/dev-soap-bundle) branch.

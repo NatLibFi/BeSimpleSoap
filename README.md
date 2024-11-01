@@ -10,12 +10,7 @@ Build SOAP and WSDL based web services
 
 # Components
 
-BeSimpleSoap consists of five components as described below.
-
-## BeSimpleSoapBundle
-
-The BeSimpleSoapBundle is a Symfony2 bundle to build WSDL and SOAP based web services.
-For further information see the [README](https://github.com/NatLibFi/BeSimpleSoap/blob/dev/src/BeSimple/SoapBundle/README.md).
+BeSimpleSoap consists of four components as described below.
 
 ## BeSimpleSoapClient
 
