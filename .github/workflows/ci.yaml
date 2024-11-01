@@ -12,7 +12,6 @@ jobs:
     strategy:
       matrix:
         php-version: ['8.1', '8.2', '8.3']
-        symfony-version: ['5.4.*', '6.0.*']
 
     steps:
       - name: Setup PHP
@@ -63,14 +62,8 @@ jobs:
           path: src/BeSimple/SoapClient/Tests/bin/*.zip
           key: ${{ runner.os }}-tests-zip
 
-      - name: Configure Symfony version
-        run: composer require symfony/framework-bundle:${{ matrix.symfony-version }} --no-update
-
       - name: Install composer dependencies
         run: composer install --prefer-dist --no-interaction
-
-      - name: Run QA checks
-        run: make qa
 
       - name: Start PHP web server
         run: ./src/BeSimple/SoapClient/Tests/bin/phpwebserver.sh
@@ -78,5 +71,5 @@ jobs:
       - name: Start Axis server
         run: ./src/BeSimple/SoapClient/Tests/bin/axis.sh
 
-      - name: Run tests
-        run: SYMFONY_DEPRECATIONS_HELPER="max[indirect]=6" bin/simple-phpunit --coverage-text
+      - name: Run QA checks
+        run: make qa-coverage

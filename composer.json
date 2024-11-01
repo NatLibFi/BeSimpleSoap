@@ -28,12 +28,10 @@
         "ext-soap": "*",
         "ext-curl": "*",
         "ass/xmlsecurity": "^1.1.1",
-        "symfony/error-handler": "^5.4.45 || ^6.2.13",
-        "symfony/framework-bundle": "^5.4.45 || ^6.2.13",
+        "ph-7/just-http-status-codes": "^1.1.7",
         "zbateson/mail-mime-parser": "^3.0.3"
     },
     "replace": {
-        "besimple/soap-bundle": "self.version",
         "besimple/soap-client": "self.version",
         "besimple/soap-common": "self.version",
         "besimple/soap-server": "self.version",
