@@ -31,12 +31,6 @@
         "ph-7/just-http-status-codes": "^1.1.7",
         "zbateson/mail-mime-parser": "^3.0.3"
     },
-    "replace": {
-        "besimple/soap-client": "self.version",
-        "besimple/soap-common": "self.version",
-        "besimple/soap-server": "self.version",
-        "besimple/soap-wsdl":   "self.version"
-    },
     "suggest": {
         "doctrine/annotations": "Required for service definition loader"
     },
