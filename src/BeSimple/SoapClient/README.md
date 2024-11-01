@@ -9,26 +9,6 @@ The BeSimpleSoapClient is a component that extends the native PHP SoapClient wit
 * WS-Security [Spec1](http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0.pdf), [Spec2](http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0.pdf)
 * WS-Adressing [Spec](http://www.w3.org/2002/ws/addr/)
 
-# Installation
+# Usage
 
-If you do not yet have composer, install it like this:
-
-```sh
-curl -s http://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin
-```
-
-Create a `composer.json` file:
-
-```json
-{
-    "require": {
-        "besimple/soap-client": "0.2.*@dev"
-    }
-}
-```
-
-Now you are ready to install the library:
-
-```sh
-php /usr/local/bin/composer.phar install
-```
+See [PHP documentation](https://www.php.net/manual/en/class.soapclient.php) for more information on how to use the library.
