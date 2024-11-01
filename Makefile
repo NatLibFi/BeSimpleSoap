@@ -9,6 +9,8 @@ QA        		= docker run -it --rm -v `pwd`:/project mykiwi/phaudit:7.2
 ## -------
 ##
 
+## Docker tasks
+
 kill:
 	$(DOCKER_COMPOSE) kill
 	$(DOCKER_COMPOSE) down --volumes --remove-orphans
@@ -30,26 +32,37 @@ test: composer-install ## Run tests
 server-tests: composer-install ## Run tests that need servers
 	$(RUN) ./server-tests.sh
 
-composer-update: ## Execute package update
-	$(COMPOSER) update $(BUNDLE)
-
 enter: ## enter docker container
 	$(EXEC) bash
 
-qa: ## Quality Assurance
-	bin/phpcs --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml -s
-	bin/php-cs-fixer fix --config=tests/php-cs-fixer.php -vvv --dry-run
-	bin/phpstan --configuration=tests/phpstan.neon --memory-limit=1G analyse
+## Non-Docker tasks
 
-fix: ## Apply automatic fixes
+## Quality Assurance
+qa: phpunit phpcs php-cs-fixer-dryrun phpstan
+qa-coverage: phpunit-coverage phpcs php-cs-fixer-dryrun phpstan
+
+## Apply automatic fixes
+fix:
 	-bin/phpcs --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml
 	bin/phpcbf --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml
+
+phpcs: ## phpcs
+	bin/phpcs --cache=tests/phpcs.cache.json --standard=tests/phpcs.xml -s -p
+
+php-cs-fixer-dryrun: ## Run php-cs-fixer checks
+	bin/php-cs-fixer fix --config=tests/php-cs-fixer.php -vvv --dry-run
 
 php-cs-fixer: ## Apply php-cs-fixer fixes
 	bin/php-cs-fixer fix --config=tests/php-cs-fixer.php -vvv
 
 phpstan:
 	bin/phpstan --configuration=tests/phpstan.neon --memory-limit=1G analyse
+
+phpunit: ## Run tests
+	bin/simple-phpunit
+
+phpunit-coverage: ## Run tests with coverage report
+	bin/simple-phpunit --coverage-text
 
 .PHONY: up start stop enter
 
